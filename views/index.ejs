@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- BOWER COMPONENTS -->
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/Materialize/dist/js/materialize.min.js"></script>
+    <link rel='stylesheet' href='/bower_components/Materialize/dist/css/materialize.min.css' />
+    <!--MY SOURCES -->
+    <link rel='stylesheet' href='/css/style.min.css' />
+    <script src="/js/main.js" charset="utf-8"></script>
+
+  </head>
+  <body ng-app="myApp" ng-controller="mainCtrl">
+
+
+    <nav class="landing-nav">
+      <div class="nav-wrapper">
+        <ul class="right">
+          <li ng-if="!currentUser"><a ui-sref='login'>Login</a></li>
+          <li ng-if="currentUser" ng-click="logout()"><a>Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <ui-view></ui-view>
+
+
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col s8 offset-s2">
+      <h1>Login</h1>
+      <form>
+        <fieldset class="form-group">
+          <label for="log.email">Email: </label>
+          <input ng-model="log.email" type="email" class="form-control"
+            id="log.email" placeholder="Your Email" required>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="log.password">Password: </label>
+          <input ng-model="log.password" type="password" class="form-control"
+            id="log.password" placeholder="Your Password" required>
+        </fieldset>
+        <span>Or click
+          <a ui-sref="registerNav.register">Register</a>
+          if you're a new user.
+        </span>
+        <button ng-click="loginUser()" class="btn btn-default right">
+          Do it!
+        </button>
+        <span ng-if="err" class="error">{{ err }}</span>
+      </form>
+    </div>
+  </div>
+</div>
