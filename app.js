@@ -3,7 +3,7 @@
 require('dotenv').load();
 import express from 'express';
 import path from 'path';
-import favicon from 'serve-favicon';
+// import favicon from 'serve-favicon';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -37,8 +37,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //my basic routes
-app.use('/api', require('./routes/api'));
-app.use('/', require('./routes/index'));
+app.use('/auth', require('./server/routes/auth'));
+app.use('/api', require('./server/routes/api'));
+app.use('/', require('./server/routes/index'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res) {

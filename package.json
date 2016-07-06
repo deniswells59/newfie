@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "./node_modules/.bin/babel-node server.js & gulp",
+    "server": "./node_modules/.bin/babel-node server.js",
     "postinstall": "bower i & gulp build"
   },
   "engines": {
@@ -30,10 +31,12 @@
     "gulp-sass": "^2.3.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
+    "http": "0.0.0",
     "jsonwebtoken": "^6.2.0",
     "moment": "^2.13.0",
     "mongoose": "^4.4.17",
     "morgan": "~1.6.1",
+    "satellizer": "^0.14.1",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {

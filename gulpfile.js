@@ -49,11 +49,11 @@ gulp.task('js', ['clean.js'], function() {
   return gulp.src('./client/js/**/*.js')
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(concat('main.js'))
     .pipe(babel({presets: ['es2015'] }))
+    .pipe(concat('main.js'))
+    .pipe(sourcemaps.write())
     .pipe(annotate())
     .pipe(uglify())
-    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./public/js'));
 });
 gulp.task('clean.js', function() {

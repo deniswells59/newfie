@@ -22,8 +22,8 @@ app.service('User', function($http, $state) {
         this.currentUser = res.data;
         return res.data;
       })
-      .catch(() => {
-        return $state.go('login');
+      .catch(err => {
+        console.log('err', err);
       });
   };
 

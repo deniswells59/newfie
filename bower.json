@@ -18,6 +18,7 @@
   "dependencies": {
     "angular": "^1.5.5",
     "angular-ui-router": "^0.3.0",
-    "Materialize": "materialize#^0.97.6"
+    "Materialize": "materialize#^0.97.6",
+    "satellizer": "^0.14.1"
   }
 }

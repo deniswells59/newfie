@@ -1,33 +1,35 @@
 'use strict';
 
-var app = angular.module('myApp');
+// var app = angular.module('myApp');
 
-app.controller('mainCtrl', function($scope, $state, User) {
-  $scope.logout = () => {
-    User.logout()
-      .then(() => {
-        $scope.currentUser = null;
-        return $state.go('login');
-      });
+app.controller('mainCtrl', function($scope, $state, $auth, User) {
+  $scope.isAuthenticated = function() {
+    return $auth.isAuthenticated();
   };
-});
 
-app.controller('homeCtrl', function($scope, user) {
-  $scope.$parent.currentUser = user;
-});
-
-app.controller('registerCtrl', function($scope, $state, User) {
-  $scope.registerUser = () => {
-    User.register($scope.reg)
-      .then(() => {
-        return User.login($scope.reg);
+  $scope.authenticate = (provider) => {
+    $auth.authenticate(provider)
+      .then(res => {
+        if(!res.data.user.registered) {
+          $('#modal1').closeModal();
+          $state.go('registerNav.register');
+        }
       })
-      .then(() => {
-        $state.go('home');
-      });
+      .catch(err => {
+        console.log('err', err);
+      })
   };
+
 });
 
+app.controller('dashCtrl', function($scope, $state, user) {
+  if (!user || !user.registered) {
+    $state.go('registerNav.register');
+  }
+});
+app.controller('regCtrl', function($scope, $state) {
+
+});
 
 app.controller('loginCtrl', function($scope, User, $state) {
   $scope.loginUser = () => {
@@ -36,4 +38,8 @@ app.controller('loginCtrl', function($scope, User, $state) {
         $state.go('home');
       });
   };
+});
+
+app.controller('homeCtrl', function($scope, User, $state) {
+
 });

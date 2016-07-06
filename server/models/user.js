@@ -18,12 +18,14 @@ const interests = ['Food',
                    'Home Life'];
 
 var userSchema = new mongoose.Schema({
+  registered: { type: Boolean, default: false },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String },
   type: { type: String, enum: ['User', 'Guide', 'Admin'], default: 'User' },
   name: String,
+  img: String,
   location: String,
-  languages: [{ type: String, required: true }],
+  languages: [{ type: String }],
   visited: [ { type: String } ],
   badges: [{
     name: String,
@@ -33,6 +35,8 @@ var userSchema = new mongoose.Schema({
   interests: [{type: String, enum: interests }],
   expertise: [{ type: String, enum: interests }],
   companions: [{ type: mongoose.Types.ObjectId }],
+  google: String,
+  facebook: String
 }, { timestamps: true });
 
 userSchema.statics.addBadge = (id, badgeName, cb) => {
@@ -49,11 +53,13 @@ userSchema.statics.addBadge = (id, badgeName, cb) => {
 
 userSchema.statics.auth = role => {
   return (req, res, next) => {
-    var token = req.cookies.accessToken;
+    if (!req.header('Authorization')) {
+      return res.status(401).send('No header');
+    }
 
+    var token = req.header('Authorization').split(' ')[1];
     jwt.verify(token, JWT_SECRET, (err, payload) => {
       if(err) return res.status(401).send({error: 'Authentication required.'});
-
       User.findById(payload._id, (err, user) => {
         if(err || !user) return res.status(401).send({error: 'User not found.'});
         req.user = user;

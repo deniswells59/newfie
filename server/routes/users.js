@@ -1,9 +1,11 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const router = express.Router();
 
-var User = require('../models/user');
+import User from '../models/user';
+
+router.use('/validate', User.auth(), require('./validate'));
 
 router.get('/', (req, res) => {
   User.find({}, (err, users) => {
@@ -12,9 +14,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/check', User.auth(), (req, res) => {
-  User.findById(req.user._id, (err, user) => {
+  User.findById(req.user, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
-  }).select('-password');
+  });
 });
 
 router.post('/register', function(req, res) {

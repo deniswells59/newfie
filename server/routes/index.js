@@ -1,11 +1,10 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const router = express.Router();
 
-var User = require('../models/user');
+import User from '../models/user';
 
-/* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', {title: 'App!'});
 });
