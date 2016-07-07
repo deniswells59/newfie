@@ -1,20 +1,36 @@
-app.controller('registerCtrl', registerCtrl) ;
+app.controller('registerCtrl', registerCtrl);
 
-function registerCtrl ($timeout, $q, $log) {
-  var self = this;
+function registerCtrl ($timeout, $q, $log, $scope, User) {
+
+  let self = this;
   self.simulateQuery = true;
   // list of `state` value/display objects
-  self.states        = loadAll();
+  self.languages = langObj;
   self.querySearch   = querySearch;
   self.selectedItemChange = selectedItemChange;
-  self.searchTextChange   = searchTextChange;
-  self.newState = newState;
-  function newState(state) {
-    alert("Sorry! You'll need to create a Constituion for " + state + " first!");
+  self.removeLang = removeLang;
+  self.nextClicked = nextClicked;
+  self.addCustom = addCustom;
+  self.next = 0;
+  self.selectedLangs = [];
+  self.selectedInterests = [];
+  self.searchTerm;
+  self.interests = ['Food', 'Nature', 'Attractions', 'City', 'Home Life', 'Party Life'];
+  self.customInterest = '';
+
+  function nextClicked() {
+    if (self.selectedLangs) {
+      User.saveLangs(self.selectedLangs);
+    }
+    if (self.selectedInterests) {
+      User.saveInterests(self.selectedInterests);
+    }
+
+    self.next++;
   }
 
   function querySearch (query) {
-    var results = query ? self.states.filter( createFilterFor(query) ) : self.states,
+    let results = query ? self.languages.filter( createFilterFor(query) ) : self.languages,
         deferred;
     if (self.simulateQuery) {
       deferred = $q.defer();
@@ -24,37 +40,34 @@ function registerCtrl ($timeout, $q, $log) {
       return results;
     }
   }
-  function searchTextChange(text) {
-    $log.info('Text changed to ' + text);
-  }
-  function selectedItemChange(item) {
-    $log.info('Item changed to ' + JSON.stringify(item));
-  }
-    /**
-     * Build `states` list of key/value pairs
-     */
-  function loadAll() {
-    var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware,\
-            Florida, Georgia, Hawaii, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana,\
-            Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana,\
-            Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina,\
-            North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina,\
-            South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia,\
-            Wisconsin, Wyoming';
-    return allStates.split(/, +/g).map( function (state) {
-      return {
-        value: state.toLowerCase(),
-        display: state
-      };
-    });
-  }
-    /**
-     * Create filter function for a query string
-     */
+
   function createFilterFor(query) {
-    var lowercaseQuery = angular.lowercase(query);
-    return function filterFn(state) {
-      return (state.value.indexOf(lowercaseQuery) === 0);
+    return function filterFn(language) {
+      return (language.value.indexOf(query) === 0);
     };
   }
+
+  function selectedItemChange(lang) {
+    if (lang) {
+      self.selectedLangs.push(angular.copy(lang));
+    }
+  }
+
+  function removeLang(language) {
+    let index;
+    self.selectedLangs.some((lang, idx) => {
+      if (lang.name === language) {
+        index = idx;
+        return true;
+      }
+    });
+    self.selectedLangs.splice(index, 1);
+  }
+
+  function addCustom() {
+    self.selectedInterests.push(angular.copy(self.customInterest));
+    self.customInterest = '';
+  }
+
+
 };

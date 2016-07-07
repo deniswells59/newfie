@@ -17,9 +17,19 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
       url: '/register',
       templateUrl: '/html/registerNav.html',
     })
-    .state('registerNav.register', {
-      url: '/details',
-      templateUrl: '/html/register.html',
+    .state('registerNav.registerLang', {
+      url: '/languages',
+      templateUrl: '/html/registerLang.html',
+      controller: 'registerCtrl'
+    })
+    .state('registerNav.registerInterests', {
+      url: '/interests',
+      templateUrl: '/html/registerInterests.html',
+      controller: 'registerCtrl'
+    })
+    .state('registerNav.registerLocation', {
+      url: '/location',
+      templateUrl: '/html/registerLocation.html',
       controller: 'registerCtrl'
     })
     .state('home', {

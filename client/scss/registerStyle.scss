@@ -30,3 +30,40 @@ a {
 .modal {
   width: 40%;
 }
+
+.langText, .langBox {
+  display: inline;
+}
+
+.langText {
+  font-size: 20px;
+}
+
+.cancelLang, .cancelLang:hover {
+  color: red;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.englishName {
+  color: orange;
+}
+
+.helperText {
+  font-size: 12px;
+  opacity: .5;
+}
+
+.interestHelpers {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.addButton {
+  color: green;
+  font-size: 20px;
+}
+
+.interestNext {
+
+}

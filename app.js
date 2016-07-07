@@ -8,8 +8,10 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-
+import Duolingo from './server/controllers/Duolingo';
 const app = express();
+
+Duolingo.getUser();
 
 if(process.env.TESTING){
   // If Testing, have clear console

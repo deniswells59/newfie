@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col s12 m10 offset-m1">
+    <h3>Languages I Speak</h3>
+    <div ng-controller="registerCtrl as reg" layout="column" ng-cloak>
+      <md-content class="md-padding">
+        <form ng-submit="$event.preventDefault()">
+          <p>Create a list of the languages you can speak using this search bar.</p>
+          <md-autocomplete
+            md-no-cache="reg.noCache"
+            md-selected-item="reg.selectedItem"
+            md-search-text="reg.searchText"
+            md-selected-item-change="reg.selectedItemChange(item)"
+            md-items="item in reg.querySearch(reg.searchText)"
+            md-item-text="item.name"
+            md-min-length="0"
+            placeholder="What languages do you speak?">
+            <md-item-template>
+              <span class="left">
+                <span class="englishName" md-highlight-text="reg.searchText" md-highlight-flags="^i">{{item.name}}</span>
+              </span>
+              <span class="right">
+                <span md-highlight-flags="^i">{{item.nativeName}}</span>
+              </span>
+            </md-item-template>
+            <md-not-found>
+              No languages matching "{{reg.searchText}}" were found.
+            </md-not-found>
+          </md-autocomplete>
+          <br/>
+          <p>Selected </p>
+          <div ng-if="!reg.selectedLangs.length"
+               class="helperText"> Select at least one language! </div>
+          <div ng-if="reg.selectedLangs.length">
+            <div ng-repeat="lang in reg.selectedLangs track by $index" class="langBox">
+              <md-list-item class="secondary-button-padding">
+                <p class="langText">{{lang.name}}</p>
+                <md-button class="md-secondary"
+                           ng-click="reg.removeLang(lang.name)"
+                           aria-hidden="true">
+                  <i class="fa fa-times cancelLang" aria-hidden="true"></i>
+                </md-button>
+              </md-list-item>
+            </div>
+          </div>
+          <span ng-if="reg.selectedLangs.length && reg.next < 1"
+                ng-click="reg.nextClicked()">
+            <a class="right waves-effect waves-light btn"
+               ui-sref="registerNav.registerInterests">Next</a>
+          </span>
+        </form>
+      </md-content>
+
+      <!-- <div ng-if="reg.next === 1">
+        YO
+      </div> -->
+
+    </div>
+  </div>
+</div>

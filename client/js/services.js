@@ -4,6 +4,11 @@ var app = angular.module('myApp');
 
 app.service('User', function($http, $state) {
 
+  this.regUser = {
+    languages: [],
+    interests: []
+  }
+
   this.login = (user) => {
     return $http.post('api/users/authenticate', user);
   };
@@ -26,5 +31,17 @@ app.service('User', function($http, $state) {
         console.log('err', err);
       });
   };
+
+  this.saveLangs = (langs) => {
+    this.regUser.languages = langs;
+  }
+
+  this.saveInterests = (interests) => {
+    this.reguser.interests = interests;
+  }
+
+  this.log = () => {
+    console.log('USER', this.regUser);
+  }
 
 });

@@ -12,7 +12,7 @@ app.controller('mainCtrl', function($scope, $state, $auth, User) {
       .then(res => {
         if(!res.data.user.registered) {
           $('#modal1').closeModal();
-          $state.go('registerNav.register');
+          $state.go('registerNav.registerLang');
         }
       })
       .catch(err => {
@@ -24,7 +24,7 @@ app.controller('mainCtrl', function($scope, $state, $auth, User) {
 
 app.controller('dashCtrl', function($scope, $state, user) {
   if (!user || !user.registered) {
-    $state.go('registerNav.register');
+    $state.go('registerNav.registerLang');
   }
 });
 app.controller('regCtrl', function($scope, $state) {
