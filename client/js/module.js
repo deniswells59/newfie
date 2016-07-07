@@ -3,52 +3,18 @@ $(document).ready(function() {
   $('.modal-trigger').leanModal();
 });
 
-var app = angular.module('myApp', ['ui.router', 'satellizer', 'ngMaterial']);
-
-app.config(function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoogleMapApiProvider) {
+var app = angular.module('newfie',
+  ['ui.router', 'satellizer', 'ngMaterial', 'ngMap', 'newfie.register', 'newfie.landing'])
+.config(function($stateProvider, $urlRouterProvider, $authProvider) {
 
   $stateProvider
-    .state('login', {
-      url: '/login',
-      templateUrl: '/html/login.html',
-      controller: 'loginCtrl'
-    })
-    .state('registerNav', {
-      url: '/register',
-      templateUrl: '/html/registerNav.html',
-    })
-    .state('registerNav.registerLang', {
-      url: '/languages',
-      templateUrl: '/html/registerLang.html',
-      controller: 'registerCtrl'
-    })
-    .state('registerNav.registerInterests', {
-      url: '/interests',
-      templateUrl: '/html/registerInterests.html',
-      controller: 'registerCtrl'
-    })
-    .state('registerNav.registerLocation', {
-      url: '/location',
-      templateUrl: '/html/registerLocation.html',
-      controller: 'registerCtrl'
-    })
-    .state('home', {
+    .state('main', {
       url: '/',
-      templateUrl: '/html/home.html',
-      controller: 'homeCtrl',
-    })
-    .state('dashboard', {
-      url: '/dash',
-      templateUrl: '/html/dash.html',
-      controller: 'dashCtrl',
-      resolve: {
-        user: function(User) {
-          return User.isLoggedIn();
-        }
-      }
+      template: '<div ui-view />',
+      abstract: true,
     })
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/landing');
 
     $authProvider.google({
       clientId: '50096600078-riejkgcrs9iqkhbdmbfg07neh3ksodvg.apps.googleusercontent.com'
@@ -58,9 +24,6 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoo
       responseType: 'token'
     });
 
-    uiGmapGoogleMapApiProvider.configure({
-        key: 'AIzaSyDea_BYX7JqSC6bPZMfJKk5g0UQYd92lx8',
-        v: '3.20',
-        libraries: 'weather,geometry,visualization'
-    });
-});
+})
+  .service('User', userService)
+  // .controller('mainCtrl', mainCtrl);

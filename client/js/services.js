@@ -1,8 +1,9 @@
 'use strict';
 
-var app = angular.module('myApp');
+// var app = angular.module('newfie');
 
-app.service('User', function($http, $state) {
+// app.service('User',
+function userService($http, $state) {
 
   this.regUser = {
     languages: [],
@@ -44,4 +45,4 @@ app.service('User', function($http, $state) {
     console.log('USER', this.regUser);
   }
 
-});
+};
