@@ -144,7 +144,7 @@ const langObj = [
   {code:"sl",name:"Slovene",nativeName:"slovenščina", value: "slovene"},
   {code:"so",name:"Somali",nativeName:"Soomaaliga, af Soomaali", value: "somali"},
   {code:"st",name:"Southern Sotho",nativeName:"Sesotho", value: "southern sotho"},
-  {code:"es",name:"Spanish; Castilian",nativeName:"español, castellano", value: "spanish"},
+  {code:"es",name:"Spanish",nativeName:"español, castellano", value: "spanish"},
   {code:"su",name:"Sundanese",nativeName:"Basa Sunda", value: "sundanese"},
   {code:"sw",name:"Swahili",nativeName:"Kiswahili", value: "swahili"},
   {code:"ss",name:"Swati",nativeName:"SiSwati", value: "swati"},

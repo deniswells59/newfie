@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 var app = angular.module('myApp', ['ui.router', 'satellizer', 'ngMaterial']);
 
-app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoogleMapApiProvider) {
 
   $stateProvider
     .state('login', {
@@ -56,5 +56,11 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $authProvider.facebook({
       clientId: '1255637804476855',
       responseType: 'token'
+    });
+
+    uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyDea_BYX7JqSC6bPZMfJKk5g0UQYd92lx8',
+        v: '3.20',
+        libraries: 'weather,geometry,visualization'
     });
 });

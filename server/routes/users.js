@@ -5,7 +5,7 @@ const router = express.Router();
 
 import User from '../models/user';
 
-router.use('/validate', User.auth(), require('./validate'));
+router.use('/validate',  require('./validate'));
 
 router.get('/', (req, res) => {
   User.find({}, (err, users) => {

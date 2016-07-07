@@ -37,7 +37,7 @@ app.service('User', function($http, $state) {
   }
 
   this.saveInterests = (interests) => {
-    this.reguser.interests = interests;
+    this.regUser.interests = interests;
   }
 
   this.log = () => {
