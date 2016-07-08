@@ -5,13 +5,14 @@ var concat = require('gulp-concat');
 var minifyCSS = require('gulp-minify-css');
 var nodemon = require('gulp-nodemon');
 var del = require('del');
-var uglify = require('gulp-uglify');
+// var uglify = require('gulp-uglify');
 var babel = require('gulp-babel');
 var annotate = require('gulp-ng-annotate');
 var sourcemaps = require('gulp-sourcemaps');
 var plumber = require('gulp-plumber');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
+var requirejsOptimize = require('gulp-requirejs-optimize');
 
 gulp.task('default', ['build', 'watch']);
 
@@ -48,12 +49,13 @@ gulp.task('watch.js', function() {
 gulp.task('js', ['clean.js'], function() {
   return gulp.src('./client/js/**/*.js')
     .pipe(plumber())
-    .pipe(sourcemaps.init())
+    // .pipe(sourcemaps.init())
     .pipe(babel({presets: ['es2015'] }))
-    .pipe(concat('main.js'))
-    .pipe(sourcemaps.write())
+    .pipe(requirejsOptimize())
+    // .pipe(concat('main.js'))
+    // .pipe(sourcemaps.write())
     .pipe(annotate())
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest('./public/js'));
 });
 gulp.task('clean.js', function() {

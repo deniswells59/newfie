@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 var app = angular.module('myApp', ['ui.router', 'satellizer', 'ngMaterial']);
 
-app.config(function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoogleMapApiProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
 
   $stateProvider
     .state('login', {
@@ -58,9 +58,9 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoo
       responseType: 'token'
     });
 
-    uiGmapGoogleMapApiProvider.configure({
-        key: 'AIzaSyDea_BYX7JqSC6bPZMfJKk5g0UQYd92lx8',
-        v: '3.20',
-        libraries: 'weather,geometry,visualization'
-    });
+    // uiGmapGoogleMapApiProvider.configure({
+    //     key: 'AIzaSyDea_BYX7JqSC6bPZMfJKk5g0UQYd92lx8',
+    //     v: '3.20',
+    //     libraries: 'weather,geometry,visualization'
+    // });
 });
