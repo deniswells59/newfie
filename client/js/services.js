@@ -6,7 +6,8 @@ app.service('User', function($http, $state) {
 
   this.regUser = {
     languages: [],
-    interests: []
+    interests: [],
+    location: {}
   }
 
   this.login = (user) => {
@@ -40,8 +41,25 @@ app.service('User', function($http, $state) {
     this.regUser.interests = interests;
   }
 
+  this.saveLocation = (location, verified) => {
+    this.regUser.location = {
+      location,
+      verified
+    }
+  }
+
   this.log = () => {
     console.log('USER', this.regUser);
   }
 
 });
+
+app.service('Location', function($http){
+  this.getCity = (location) => {
+    return $http.post('/api/location/city', location)
+      .then(res => {
+        return res.data;
+      })
+      .catch(err => console.log('err', err));
+  }
+})

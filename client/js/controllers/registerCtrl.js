@@ -1,7 +1,9 @@
 app.controller('registerCtrl', registerCtrl);
 
-function registerCtrl ($timeout, $q, $log, $scope, User) {
-
+function registerCtrl ($timeout, $q, $log, $scope, $state, $auth, User, Location, NgMap) {
+  if(!$auth.isAuthenticated()) {
+    $state.go('home')
+  }
   let self = this;
   self.simulateQuery = true;
   // list of `state` value/display objects
@@ -11,19 +13,34 @@ function registerCtrl ($timeout, $q, $log, $scope, User) {
   self.removeLang = removeLang;
   self.nextClicked = nextClicked;
   self.addCustom = addCustom;
+  self.mapCallback = mapCallback;
+  self.replaceMarker = replaceMarker;
   self.next = 0;
+  self.city = '';
+  self.customCity = '';
+  self.lng = 0;
+  self.lat = 0;
   self.selectedLangs = [];
   self.selectedInterests = [];
   self.searchTerm;
   self.interests = ['Food', 'Nature', 'Attractions', 'City', 'Home Life', 'Party Life'];
   self.customInterest = '';
 
-  function nextClicked() {
-    if (self.selectedLangs) {
+  $scope.log = () => {
+    User.log();
+  }
+
+  function nextClicked(bool) {
+    if (self.selectedLangs.length) {
       User.saveLangs(self.selectedLangs);
     }
-    if (self.selectedInterests) {
+    if (self.selectedInterests.length) {
       User.saveInterests(self.selectedInterests);
+    }
+    if (self.city && bool) {
+      User.saveLocation(self.city, bool);
+    } else if(self.customCity){
+      User.saveLocation(self.customCity, false);
     }
 
     self.next++;
@@ -69,5 +86,27 @@ function registerCtrl ($timeout, $q, $log, $scope, User) {
     self.customInterest = '';
   }
 
+  NgMap.getMap()
+    .then(function(map) {
+      self.map = map;
+    });
 
+  function mapCallback() {
+    let location = self.map.getCenter();
+    self.lat = location.lat();
+    self.lng = location.lng();
+    Location.getCity({lat: self.lat, lng: self.lng})
+      .then(res => {
+        self.city = res;
+      })
+  }
+
+  function replaceMarker(event) {
+    self.lat = event.latLng.lat();
+    self.lng = event.latLng.lng();
+    Location.getCity({lat: self.lat, lng: self.lng})
+      .then(res => {
+        self.city = res;
+      })
+    }
 };

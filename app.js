@@ -1,14 +1,14 @@
 'use strict';
 
 require('dotenv').load();
-import express from 'express';
 import path from 'path';
-// import favicon from 'serve-favicon';
+import express from 'express';
 import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 const app = express();
+// import favicon from 'serve-favicon';
 
 if(process.env.TESTING){
   // If Testing, have clear console

@@ -19,7 +19,6 @@ app.controller('mainCtrl', function($scope, $state, $auth, User) {
         console.log('err', err);
       })
   };
-
 });
 
 app.controller('dashCtrl', function($scope, $state, user) {

@@ -3,9 +3,9 @@ $(document).ready(function() {
   $('.modal-trigger').leanModal();
 });
 
-var app = angular.module('myApp', ['ui.router', 'satellizer', 'ngMaterial']);
+var app = angular.module('myApp', ['ui.router', 'satellizer', 'ngMaterial', 'ngMap']);
 
-app.config(function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoogleMapApiProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
 
   $stateProvider
     .state('login', {
@@ -32,6 +32,11 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoo
       templateUrl: '/html/registerLocation.html',
       controller: 'registerCtrl'
     })
+    .state('registerNav.confirm', {
+      url: '/confirm',
+      templateUrl: '/html/regConfirm.html',
+      controller: 'registerCtrl'
+    })
     .state('home', {
       url: '/',
       templateUrl: '/html/home.html',
@@ -47,7 +52,6 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoo
         }
       }
     })
-
     $urlRouterProvider.otherwise('/');
 
     $authProvider.google({
@@ -58,9 +62,5 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider, uiGmapGoo
       responseType: 'token'
     });
 
-    uiGmapGoogleMapApiProvider.configure({
-        key: 'AIzaSyDea_BYX7JqSC6bPZMfJKk5g0UQYd92lx8',
-        v: '3.20',
-        libraries: 'weather,geometry,visualization'
-    });
+
 });

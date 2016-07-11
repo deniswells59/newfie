@@ -21,6 +21,7 @@
     "Materialize": "materialize#^0.97.6",
     "satellizer": "^0.14.1",
     "font-awesome": "^4.6.3",
-    "browser-jsonp": "^1.0.8"
+    "browser-jsonp": "^1.0.8",
+    "ngmap": "^1.17.3"
   }
 }

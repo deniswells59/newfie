@@ -4,6 +4,7 @@
     <div ng-controller="registerCtrl as reg"  class="col s12 m10 offset-m1">
       <p class="interestHelpers">What do you like to see when you travel?</p>
       <a class="right waves-effect waves-light btn interestNext"
+         ng-click="reg.nextClicked()"
          ui-sref="registerNav.registerLocation">Next</a>
       <small class="interestHelpers">This will be used to help you find travel companions!</small>
       <md-input-container class="col s12">

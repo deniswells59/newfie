@@ -1,5 +1,4 @@
 import request from 'request';
-import http from 'http';
 
 const url = `http://www.duolingo.com/users/`;
 
