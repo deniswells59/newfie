@@ -15,26 +15,26 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
     })
     .state('registerNav', {
       url: '/register',
-      templateUrl: '/html/registerNav.html',
+      templateUrl: '/register/registerNav.html',
     })
     .state('registerNav.registerLang', {
       url: '/languages',
-      templateUrl: '/html/registerLang.html',
+      templateUrl: '/register/registerLang.html',
       controller: 'registerCtrl'
     })
     .state('registerNav.registerInterests', {
       url: '/interests',
-      templateUrl: '/html/registerInterests.html',
+      templateUrl: '/register/registerInterests.html',
       controller: 'registerCtrl'
     })
     .state('registerNav.registerLocation', {
       url: '/location',
-      templateUrl: '/html/registerLocation.html',
+      templateUrl: '/register/registerLocation.html',
       controller: 'registerCtrl'
     })
     .state('registerNav.confirm', {
       url: '/confirm',
-      templateUrl: '/html/regConfirm.html',
+      templateUrl: '/register/regConfirm.html',
       controller: 'registerCtrl'
     })
     .state('home', {
