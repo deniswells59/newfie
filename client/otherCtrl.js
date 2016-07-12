@@ -3,13 +3,15 @@
 // var app = angular.module('myApp');
 
 app.controller('mainCtrl', function($scope, $state, $auth, User) {
-  $scope.isAuthenticated = function() {
+
+  $scope.isAuthenticated = () => {
     return $auth.isAuthenticated();
   };
 
   $scope.authenticate = (provider) => {
     $auth.authenticate(provider)
       .then(res => {
+        User.storeUser(res.data.user);
         if(!res.data.user.registered) {
           $('#modal1').closeModal();
           $state.go('registerNav.registerLang');
@@ -25,9 +27,6 @@ app.controller('dashCtrl', function($scope, $state, user) {
   if (!user || !user.registered) {
     $state.go('registerNav.registerLang');
   }
-});
-app.controller('regCtrl', function($scope, $state) {
-
 });
 
 app.controller('loginCtrl', function($scope, User, $state) {

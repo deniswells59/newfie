@@ -66,8 +66,8 @@ export default class Auth {
 
               var token = savedUser.generateToken();
               res.send({
-                token: token,
-                user: user
+                token,
+                user
               });
             });
           });
@@ -138,8 +138,8 @@ export default class Auth {
             user.save(function() {
               var token = user.generateToken();
               res.send({
-                token: token,
-                user: user
+                token,
+                user
               });
             });
           });

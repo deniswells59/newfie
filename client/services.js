@@ -1,13 +1,11 @@
 'use strict';
 
-var app = angular.module('myApp');
-
 app.service('User', function($http, $state) {
 
-  this.regUser = {
-    languages: [],
-    interests: [],
-    location: {}
+  this.currentUser = {};
+
+  this.storeUser = (user) => {
+    this.currentUser = user;
   }
 
   this.login = (user) => {
@@ -26,31 +24,37 @@ app.service('User', function($http, $state) {
     return $http.get('/api/users/check')
       .then(res => {
         this.currentUser = res.data;
-        return res.data;
       })
       .catch(err => {
         console.log('err', err);
       });
   };
 
+  this.getUser = () => {
+    if (!Object.keys(this.currentUser).length) {
+      this.isLoggedIn()
+      .then(() => {
+        return this.currentUser;
+      })
+    }
+    return this.currentUser;
+  }
+
   this.saveLangs = (langs) => {
-    this.regUser.languages = langs;
+    this.currentUser.languages = langs;
   }
 
   this.saveInterests = (interests) => {
-    this.regUser.interests = interests;
+    this.currentUser.interests = interests;
   }
 
   this.saveLocation = (location, verified) => {
-    this.regUser.location = {
+    this.currentUser.location = {
       location,
       verified
     }
   }
 
-  this.log = () => {
-    console.log('USER', this.regUser);
-  }
 
 });
 

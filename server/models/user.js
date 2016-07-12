@@ -11,12 +11,6 @@ if(process.env.TESTING){
   var JWT_SECRET = process.env.JWT_SECRET;
 }
 
-const interests = ['Food',
-                   'Nature',
-                   'Attractions',
-                   'City',
-                   'Home Life'];
-
 var userSchema = new mongoose.Schema({
   registered: { type: Boolean, default: false },
   email: { type: String, required: true, unique: true },
@@ -25,15 +19,21 @@ var userSchema = new mongoose.Schema({
   name: String,
   img: String,
   location: String,
-  languages: [{ type: String }],
+  languages: [{
+    code: { type: String, required: true},
+    name: { type: String, required: true},
+    nativeName: { type: String, required: true},
+    value: { type: String, required: true},
+    verified: { type: Boolean }
+  }],
   visited: [ { type: String } ],
   badges: [{
     name: String,
     receivedAt: { type: Date, default: Date.now() }
   }],
   wishlist: [{ type: String }],
-  interests: [{type: String, enum: interests }],
-  expertise: [{ type: String, enum: interests }],
+  interests: [{type: String }],
+  expertise: [{ type: String }],
   companions: [{ type: mongoose.Types.ObjectId }],
   google: String,
   facebook: String

@@ -2,11 +2,11 @@ app.controller('registerCtrl', registerCtrl);
 
 function registerCtrl ($timeout, $q, $log, $scope, $state, $auth, User, Location, NgMap) {
   if(!$auth.isAuthenticated()) {
-    $state.go('home')
+    $state.go('home');
   }
+
   let self = this;
   self.simulateQuery = true;
-  // list of `state` value/display objects
   self.languages = langObj;
   self.querySearch   = querySearch;
   self.selectedItemChange = selectedItemChange;
@@ -15,7 +15,6 @@ function registerCtrl ($timeout, $q, $log, $scope, $state, $auth, User, Location
   self.addCustom = addCustom;
   self.mapCallback = mapCallback;
   self.replaceMarker = replaceMarker;
-  self.next = 0;
   self.city = '';
   self.customCity = '';
   self.lng = 0;
@@ -25,9 +24,10 @@ function registerCtrl ($timeout, $q, $log, $scope, $state, $auth, User, Location
   self.searchTerm;
   self.interests = ['Food', 'Nature', 'Attractions', 'City', 'Home Life', 'Party Life'];
   self.customInterest = '';
+  self.user = User.getUser();
 
   $scope.log = () => {
-    User.log();
+    console.log(self.user);
   }
 
   function nextClicked(bool) {
@@ -42,8 +42,6 @@ function registerCtrl ($timeout, $q, $log, $scope, $state, $auth, User, Location
     } else if(self.customCity){
       User.saveLocation(self.customCity, false);
     }
-
-    self.next++;
   }
 
   function querySearch (query) {

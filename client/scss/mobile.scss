@@ -1,5 +1,22 @@
 @media only screen and (max-device-width: 480px) {
     .bar {
-        display: none;
+      display: none;
+    }
+
+    img.responsive-img.landingImage {
+      margin-top: 0em;
+      max-width: 170%;
+    }
+
+    h1.landingTitle {
+      font-size: 3em;
+    }
+
+    span.landingText {
+      position: absolute;
+      z-index: 2;
+      font-weight: 100;
+      top: 8%;
+      left: 12%;
     }
 }

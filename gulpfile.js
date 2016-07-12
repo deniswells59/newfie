@@ -42,18 +42,18 @@ gulp.task('lint', function() {
 
 /////////////// JS ///////////////
 gulp.task('watch.js', function() {
-  return gulp.watch('./client/js/**/*.js', ['js']);
+  return gulp.watch('./client/**/*.js', ['js']);
 });
 
 gulp.task('js', ['clean.js'], function() {
-  return gulp.src('./client/js/**/*.js')
+  return gulp.src('./client/**/*.js')
     .pipe(plumber())
-    .pipe(sourcemaps.init())
+    // .pipe(sourcemaps.init())
     .pipe(babel({presets: ['es2015'] }))
     .pipe(concat('main.js'))
-    .pipe(sourcemaps.write())
-    .pipe(annotate())
-    .pipe(uglify())
+    // .pipe(sourcemaps.write())
+    // .pipe(annotate())
+    // .pipe(uglify())
     .pipe(gulp.dest('./public/js'));
 });
 gulp.task('clean.js', function() {
@@ -79,12 +79,12 @@ gulp.task('clean.css', function() {
 
 /////////////// HTML ///////////////
 gulp.task('html', ['clean.html'], function(){
-  return gulp.src('./client/html/**/*.html')
+  return gulp.src('./client/**/**/*.html')
     .pipe(gulp.dest('./public/html'));
 });
 gulp.task('clean.html', function() {
-  return del(['./public/html']);
+  return del(['./public/html/**/*']);
 });
 gulp.task('watch.html', function() {
-  return gulp.watch('./client/html/**', ['html']);
+  return gulp.watch('./client/**/**', ['html']);
 });
