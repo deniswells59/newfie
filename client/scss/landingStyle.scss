@@ -46,3 +46,41 @@ p.landingTag {
     color: #e4e7ec;
     font-size: 2em;
 }
+
+@media only screen and (min-width: 993px) {
+  .container.special {
+    width: 100%;
+    background-color: #6d819c;
+
+  }
+}
+
+.row.imgRow {
+    margin-bottom: 0;
+}
+
+.row.landingUnique {
+    background-color: #6d819c;
+    padding: 2em;
+}
+
+.row .col.s12 {
+    margin-bottom: 5em;
+}
+
+.circle.center {
+    margin: auto;
+    width: 20em;
+    height: 20em;
+    padding: 2em;
+    background-color: #e4e7ec;
+}
+
+p.uniqueDesc {
+    width: 15em;
+    margin: auto;
+}
+
+.uniqueIcon {
+    font-size: 5em;
+}

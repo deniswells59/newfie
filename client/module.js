@@ -74,5 +74,4 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
       responseType: 'token'
     });
 
-
 });
