@@ -10,7 +10,7 @@ const _isNotMobile = (function() {
     })();
 
 const app = angular.module('myApp',
-  ['ui.router', 'satellizer', 'ngMaterial', 'ngMap', 'ngAnimate']);
+  ['ui.router', 'satellizer', 'ngMaterial', 'ngMap']);
 
 app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
 
@@ -42,12 +42,7 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
     .state('registerNav.confirm', {
       url: '/confirm',
       templateUrl: '/html/register/regConfirm.html',
-      controller: 'registerCtrl',
-      resolve: {
-        user: function(User) {
-          return User.getUser();
-        }
-      }
+      controller: 'registerCtrl'
     })
     .state('home', {
       url: '/',
@@ -55,8 +50,8 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
       controller: 'homeCtrl'
     })
     .state('dashboard', {
-      url: '/dash/',
-      templateUrl: '/html/html/dash.html',
+      url: '/dash',
+      templateUrl: '/html/dash/dash.html',
       controller: 'dashCtrl',
       resolve: {
         user: function(User) {
@@ -64,6 +59,12 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
         }
       }
     })
+    .state('dashboard.tabs', {
+      url:'/profile',
+      templateUrl: '/html/dash/profile.html',
+      controller: 'dashCtrl'
+    })
+
     $urlRouterProvider.otherwise('/');
 
     $authProvider.google({
