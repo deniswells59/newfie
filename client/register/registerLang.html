@@ -27,26 +27,41 @@
             </md-not-found>
           </md-autocomplete>
           <br/>
-          <p>Selected </p>
           <div ng-if="!reg.selectedLangs.length"
-               class="helperText"> Select at least one language! </div>
-          <div ng-if="reg.selectedLangs.length">
-            <div ng-repeat="lang in reg.selectedLangs track by $index" class="langBox">
-              <md-list-item class="secondary-button-padding">
-                <p class="langText">{{lang.name}}</p>
-                <md-button class="md-secondary"
-                           ng-click="reg.removeLang(lang.name)"
-                           aria-hidden="true">
-                  <i class="fa fa-times cancelLang" aria-hidden="true"></i>
-                </md-button>
-              </md-list-item>
+          class="helperText"> Select at least one language! </div>
+          <div class="card animate-if" ng-if="reg.selectedLangs.length">
+            <p class="card-title">Selected </p>
+            <div class="card-action">
+              <div class="langBox animate-repeat" ng-repeat="lang in reg.selectedLangs track by $index">
+                <md-list-item class="secondary-button-padding">
+                  <p class="langText">{{lang.name}}</p>
+                  <md-button class="md-secondary"
+                    aria-label="close"
+                    ng-click="reg.removeLang(lang.name)"
+                    aria-hidden="true">
+                    <i class="fa fa-times cancelLang" aria-hidden="true"></i>
+                  </md-button>
+                </md-list-item>
+              </div>
             </div>
           </div>
-          <span ng-if="reg.selectedLangs.length"
-                ng-click="reg.nextClicked()">
-            <a class="right waves-effect waves-light btn"
-               ui-sref="registerNav.registerInterests">Next</a>
-          </span>
+          <div ng-if="reg.selectedLangs.length" class="boxie">
+            <h3>Verify With
+              <img src="../../assets/duolingo.png" class="duoLogo">
+            </h3>
+           <md-input-container class="md-block col s6">
+            <label>Username</label>
+            <input ng-model="reg.duoUser">
+              <a ng-if="reg.waiting" ng-click="reg.verifyDuoUser()" class="right">Check</a>
+              <a ng-if="reg.checking" class="right">Loading</a>
+              <a ng-if="reg.done" class="right">Done</a>
+            </input>
+          </md-input-container>
+
+           <a class="right waves-effect btn"
+           ng-click="reg.nextClicked()"
+           ui-sref="registerNav.registerInterests">Next</a>
+         </div>
         </form>
       </md-content>
     </div>

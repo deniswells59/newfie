@@ -1,31 +1,30 @@
-<div class="row">
+<div class="row" ng-controller="registerCtrl as reg">
   <div class="col s12 m10 offset-m1">
     <h3>Residence</h3>
     <div class="helperText">Or wherever you are most of the time.</div>
-    <div id="map-container" ng-controller="registerCtrl as vm">
+    <div id="map-container">
       <ng-map default-style="false" zoom="12"
         center="current-location"
-        on-click="vm.replaceMarker()"
-        geo-callback="vm.mapCallback()"
+        on-click="reg.replaceMarker()"
         geo-fallback-center="[40.74, -74.18]">
-        <marker position="{{vm.lat}}, {{vm.lng}}" title="you"></marker>
+        <marker position="{{reg.lat}}, {{reg.lng}}" title="you"></marker>
       </ng-map>
-      <div ng-if="!vm.city">Loading...</div>
-      <div ng-if="vm.city">
+      <div ng-if="!reg.city">Loading...</div>
+      <div ng-if="reg.city">
         <p>Looks like you're in
           <span class="highlight">
-            {{vm.city}}</span>.
+            {{reg.city}}</span>.
           Do you want this to be your residence?</p>
           <a class="right waves-effect waves-light btn"
-             ng-click="vm.nextClicked(true)"
+             ng-click="reg.nextClicked(true)"
              ui-sref="registerNav.confirm">Yes!</a>
       </div>
       <div class="helperText">You can click the map for a new location, or use the input below.</div>
       <md-input-container class="col s12">
         <label>My Residence</label>
-        <input ng-model="vm.customCity">
+        <input ng-model="reg.customCity">
         <a class="right waves-effect waves-light btn"
-        ng-click="vm.nextClicked()"
+        ng-click="reg.nextClicked()"
         ui-sref="registerNav.confirm">Next</a>
       </md-input-container>
     </div>

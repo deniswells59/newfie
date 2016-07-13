@@ -1,5 +1,5 @@
 body {
-  font-family: 'Muli', sans-serif;;
+  font-family: 'Muli', sans-serif;
 }
 
 .landing-nav {
@@ -86,4 +86,10 @@ p.uniqueDesc {
 
 img.logoImage {
     height: 10em;
+}
+
+.navbar-fixed {
+    height: 0;
+    position: fixed;
+    top: 0;
 }

@@ -18,19 +18,20 @@ var userSchema = new mongoose.Schema({
   type: { type: String, enum: ['User', 'Guide', 'Admin'], default: 'User' },
   name: String,
   img: String,
-  location: String,
+  location: {
+    location: { type: String },
+    verified: Boolean
+  },
   languages: [{
     code: { type: String, required: true},
     name: { type: String, required: true},
     nativeName: { type: String, required: true},
     value: { type: String, required: true},
+    level: { type: Number, required: true },
     verified: { type: Boolean }
   }],
   visited: [ { type: String } ],
-  badges: [{
-    name: String,
-    receivedAt: { type: Date, default: Date.now() }
-  }],
+  score: String,
   wishlist: [{ type: String }],
   interests: [{type: String }],
   expertise: [{ type: String }],
@@ -38,6 +39,21 @@ var userSchema = new mongoose.Schema({
   google: String,
   facebook: String
 }, { timestamps: true });
+
+userSchema.statics.register = (id, updateObj, cb) => {
+  User.findById(id, (err, user) => {
+    if(err) return cb(err);
+
+    user.languages = updateObj.languages;
+    user.interests = updateObj.interests;
+    user.location = updateObj.location;
+    user.registered = true;
+
+    user.save((err, savedUser) => {
+      cb(err, savedUser);
+    })
+  })
+}
 
 userSchema.statics.addBadge = (id, badgeName, cb) => {
   User.findById(id, (err, user) => {
@@ -73,24 +89,24 @@ userSchema.statics.auth = role => {
   };
 };
 
-userSchema.statics.register = (userObj, cb) => {
-  User.findOne({email: userObj.email}, (err, dbUser) => {
-    if(err || dbUser) return cb(err || {error: 'Email not available.'});
-
-    bcrypt.hash(userObj.password, 12, (err, hash) => {
-      if(err) return cb(err);
-
-      var user = new User({
-        email: userObj.email,
-        password: hash
-      });
-      user.save((err, savedUser) => {
-        savedUser.password = null;
-        cb(err, savedUser);
-      });
-    });
-  });
-};
+// userSchema.statics.register = (userObj, cb) => {
+//   User.findOne({email: userObj.email}, (err, dbUser) => {
+//     if(err || dbUser) return cb(err || {error: 'Email not available.'});
+//
+//     bcrypt.hash(userObj.password, 12, (err, hash) => {
+//       if(err) return cb(err);
+//
+//       var user = new User({
+//         email: userObj.email,
+//         password: hash
+//       });
+//       user.save((err, savedUser) => {
+//         savedUser.password = null;
+//         cb(err, savedUser);
+//       });
+//     });
+//   });
+// };
 
 userSchema.statics.authenticate = (userObj, cb) => {
   User.findOne({email: userObj.email}, (err, dbUser) => {
