@@ -19,11 +19,11 @@ router.get('/check', User.auth(), (req, res) => {
   });
 });
 
-router.post('/register', function(req, res) {
-  User.register(req.body, (err, user) => {
-    res.status(err ? 400 : 200).send(err || user);
-  });
-});
+// router.post('/register', function(req, res) {
+//   User.register(req.body, (err, user) => {
+//     res.status(err ? 400 : 200).send(err || user);
+//   });
+// });
 
 router.post('/authenticate', (req, res) => {
   User.authenticate(req.body, (err, token) => {
@@ -53,4 +53,11 @@ router.put('/guide', User.auth(), (req, res) => {
     });
   });
 });
+
+router.put('/register', User.auth(), (req, res) => {
+  User.register(req.user._id, req.body, (err, user) => {
+    res.status(err ? 400 : 200).send(err || user);
+  })
+});
+
 module.exports = router;

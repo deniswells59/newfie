@@ -1,6 +1,7 @@
 app.controller('registerCtrl', registerCtrl);
 
-function registerCtrl($timeout, $q, $log, $scope, $state, $auth, User, Location, NgMap, $rootScope) {
+function
+  registerCtrl($timeout, $q, $log, $scope, $state, $auth, User, DuoLingo, Location, NgMap, $rootScope) {
   if(!$auth.isAuthenticated()) {
     $state.go('home');
   }
@@ -22,21 +23,21 @@ function registerCtrl($timeout, $q, $log, $scope, $state, $auth, User, Location,
   self.addCustom = addCustom;
   self.mapCallback = mapCallback;
   self.replaceMarker = replaceMarker;
+  self.verifyDuoUser = verifyDuoUser;
+  self.confirmUser = confirmUser;
+  self.interests = ['Food', 'Nature', 'Attractions', 'City', 'Home Life', 'Party Life'];
+  self.user = User.getUser();
+  self.waiting = true;
+  self.checking = false;
+  self.done = false;
+  self.selectedLangs = [];
+  self.selectedInterests = [];
   self.city = '';
   self.customCity = '';
   self.lng = 0;
   self.lat = 0;
-  self.selectedLangs = [];
-  self.selectedInterests = [];
   self.searchTerm;
-  self.interests = ['Food', 'Nature', 'Attractions', 'City', 'Home Life', 'Party Life'];
   self.customInterest = '';
-  self.user = User.getUser();
-
-  $scope.log = () => {
-    console.log(self.user);
-    console.log(self.breadCrumb);
-  }
 
   function nextClicked(bool) {
     if (self.selectedLangs.length) {
@@ -87,13 +88,25 @@ function registerCtrl($timeout, $q, $log, $scope, $state, $auth, User, Location,
     self.selectedLangs.splice(index, 1);
   }
 
+  function verifyDuoUser() {
+    self.waiting = false;
+    self.checking = true;
+    DuoLingo.verifyLanguages(self.selectedLangs, self.duoUser)
+      .then(verified => {
+        self.checking = false;
+        self.done = true;
+        self.selectedLangs = verified;
+      })
+  }
+
   function addCustom() {
     self.selectedInterests.push(angular.copy(self.customInterest));
     self.customInterest = '';
   }
 
   NgMap.getMap()
-    .then(function(map) {
+    .then(map => {
+      map.addListener('tilesloaded', mapCallback);
       self.map = map;
     });
 
@@ -115,4 +128,8 @@ function registerCtrl($timeout, $q, $log, $scope, $state, $auth, User, Location,
         self.city = res;
       })
     }
+
+  function confirmUser() {
+    User.confirm()
+  }
 };

@@ -24,7 +24,11 @@ app.controller('mainCtrl', function($scope, $state, $auth, User) {
 });
 
 app.controller('dashCtrl', function($scope, $state, user) {
-  if (!user || !user.registered) {
+  if (!user) {
+    $state.go('home');
+  }
+
+  if (!user.registered) {
     $state.go('registerNav.registerLang');
   }
 });

@@ -63,6 +63,7 @@ export default class Auth {
             user.name = profile.name;
             user.email = profile.email;
             user.save((err, savedUser) => {
+              console.log('err', err);
 
               var token = savedUser.generateToken();
               res.send({

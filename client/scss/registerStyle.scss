@@ -1,3 +1,7 @@
+.btn {
+  background-color: #55967e;
+}
+
 .bar {
   margin-top: 5em;
 }
@@ -62,4 +66,24 @@
 .highlight {
   color: rgb(1, 173, 153);
   font-weight: bold;
+}
+
+i.fa.fa-check {
+  color: green;
+}
+
+.card-title {
+  padding: .5em;
+}
+
+.duoLogo {
+  height: 1em;
+  position: absolute;
+  top: .2em;
+  left: 5.5em;
+}
+
+.boxie {
+  position: relative;
+  margin-top: 5em;
 }

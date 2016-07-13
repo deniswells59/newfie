@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col s12 m10 offset-m1">
     <h3>Travel Interests</h3>
-    <div ng-controller="registerCtrl as reg"  class="col s12 m10 offset-m1">
+    <div class="col s12 m10 offset-m1">
       <p class="interestHelpers">What do you like to see when you travel?</p>
       <a class="right waves-effect waves-light btn interestNext"
          ng-click="reg.nextClicked()"
@@ -22,7 +22,7 @@
         <div ng-repeat="interest in reg.selectedInterests track by $index" class="langBox">
           <md-list-item class="secondary-button-padding">
             <p class="langText">{{interest}}</p>
-            <md-button class="md-secondary">
+            <md-button class="md-secondary" aria-label="close">
               <i class="fa fa-times cancelLang" aria-hidden="true"></i>
             </md-button>
           </md-list-item>

@@ -24,6 +24,7 @@ app.service('User', function($http, $state) {
     return $http.get('/api/users/check')
       .then(res => {
         this.currentUser = res.data;
+        return this.currentUser;
       })
       .catch(err => {
         console.log('err', err);
@@ -32,10 +33,7 @@ app.service('User', function($http, $state) {
 
   this.getUser = () => {
     if (!Object.keys(this.currentUser).length) {
-      this.isLoggedIn()
-      .then(() => {
-        return this.currentUser;
-      })
+      return this.isLoggedIn();
     }
     return this.currentUser;
   }
@@ -55,6 +53,22 @@ app.service('User', function($http, $state) {
     }
   }
 
+  this.confirm = () => {
+    const updateObj = {
+      languages: this.currentUser.languages,
+      interests: this.currentUser.interests,
+      location: this.currentUser.location
+    }
+
+    $http.put('/api/users/register', updateObj)
+      .then(user => {
+        console.log(user);
+        this.currentUser = user.data;
+        $state.go('dashboard');
+      })
+      .catch(err => console.log('err', err));
+  }
+
 
 });
 
@@ -63,6 +77,23 @@ app.service('Location', function($http){
     return $http.post('/api/location/city', location)
       .then(res => {
         return res.data;
+      })
+      .catch(err => console.log('err', err));
+  }
+});
+
+app.service('DuoLingo', function($http){
+  this.verifyLanguages = (languages, user) => {
+    return $http.post('/api/users/validate/languages', {duoUser: user})
+      .then(res => {
+        const verifiedLangs = res.data;
+        languages.forEach(lang=> {
+          if (verifiedLangs[lang.name]) {
+            lang.verified = true;
+            lang.level = verifiedLangs[lang.name];
+          }
+        })
+        return languages;
       })
       .catch(err => console.log('err', err));
   }
