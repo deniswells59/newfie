@@ -2,12 +2,8 @@ body {
   font-family: 'Muli', sans-serif;;
 }
 
-a {
-  color: #55967e;
-}
-
 .landing-nav {
-  background-color: rgba(#55967e, 0.05);
+  background-color: #55967e;
 }
 
 .navbar-fixed {
@@ -20,7 +16,7 @@ nav ul a {
 
 .imgWrapper {
   overflow-x: hidden;
-  background-color: #6d819c;
+  background-color: #364252;
 }
 
 img.responsive-img.landingImage {
@@ -42,17 +38,17 @@ h1.landingTitle {
   color: #263959;
 }
 
+.appName {
+  color: #55967e;
+}
+
+h2.landingQuest {
+    margin: 0;
+}
+
 p.landingTag {
     color: #e4e7ec;
     font-size: 2em;
-}
-
-@media only screen and (min-width: 993px) {
-  .container.special {
-    width: 100%;
-    background-color: #6d819c;
-
-  }
 }
 
 .row.imgRow {
@@ -62,10 +58,7 @@ p.landingTag {
 .row.landingUnique {
     background-color: #6d819c;
     padding: 2em;
-}
-
-.row .col.s12 {
-    margin-bottom: 5em;
+    margin-bottom: 0;
 }
 
 .circle.center {
@@ -83,4 +76,14 @@ p.uniqueDesc {
 
 .uniqueIcon {
     font-size: 5em;
+}
+
+.row.connect {
+    padding: 2em;
+    margin-bottom: 0;
+    background-color: #e4e7ec;
+}
+
+img.logoImage {
+    height: 10em;
 }

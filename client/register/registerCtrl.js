@@ -1,11 +1,18 @@
 app.controller('registerCtrl', registerCtrl);
 
-function registerCtrl ($timeout, $q, $log, $scope, $state, $auth, User, Location, NgMap) {
+function registerCtrl($timeout, $q, $log, $scope, $state, $auth, User, Location, NgMap, $rootScope) {
   if(!$auth.isAuthenticated()) {
     $state.go('home');
   }
 
   let self = this;
+
+  $rootScope.$on('$stateChangeStart',
+    function(event, toState, toParams, fromState, fromParams){
+      self.breadCrumb = toState.url;
+  });
+
+  self.breadCrumb = '/languages';
   self.simulateQuery = true;
   self.languages = langObj;
   self.querySearch   = querySearch;
@@ -28,6 +35,7 @@ function registerCtrl ($timeout, $q, $log, $scope, $state, $auth, User, Location
 
   $scope.log = () => {
     console.log(self.user);
+    console.log(self.breadCrumb);
   }
 
   function nextClicked(bool) {

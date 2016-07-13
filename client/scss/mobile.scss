@@ -1,7 +1,7 @@
 @media only screen and (max-device-width: 480px) {
-    .bar {
-      display: none;
-    }
+    // .bar {
+    //   display: none;
+    // }
 
     img.responsive-img.landingImage {
         margin-top: 0;
@@ -21,4 +21,7 @@
       left: 12%;
     }
 
+    .row .col.s12 {
+      margin-bottom: 5em;
+    }
 }
