@@ -1,6 +1,16 @@
-.row .col.s3.progress {
-  margin-left: 1em;
-  margin-right: 1em;
+.bar {
+  margin-top: 5em;
+}
+
+.progress {
+  border: 1px solid black;
+  background-color: #e4e7ec;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #6d819c;
+  color: #263959;
 }
 
 .btn-group a {
