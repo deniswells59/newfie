@@ -30,9 +30,13 @@ var userSchema = new mongoose.Schema({
     level: { type: Number, required: true },
     verified: { type: Boolean }
   }],
-  visited: [ { type: String } ],
+  bio: String,
+  places: [ {
+     name: String,
+     lat: Number,
+     lng: Number
+   } ],
   score: String,
-  wishlist: [{ type: String }],
   interests: [{type: String }],
   expertise: [{ type: String }],
   companions: [{ type: mongoose.Types.ObjectId }],

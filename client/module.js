@@ -59,9 +59,19 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
         }
       }
     })
-    .state('dashboard.tabs', {
+    .state('dashboard.profile', {
       url:'/profile',
       templateUrl: '/html/dash/profile.html',
+      controller: 'dashCtrl'
+    })
+    .state('dashboard.guide', {
+      url:'/guide',
+      templateUrl: '/html/dash/guide.html',
+      controller: 'dashCtrl'
+    })
+    .state('dashboard.places', {
+      url:'/places',
+      templateUrl: '/html/dash/places.html',
       controller: 'dashCtrl'
     })
 
