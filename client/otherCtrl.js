@@ -23,16 +23,6 @@ app.controller('mainCtrl', function($scope, $state, $auth, User) {
   };
 });
 
-app.controller('dashCtrl', function($scope, $state, user) {
-  if (!user) {
-    $state.go('home');
-  }
-
-  if (!user.registered) {
-    $state.go('registerNav.registerLang');
-  }
-});
-
 app.controller('loginCtrl', function($scope, User, $state) {
   $scope.loginUser = () => {
     User.login($scope.log)

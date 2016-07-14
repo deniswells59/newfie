@@ -10,7 +10,10 @@ export default class Google {
     let city = '';
     request(`${url}latlng=${lat},${lng}&key=${process.env.GOOGLE_GEOCODE}`,
       (err, response, body) => {
-        body = JSON.parse(body).results[0].address_components;
+        if(err) return res.send(err);
+        body = JSON.parse(body);
+        if(!body.results.length) return res.send('Cant find a city there...');
+        body = body.results[0].address_components;
         body.forEach(address => {
           switch(address.types[0]) {
             case 'sublocality':

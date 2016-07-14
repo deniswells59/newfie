@@ -62,9 +62,16 @@ app.service('User', function($http, $state) {
 
     $http.put('/api/users/register', updateObj)
       .then(user => {
-        console.log(user);
         this.currentUser = user.data;
         $state.go('dashboard');
+      })
+      .catch(err => console.log('err', err));
+  }
+
+  this.addPlace = (place) => {
+    return $http.put('/api/users/location', place)
+      .then(user => {
+        this.currentUser = user.data;
       })
       .catch(err => console.log('err', err));
   }
