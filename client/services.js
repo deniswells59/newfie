@@ -68,14 +68,13 @@ app.service('User', function($http, $state) {
       .catch(err => console.log('err', err));
   }
 
-  this.addPlace = (place) => {
-    return $http.put('/api/users/location', place)
+  this.savePlace = (place) => {
+    return $http.put('/api/users/place', place)
       .then(user => {
         this.currentUser = user.data;
       })
       .catch(err => console.log('err', err));
   }
-
 
 });
 
@@ -91,8 +90,11 @@ app.service('Location', function($http){
 
 app.service('DuoLingo', function($http){
   this.verifyLanguages = (languages, user) => {
-    return $http.post('/api/users/validate/languages', {duoUser: user})
+    return $http.post('/api/users/validate/languages', user)
       .then(res => {
+        if(typeof res.data === 'string') {
+          return res.data;
+        }
         const verifiedLangs = res.data;
         languages.forEach(lang=> {
           if (verifiedLangs[lang.name]) {

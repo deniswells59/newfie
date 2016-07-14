@@ -1,11 +1,8 @@
 <div class="row">
   <div class="col s12 m10 offset-m1">
     <h3>Travel Interests</h3>
-    <div class="col s12 m10 offset-m1">
+    <div layout="column" ng-cloak>
       <p class="interestHelpers">What do you like to see when you travel?</p>
-      <a class="right waves-effect waves-light btn interestNext"
-         ng-click="reg.nextClicked()"
-         ui-sref="registerNav.registerLocation">Next</a>
       <small class="interestHelpers">This will be used to help you find travel companions!</small>
       <md-input-container class="col s12">
         <label>Interests</label>
@@ -18,17 +15,6 @@
         </md-select>
       </md-input-container>
 
-      <div ng-if="reg.selectedInterests.length">
-        <div ng-repeat="interest in reg.selectedInterests track by $index" class="langBox">
-          <md-list-item class="secondary-button-padding">
-            <p class="langText">{{interest}}</p>
-            <md-button class="md-secondary" aria-label="close">
-              <i class="fa fa-times cancelLang" aria-hidden="true"></i>
-            </md-button>
-          </md-list-item>
-        </div>
-      </div>
-
       <md-input-container class="col s12">
        <label>Custom</label>
        <input ng-model="reg.customInterest">
@@ -36,6 +22,27 @@
           aria-hidden="true"
           ng-click="reg.addCustom(reg.customInterest)"></i>
      </md-input-container>
+
+     <div ng-if="reg.selectedInterests.length">
+       <div class="card animate-if" >
+         <p class="card-title">Selected </p>
+         <div class="card-action">
+           <div ng-repeat="interest in reg.selectedInterests track by $index" class="langBox animate-repeat">
+             <md-list-item class="secondary-button-padding">
+               <p class="langText">{{interest}}</p>
+               <md-button class="md-secondary" aria-label="close">
+                 <i class="fa fa-times cancelLang" aria-hidden="true"></i>
+               </md-button>
+             </md-list-item>
+           </div>
+         </div>
+         <a class="right waves-effect btn regBtn"
+         ng-click="reg.nextClicked()"
+         ui-sref="registerNav.registerLocation">Next</a>
+       </div>
+     </div>
+
+
     </div>
   </div>
 </div>

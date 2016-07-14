@@ -2,8 +2,8 @@
   background-color: #55967e;
 }
 
-.bar {
-  margin-top: 5em;
+a.right.waves-effect.btn.regBtn {
+    margin-top: 3em;
 }
 
 .progress {
@@ -25,6 +25,17 @@
 .reg-form {
   display: block;
 }
+
+a.right.duoButton {
+    border: 1px solid;
+    padding: .5em;
+    border-radius: .5em;
+}
+
+span.err {
+    color: red;
+}
+
 
 .modal {
   width: 40%;

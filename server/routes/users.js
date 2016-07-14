@@ -54,7 +54,7 @@ router.put('/guide', User.auth(), (req, res) => {
   });
 });
 
-router.put('/location', User.auth(), (req, res) => {
+router.put('/place', User.auth(), (req, res) => {
   User.findById(req.user, (err, user) => {
     if(err) return res.status(400).send(err);
     user.places.push(req.body);

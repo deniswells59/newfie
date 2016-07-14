@@ -9,6 +9,8 @@ function dashCtrl($state, $scope, user, $location, User, Location) {
     $state.go('registerNav.registerLang');
   }
 
+  let self = this;
+
   $scope.user = user;
   $scope.loading = false;
   $scope.pending = false;
@@ -30,16 +32,23 @@ function dashCtrl($state, $scope, user, $location, User, Location) {
   $scope.getLocation = function(event) {
     if(!$scope.pending) {
       $scope.loading = true;
-      let lat = event.latLng.lat();
-      let lng = event.latLng.lng();
-      $scope.user.places.push({lat: lat, lng: lng})
-      Location.getCity({lat: lat, lng: lng})
+      self.location = {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng()
+      }
+      $scope.user.places.push(self.location);
+      Location.getCity(self.location)
         .then(res => {
           $scope.pending = true;
           $scope.loading = false;
           $scope.city = res;
+          self.location.name = res;
         })
     }
+  }
+
+  $scope.savePlace = function() {
+    User.savePlace(self.location)
   }
 
   $scope.cancelPlace = function() {

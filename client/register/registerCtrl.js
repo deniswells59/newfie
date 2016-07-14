@@ -89,13 +89,20 @@ function
   }
 
   function verifyDuoUser() {
+    self.duoErr = null;
     self.waiting = false;
     self.checking = true;
     DuoLingo.verifyLanguages(self.selectedLangs, self.duoUser)
       .then(verified => {
         self.checking = false;
-        self.done = true;
-        self.selectedLangs = verified;
+        if(typeof verified === 'object') {
+          self.done = true;
+          self.selectedLangs = verified;
+        } else {
+          self.waiting = true;
+          self.duoErr = verified;
+          console.log(self.duoErr);
+        }
       })
   }
 
