@@ -1,5 +1,5 @@
-#My-App-Template
+#newfie
 
-Express Gen + Gulp + SCSS
+Make sure you have babel installed!
 
-run npm i
+Run `npm install & npm start`
