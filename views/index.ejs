@@ -35,6 +35,7 @@
           <ul class="right">
             <li ng-if="!isAuthenticated()"><a data-target="modal1" class="modal-trigger">Login</a></li>
             <li ng-if="isAuthenticated()"><a ui-sref="dashboard">Profile</a></li>
+            <li ng-if="isAuthenticated()"><a ng-click="logout()">Logout</a></li>
           </ul>
         </div>
       </nav>

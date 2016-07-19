@@ -10,6 +10,11 @@ body {
   height: 0;
 }
 
+ul {
+  padding: 1em;
+}
+
+
 nav ul a {
   color: #e4e7ec;
 }
@@ -57,7 +62,7 @@ p.landingTag {
 
 .row.landingUnique {
     background-color: #6d819c;
-    padding: 2em;
+    padding: 70px;
     margin-bottom: 0;
 }
 
@@ -94,7 +99,7 @@ img.logoImage {
     top: 0;
 }
 
-.row.connect.intro.center.ng-scope {
+.row.connect.intro.center {
     background-color: #364252;
     color: #e4e7ec;
 }

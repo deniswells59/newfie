@@ -64,6 +64,11 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
       templateUrl: '/html/dash/profile.html',
       controller: 'dashCtrl'
     })
+    .state('dashboard.guideIntro', {
+      url:'/guide/intro',
+      templateUrl: '/html/dash/guideIntro.html',
+      controller: 'dashCtrl'
+    })
     .state('dashboard.guide', {
       url:'/guide',
       templateUrl: '/html/dash/guide.html',

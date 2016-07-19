@@ -12,6 +12,12 @@
     "node": "5.10.1"
   },
   "dependencies": {
+    "airapi": "^0.1.0",
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
     "bcryptjs": "^2.3.0",
     "body-parser": "~1.13.2",
     "bower": "^1.7.9",
@@ -27,6 +33,7 @@
     "gulp-minify-css": "^1.2.4",
     "gulp-ng-annotate": "^2.0.0",
     "gulp-nodemon": "^2.0.7",
+    "gulp-order": "^1.1.1",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.1",
@@ -38,12 +45,6 @@
     "mongoose": "^4.4.17",
     "morgan": "~1.6.1",
     "satellizer": "^0.14.1",
-    "serve-favicon": "~2.3.0",
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "gulp-order": "^1.1.1"
+    "serve-favicon": "~2.3.0"
   }
 }

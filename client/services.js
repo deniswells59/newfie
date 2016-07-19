@@ -76,6 +76,10 @@ app.service('User', function($http, $state) {
       .catch(err => console.log('err', err));
   }
 
+  this.becomeGuide = () => {
+    return $http.put('/api/users/guide');
+  }
+
 });
 
 app.service('Location', function($http){
@@ -106,4 +110,24 @@ app.service('DuoLingo', function($http){
       })
       .catch(err => console.log('err', err));
   }
-})
+});
+
+app.service('AirBnB', function($http) {
+  this.query = {};
+
+  this.saveLocation = (location) => {
+    this.query.location = location;
+  }
+
+  this.getResults = (name) => {
+    if(this.name) {
+      this.query.name = name;
+    }
+
+    return $http.put('/api/airbnb/search', this.query)
+      .then(res => {
+        return res.data;
+      })
+      .catch(err => console.log('err', err));
+  }
+});
