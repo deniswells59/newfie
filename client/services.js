@@ -80,6 +80,16 @@ app.service('User', function($http, $state) {
     return $http.put('/api/users/guide');
   }
 
+  this.saveGuide = (trip) => {
+    return $http.put('/api/users/update', trip)
+      .then(res => {
+        return res.data;
+      })
+      .catch(err => {
+        console.log('err', err);
+      })
+  }
+
 });
 
 app.service('Location', function($http){

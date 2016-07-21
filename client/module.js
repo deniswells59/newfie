@@ -79,6 +79,11 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
       templateUrl: '/html/dash/places.html',
       controller: 'dashCtrl'
     })
+    .state('connect', {
+      url: '/connect',
+      templateUrl: '/html/connect/connect.html',
+      controller: 'connectCtrl'
+    })
 
     $urlRouterProvider.otherwise('/');
 

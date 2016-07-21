@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 router.get('/check', User.auth(), (req, res) => {
   User.findById(req.user, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
-  });
+  }).populate('trip');
 });
 
 router.post('/authenticate', (req, res) => {
@@ -57,5 +57,10 @@ router.put('/place', User.auth(), (req, res) => {
   });
 });
 
+router.put('/update', User.auth(), (req, res) => {
+  User.addTrip(req.user._id, req.body, (err, user) => {
+    res.status(err ? 400 : 200).send(err || user);
+  });
+});
 
 module.exports = router;

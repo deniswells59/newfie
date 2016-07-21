@@ -39,31 +39,35 @@ const userSchema = new mongoose.Schema({
    } ],
   score: Number,
   interests: [{type: String }],
-  expertise: [{ type: String }],
-  companions: [{ type: mongoose.Types.ObjectId }],
-  trip: [{ type: mongoose.Types.ObjectId }],
+  companions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  trip: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
   google: String,
   facebook: String
 }, { timestamps: true });
 
 userSchema.statics.addTrip = (id, tripObj, cb) => {
-  Trip.create(tripObj, (err, trip) => {
-    if (err) return cb(err);
+  if (!tripObj._id) {
+    Trip.create(tripObj, (err, trip) => {
+      if (err) return cb(err);
 
-    User.findById(id, (err, user) => {
-      if(err) return cb(err);
+      User.findById(id, (err, user) => {
+        if(err) return cb(err);
+        user.trip.push(trip._id);
 
-      user.trips.push(trip._id);
-
-      user.save(cb);
+        user.save(cb);
+      });
     });
-  });
+  } else {
+    Trip.findById(tripObj._id, (err, trip) => {
+      
+    })
+  }
 }
 
 userSchema.statics.register = (id, updateObj, cb) => {
   User.findById(id, (err, user) => {
     if(err) return cb(err);
-    
+
     user.languages = updateObj.languages;
     user.interests = updateObj.interests;
     user.location = updateObj.location;

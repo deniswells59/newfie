@@ -2,12 +2,17 @@ app.controller('dashCtrl', dashCtrl);
 
 function
   dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDialog, $mdMedia) {
-
+  console.log(user);
   if (!user) {
     $state.go('home');
   }
   if (!user.registered) {
     $state.go('registerNav.registerLang');
+  }
+  if (user.trip[0]) {
+    $scope.expertise = user.trip[0].expertise;
+  } else {
+    $scope.expertise = [];
   }
 
   let self = this;
@@ -34,7 +39,7 @@ function
     }
   })
 
-  $scope.getLocation = function(event) {
+  $scope.getLocation = (event) => {
     if(!$scope.pending) {
       $scope.loading = true;
       self.location = {
@@ -56,19 +61,19 @@ function
     }
   }
 
-  $scope.savePlace = function() {
+  $scope.savePlace = () => {
     $scope.city = 'Click on the map to add new places';
     $scope.pending = false;
     User.savePlace(self.location)
   }
 
-  $scope.cancelPlace = function() {
+  $scope.cancelPlace = () => {
     $scope.user.places.pop();
     $scope.pending = false;
     $scope.city = 'Click on the map to add new places';
   }
 
-  $scope.newGuide = function() {
+  $scope.newGuide = () => {
     User.becomeGuide()
       .then(() => {
         $scope.user.type = "Guide";
@@ -77,9 +82,10 @@ function
   }
 
   $scope.showAdvanced = function(ev) {
-    if(!$scope.user.trip.location) return $scope.err = 'Enter a location above!';
+    if(!$scope.user.trip[0]) return $scope.err = 'Enter a location above!';
+    $scope.err = null;
     let useFullScreen = ($mdMedia('sm') || $mdMedia('xs'));
-    AirBnB.saveLocation($scope.user.trip.location);
+    AirBnB.saveLocation($scope.user.trip[0].location);
     $mdDialog.show({
       controller: BnBController,
       templateUrl: '../html/dash/airbnbResults.html',
@@ -88,10 +94,19 @@ function
       clickOutsideToClose:true,
       fullscreen: useFullScreen
     })
-    .then(function(answer) {
-      console.log('Saved');
-    }, function() {
+    .then(listing => {
+      $scope.user.trip[0].airBnB[0] = listing;
+    }, () => {
       console.log('Cancelled');
     });
   }
+
+  $scope.saveGuide = () => {
+    $scope.user.trip[0].expertise = $scope.expertise;
+    User.saveGuide($scope.user.trip[0])
+      .then(newUser => {
+        $scope.user = newUser;
+      });
+  }
+
 }

@@ -10,6 +10,7 @@
         <div
         ng-if="results"
         ng-repeat="res in results track by $index"
+        ng-click="newSelected($index)"
         class="listing">
           <img ng-src="{{res.pictureUrl}}" class="left listingImg">
           <div class="listingInfo">
@@ -43,7 +44,7 @@
           <md-checkbox
             class="right"
             ng-click="newSelected($index)"
-            aria-label="Checkbox 1"
+            aria-label="Checkbox"
             ng-model="res.selected">
             <p ng-if="!res.selected">Select?</p>
             <p ng-if="res.selected">Selected</p>
@@ -63,7 +64,7 @@
       <md-button ng-click="closeDialog()" >
        Cancel
       </md-button>
-      <md-button ng-disabled="!selectedResult" ng-click="saveDialog()">
+      <md-button ng-disabled="!selectedListing" ng-click="saveDialog(selectedListing)">
         Select
       </md-button>
     </md-dialog-actions>

@@ -29,25 +29,15 @@ i.fa.fa-question.left {
   margin-left: .4em;
 }
 
-.col.s12.m6.box {
-  border: 1px solid;
-  height: 6em;
-  padding: 0;
-}
-
-i.fa.fa-plus {
+.bnbSearch {
   cursor: pointer;
   padding: .479em;
-  font-size: 3em;
-  color: #55967e;
-  background-color: #263959;
+  font-size: 1.2em;
+  border: 1px solid;
+  border-radius: 10px;
 }
 
 .listing.selectedListing:focus, .listing.selectedListing:active {
-  outline: none !important;
-}
-.listing:focus, .listing:active {
-  border: 2px solid #55967e;
   outline: none !important;
 }
 
@@ -60,11 +50,16 @@ i.fa.fa-plus {
   width: 100%;
 }
 
-img.left.listingImg {
+img.listingImg {
   width: 350px;
   margin: 1.5em;
+  border-radius: 12px;
 }
 
 form p:last-child {
   margin-bottom: 10px;
+}
+
+img.center.bnbLogo {
+  height: 8em;
 }
