@@ -1,9 +1,10 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var bcrypt = require('bcryptjs');
-var moment = require('moment');
-var jwt = require('jsonwebtoken');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import moment from 'moment';
+import jwt from 'jsonwebtoken';
+import Trip from './trip';
 
 if(process.env.TESTING){
   var JWT_SECRET='testing!';
@@ -11,7 +12,7 @@ if(process.env.TESTING){
   var JWT_SECRET = process.env.JWT_SECRET;
 }
 
-var userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   registered: { type: Boolean, default: false },
   email: { type: String, required: true, unique: true },
   password: { type: String },
@@ -36,13 +37,32 @@ var userSchema = new mongoose.Schema({
      lat: Number,
      lng: Number
    } ],
-  score: String,
+  score: Number,
   interests: [{type: String }],
-  expertise: [{ type: String }],
-  companions: [{ type: mongoose.Types.ObjectId }],
+  companions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  trip: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
   google: String,
   facebook: String
 }, { timestamps: true });
+
+userSchema.statics.addTrip = (id, tripObj, cb) => {
+  if (!tripObj._id) {
+    Trip.create(tripObj, (err, trip) => {
+      if (err) return cb(err);
+
+      User.findById(id, (err, user) => {
+        if(err) return cb(err);
+        user.trip.push(trip._id);
+
+        user.save(cb);
+      });
+    });
+  } else {
+    Trip.findById(tripObj._id, (err, trip) => {
+      
+    })
+  }
+}
 
 userSchema.statics.register = (id, updateObj, cb) => {
   User.findById(id, (err, user) => {
@@ -52,24 +72,11 @@ userSchema.statics.register = (id, updateObj, cb) => {
     user.interests = updateObj.interests;
     user.location = updateObj.location;
     user.registered = true;
+    user = user.getScore(user);
 
-    user.save((err, savedUser) => {
-      cb(err, savedUser);
-    })
+    user.save(cb);
   })
 }
-
-userSchema.statics.addBadge = (id, badgeName, cb) => {
-  User.findById(id, (err, user) => {
-    if(err) return cb(err);
-
-    user.badges.push({ name: badgeName });
-
-    user.save((err, savedUser) => {
-      cb(err, savedUser);
-    })
-  });
-};
 
 userSchema.statics.auth = role => {
   return (req, res, next) => {
@@ -77,7 +84,7 @@ userSchema.statics.auth = role => {
       return res.status(401).send('No header');
     }
 
-    var token = req.header('Authorization').split(' ')[1];
+    const token = req.header('Authorization').split(' ')[1];
     jwt.verify(token, JWT_SECRET, (err, payload) => {
       if(err) return res.status(401).send({error: 'Authentication required.'});
       User.findById(payload._id, (err, user) => {
@@ -88,29 +95,10 @@ userSchema.statics.auth = role => {
           return res.status(403).send({error: 'Not authorized'});
         }
         next();
-      }).select('-password');
+      }).select('-password').populate('trip companion');
     });
   };
 };
-
-// userSchema.statics.register = (userObj, cb) => {
-//   User.findOne({email: userObj.email}, (err, dbUser) => {
-//     if(err || dbUser) return cb(err || {error: 'Email not available.'});
-//
-//     bcrypt.hash(userObj.password, 12, (err, hash) => {
-//       if(err) return cb(err);
-//
-//       var user = new User({
-//         email: userObj.email,
-//         password: hash
-//       });
-//       user.save((err, savedUser) => {
-//         savedUser.password = null;
-//         cb(err, savedUser);
-//       });
-//     });
-//   });
-// };
 
 userSchema.statics.authenticate = (userObj, cb) => {
   User.findOne({email: userObj.email}, (err, dbUser) => {
@@ -128,8 +116,26 @@ userSchema.statics.authenticate = (userObj, cb) => {
   });
 };
 
+userSchema.methods.getScore = (user) => {
+  let score = 0;
+
+  if(user.type === 'Guide') score += 50;
+
+  user.languages.forEach(lang => {
+    score += 5;
+    if(lang.verified) score += lang.level;
+  });
+
+  user.places.forEach(place => {
+    score += 10;
+  });
+
+  user.score = score;
+  return user;
+}
+
 userSchema.methods.generateToken = function() {
-  var payload = {
+  const payload = {
     _id: this._id,
     exp: moment().add(1, 'day').unix()
   };
@@ -137,6 +143,6 @@ userSchema.methods.generateToken = function() {
   return jwt.sign(payload, JWT_SECRET);
 };
 
-var User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

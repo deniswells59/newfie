@@ -1,3 +1,65 @@
 .container {
   margin-top: 5em;
 }
+
+div#content {
+  margin-bottom: 12em;
+}
+
+md-tabs md-ink-bar {
+  color: rgb(109, 129, 156);
+  background: #263959;
+}
+
+md-tabs-canvas {
+  background-color: #deedfb;
+}
+
+md-tabs .md-tab.md-active {
+  color: rgb(85, 150, 126);
+}
+
+md-toolbar:not(.md-menu-toolbar) {
+  background-color: #6d819c;
+}
+
+i.fa.fa-question.left {
+  font-size: 4em;
+  margin-top: .2em;
+  margin-left: .4em;
+}
+
+.bnbSearch {
+  cursor: pointer;
+  padding: .479em;
+  font-size: 1.2em;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.listing.selectedListing:focus, .listing.selectedListing:active {
+  outline: none !important;
+}
+
+.listing {
+  margin-bottom: 2em;
+  padding: 1em;
+  border-radius: 25px;
+  background-color: #f5f5f5;
+  display: inline-block;
+  width: 100%;
+}
+
+img.listingImg {
+  width: 350px;
+  margin: 1.5em;
+  border-radius: 12px;
+}
+
+form p:last-child {
+  margin-bottom: 10px;
+}
+
+img.center.bnbLogo {
+  height: 8em;
+}

@@ -21,6 +21,11 @@ app.controller('mainCtrl', function($scope, $state, $auth, User) {
         console.log('err', err);
       })
   };
+
+  $scope.logout = () => {
+    $auth.logout();
+    $state.go('home');
+  }
 });
 
 app.controller('loginCtrl', function($scope, User, $state) {
@@ -32,6 +37,6 @@ app.controller('loginCtrl', function($scope, User, $state) {
   };
 });
 
-app.controller('homeCtrl', function($scope, User, $state) {
-
+app.controller('homeCtrl', function($scope) {
+  $scope.imgLoaded = false;
 });

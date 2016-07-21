@@ -32,9 +32,13 @@
     <div class="navbar-fixed">
       <nav class="landing-nav" nav-state>
         <div class="nav-wrapper">
+          <ul class="left">
+            <li><a ui-sref="connect">Connect</a></li>
+          </ul>
           <ul class="right">
             <li ng-if="!isAuthenticated()"><a data-target="modal1" class="modal-trigger">Login</a></li>
             <li ng-if="isAuthenticated()"><a ui-sref="dashboard">Profile</a></li>
+            <li ng-if="isAuthenticated()"><a ng-click="logout()">Logout</a></li>
           </ul>
         </div>
       </nav>

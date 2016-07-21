@@ -50,15 +50,19 @@
               <img src="../../assets/duolingo.png" class="duoLogo">
             </h3>
            <md-input-container class="md-block col s6">
-            <label>Username</label>
-            <input ng-model="reg.duoUser">
-              <a ng-if="reg.waiting" ng-click="reg.verifyDuoUser()" class="right">Check</a>
-              <a ng-if="reg.checking" class="right">Loading</a>
-              <a ng-if="reg.done" class="right">Done</a>
-            </input>
+            <label>duolingo Username</label>
+            <input ng-model="reg.duoUser.login">
           </md-input-container>
-
-           <a class="right waves-effect btn"
+          <md-input-container class="md-block col s6">
+            <label>duolingo Password</label>
+            <input ng-model="reg.duoUser.password" type="password">
+            <a ng-if="reg.waiting" ng-click="reg.verifyDuoUser()" class="right duoButton">Check Duolingo</a>
+            <a ng-if="reg.checking" class="right duoButton">Loading</a>
+            <a ng-if="reg.done" class="right duoButton">Done</a>
+            <span ng-if="reg.duoErr" class="err">{{reg.duoErr}}</span>
+          </input>
+          </md-input-container>
+           <a class="right waves-effect btn regBtn"
            ng-click="reg.nextClicked()"
            ui-sref="registerNav.registerInterests">Next</a>
          </div>

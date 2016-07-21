@@ -21,9 +21,9 @@
       left: 12%;
     }
 
-    // .row .col.s12 {
-    //   margin-bottom: 5em;
-    // }
+    ul.right {
+      margin-top: 0em;
+    }
 
     h3 {
       font-size: 2em;
@@ -32,4 +32,9 @@
     h5.userName {
         text-align: center;
     }
+
+    i.fa.fa-plus {
+        padding: .47em;
+    }
+
 }

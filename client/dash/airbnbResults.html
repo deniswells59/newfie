@@ -1,0 +1,72 @@
+<md-dialog aria-label="Results"  ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>AirBnB Results</h2>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div
+        ng-if="results"
+        ng-repeat="res in results track by $index"
+        ng-click="newSelected($index)"
+        class="listing">
+          <img ng-src="{{res.pictureUrl}}" class="left listingImg">
+          <div class="listingInfo">
+
+            <div>
+              <h4>
+                {{res.name}}
+              </h4>
+              <strong>
+                Bedrooms -
+              </strong>
+              <span>
+                {{res.bedrooms}}
+              </span>
+            </div>
+
+            <div>
+              <strong>
+                Owner -
+              </strong>
+              <span>
+                {{res.owner}}
+              </span>
+            </div>
+          </div>
+
+          <br />
+          <br />
+          <br />
+
+          <md-checkbox
+            class="right"
+            ng-click="newSelected($index)"
+            aria-label="Checkbox"
+            ng-model="res.selected">
+            <p ng-if="!res.selected">Select?</p>
+            <p ng-if="res.selected">Selected</p>
+          </md-checkbox>
+
+          <a
+          target="_blank"
+          ng-href="https://www.airbnb.com/rooms/{{res.bnbId}}"
+          class="airButton">
+          View On AirBnB
+        </a>
+
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="closeDialog()" >
+       Cancel
+      </md-button>
+      <md-button ng-disabled="!selectedListing" ng-click="saveDialog(selectedListing)">
+        Select
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
