@@ -86,6 +86,9 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
       resolve: {
         mobile: function() {
           return _isNotMobile;
+        },
+        users: function(User) {
+          return User.getAll({query: {}, page: 0});
         }
       }
     })

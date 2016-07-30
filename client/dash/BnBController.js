@@ -6,7 +6,6 @@ function BnBController($scope, $mdDialog, AirBnB) {
 
   AirBnB.getResults()
     .then(results => {
-      console.log(results);
       $scope.results = results;
     })
 

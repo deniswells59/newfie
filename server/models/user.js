@@ -54,13 +54,17 @@ userSchema.statics.addTrip = (id, tripObj, cb) => {
         if(err) return cb(err);
         user.trip.push(trip._id);
 
-        user.save(cb);
-      });
+        user.save((err, user) => {
+          if(err) return cb(err);
+          user.trip = trip;
+          cb(null, user);
+        });
+      }).select('-password');
     });
   } else {
-    Trip.findById(tripObj._id, (err, trip) => {
-
-    })
+    Trip.findByIdAndUpdate(tripObj._id, tripObj, () => {
+      User.findById(id, cb).select('-password').populate('trip');
+    });
   }
 }
 

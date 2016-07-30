@@ -3,15 +3,13 @@
   <br />
   <h6>User Types</h6>
   <ul class="sideNav">
-    <li>All(3)</li>
-    <li>Guides(2)</li>
-    <li>Users(1)</li>
+    <li>All({{users.length}})</li>
+    <li ng-if="counts.guide">Guides({{counts.guide}})</li>
+    <li ng-if="counts.user">Users({{counts.user}})</li>
   </ul>
   <h6>Interests/Expertise</h6>
   <ul>
-    <li>Food(2)</li>
-    <li>Nature(2)</li>
-    <li>Party Life(2)</li>
+    <li ng-repeat="topic in topics">{{topic}} ({{counts.topic[topic]}})</li>
   </ul>
 </div>
 

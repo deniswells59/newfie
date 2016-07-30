@@ -7,16 +7,16 @@ import User from '../models/user';
 
 router.use('/validate',  require('./validate'));
 
-router.get('/', (req, res) => {
-  User.find({}, (err, users) => {
+router.put('/', (req, res) => {
+  User.find(req.body.query, (err, users) => {
     res.status(err ? 400 : 200).send(err || users);
-  });
+  }).limit(10).skip(req.body.page * 10).populate('trip');
 });
 
 router.get('/check', User.auth(), (req, res) => {
   User.findById(req.user, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
-  }).populate('trip');
+  }).populate('trip').select('-password');
 });
 
 router.post('/authenticate', (req, res) => {

@@ -4,6 +4,13 @@ app.service('User', function($http, $state) {
 
   this.currentUser = {};
 
+  this.getAll = (selectObj) => {
+    return $http.put('api/users', selectObj)
+      .then(res => {
+        return res.data;
+      })
+  }
+
   this.storeUser = (user) => {
     this.currentUser = user;
   }
