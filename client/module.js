@@ -82,7 +82,12 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
     .state('connect', {
       url: '/connect',
       templateUrl: '/html/connect/connect.html',
-      controller: 'connectCtrl'
+      controller: 'connectCtrl',
+      resolve: {
+        mobile: function() {
+          return _isNotMobile;
+        }
+      }
     })
 
     $urlRouterProvider.otherwise('/');

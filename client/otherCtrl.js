@@ -2,7 +2,15 @@
 
 // var app = angular.module('myApp');
 
-app.controller('mainCtrl', function($scope, $state, $auth, User) {
+app.controller('mainCtrl', function($scope, $state, $mdDialog, $auth, User) {
+
+  $scope.openDialog = ($event) => {
+    $mdDialog.show({
+          targetEvent: $event,
+          templateUrl: '../html/landing/login.html',
+          controller: 'mainCtrl'
+        });
+  }
 
   $scope.isAuthenticated = () => {
     return $auth.isAuthenticated();
@@ -12,15 +20,30 @@ app.controller('mainCtrl', function($scope, $state, $auth, User) {
     $auth.authenticate(provider)
       .then(res => {
         User.storeUser(res.data.user);
+        $mdDialog.hide();
         if(!res.data.user.registered) {
-          $('#modal1').closeModal();
           $state.go('registerNav.registerLang');
+        } else {
+          $state.go('dashboard');
         }
       })
       .catch(err => {
         console.log('err', err);
       })
   };
+
+  $scope.loginUser = () => {
+    $auth.login($scope.login)
+      .then(res => {
+        User.storeUser(res.data.user);
+        $mdDialog.hide();
+        if(!res.data.user.registered) {
+          $state.go('registerNav.registerLang');
+        } else {
+          $state.go('dashboard');
+        }
+      })
+  }
 
   $scope.logout = () => {
     $auth.logout();
@@ -29,12 +52,7 @@ app.controller('mainCtrl', function($scope, $state, $auth, User) {
 });
 
 app.controller('loginCtrl', function($scope, User, $state) {
-  $scope.loginUser = () => {
-    User.login($scope.log)
-      .then(() => {
-        $state.go('home');
-      });
-  };
+  console.log('yo');
 });
 
 app.controller('homeCtrl', function($scope) {
