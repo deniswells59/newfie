@@ -59,7 +59,7 @@ userSchema.statics.addTrip = (id, tripObj, cb) => {
     });
   } else {
     Trip.findById(tripObj._id, (err, trip) => {
-      
+
     })
   }
 }

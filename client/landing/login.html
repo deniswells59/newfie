@@ -1,0 +1,31 @@
+<md-dialog>
+  <h4 class="center">Login</h4>
+  <div class="btn-group">
+    <a class="waves-effect waves-light btn col s4"
+      ng-click="authenticate('facebook')">
+      Facebook Login
+    </a>
+    <a class="waves-effect waves-light btn col s4"
+      ng-click="authenticate('google')">
+      Google Login
+    </a>
+  </div>
+
+  <hr />
+
+  <h5 class="center">Or Login with Email</h5>
+
+  <form>
+    <md-input-container>
+      <label>Email</label>
+      <input ng-model="login.email" type="email">
+    </md-input-container>
+    <md-input-container>
+      <label>Password</label>
+      <input ng-model="login.password" type="password">
+    </md-input-container>
+    <a class="login right"
+       ng-click="loginUser()">Enter</a>
+  </form>
+
+</md-dialog>

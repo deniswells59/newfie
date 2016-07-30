@@ -1,6 +1,7 @@
 import request from 'request';
 import qs from 'querystring';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 import User from '../models/user';
 
@@ -147,6 +148,36 @@ export default class Auth {
         }
       });
     });
+  }
+
+  static login(req, res) {
+    let user = req.body;
+    User.findOne({ email: user.email }, (err, existingUser) => {
+      if(existingUser) {
+        bcrypt.compare(user.password, existingUser.password, (err, authenticated) => {
+          if(!authenticated) return res.status(401).send('Incorrect Password');
+          const token = user.generateToken();
+          res.send({
+            token,
+            user: existingUser
+          })
+        });
+      } else {
+        bcrypt.hash(req.body.password, 11, (err, hash) => {
+          User.create({
+            email: req.body.email,
+            password: hash
+          }, (err, user) => {
+            if(err) return res.status(400).send(err);
+            const token = user.generateToken();
+            res.send({
+              token,
+              user: user
+            })
+          })
+        });
+      }
+    })
   }
 
 

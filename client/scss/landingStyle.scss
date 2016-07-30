@@ -98,3 +98,26 @@ img.logoImage {
     background-color: #364252;
     color: #e4e7ec;
 }
+
+md-dialog#dialogContent_2 {
+    width: 30%;
+    padding: 20px;
+}
+
+h4.center {
+    margin-bottom: 40px;
+}
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+    width: 90%;
+}
+
+a.login {
+  width: 16%;
+    border: 1px solid;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}

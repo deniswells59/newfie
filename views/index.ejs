@@ -36,7 +36,7 @@
             <li><a ui-sref="connect">Connect</a></li>
           </ul>
           <ul class="right">
-            <li ng-if="!isAuthenticated()"><a data-target="modal1" class="modal-trigger">Login</a></li>
+            <li ng-if="!isAuthenticated()"><a data-target="modal1" ng-click="openDialog($event)">Login</a></li>
             <li ng-if="isAuthenticated()"><a ui-sref="dashboard">Profile</a></li>
             <li ng-if="isAuthenticated()"><a ng-click="logout()">Logout</a></li>
           </ul>
@@ -46,22 +46,7 @@
 
     <ui-view></ui-view>
 
-    <div id="modal1" class="modal">
-      <div class="modal-action modal-close right">X</div>
-      <div class="modal-content row">
-        <h4 class="center">Login</h4>
-        <div class="btn-group">
-          <a class="waves-effect waves-light btn col s8 offset-s2"
-             ng-click="authenticate('facebook')">
-             Facebook Login
-          </a>
-          <a class="waves-effect waves-light btn col s8 offset-s2"
-             ng-click="authenticate('google')">
-             Google Login
-          </a>
-        </div>
-      </div>
-    </div>
+
 
 
   </body>
