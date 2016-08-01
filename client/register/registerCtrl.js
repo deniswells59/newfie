@@ -39,6 +39,8 @@ function
   self.searchTerm;
   self.customInterest = '';
 
+  console.log(self.user);
+
   function nextClicked(bool) {
     if (self.selectedLangs.length) {
       User.saveLangs(self.selectedLangs);
@@ -137,6 +139,6 @@ function
     }
 
   function confirmUser() {
-    User.confirm()
+    User.confirm(self.regName);
   }
 };

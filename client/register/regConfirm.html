@@ -2,8 +2,16 @@
   <div class="col s12 m10 offset-m1">
     <h4>Is this You?</h4>
     <div class="center">
-      <img ng-src="{{reg.user.img}}" alt="" class="circle center">
-      <h1>{{reg.user.name}}</h1>
+      <img ng-if="reg.user.img" ng-src="{{reg.user.img}}" class="circle center">
+      <img ng-if="!reg.user.img" src="../../assets/default-profile.png" class="circle center">
+      <h1 ng-if="reg.user.name">{{reg.user.name}}</h1>
+      <div ng-if="!reg.user.name">
+        <p>Oh, and you're name?</p>
+        <md-input-container>
+        <label>Name</label>
+        <input ng-model="reg.regName">
+      </md-input-container>
+      </div>
     </div>
 
     <div class="col s12 m4">
@@ -47,7 +55,7 @@
       </div>
     </div>
 
-    <a class="btn" ng-click="reg.confirmUser()">Done</a>
+    <button class="btn right" ng-disabled="!reg.user.name && !reg.regName" ng-click="reg.confirmUser()">Done</button>
 
   </div>
 </div>

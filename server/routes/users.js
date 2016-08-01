@@ -7,10 +7,14 @@ import User from '../models/user';
 
 router.use('/validate',  require('./validate'));
 
-router.put('/', (req, res) => {
+router.put('/', User.check(), (req, res) => {
+  let userId = req.user ? req.user._id : null;
   User.find(req.body.query, (err, users) => {
     res.status(err ? 400 : 200).send(err || users);
-  }).limit(10).skip(req.body.page * 10).populate('trip');
+  }).limit(10)
+    .skip(req.body.page * 10)
+    .populate('trip')
+    .ne('_id', userId);
 });
 
 router.get('/check', User.auth(), (req, res) => {
