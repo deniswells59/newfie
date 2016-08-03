@@ -77,7 +77,7 @@ userSchema.statics.register = (id, updateObj, cb) => {
     user.location = updateObj.location;
     user.registered = true;
     if(updateObj.name) user.name = updateObj.name;
-    if(!user.img) user.img = '../../assets/default-profile.png';
+    if(!user.img) user.img = '../..//assets/default-profile.png';
     user = user.getScore(user);
 
     user.save(cb);
