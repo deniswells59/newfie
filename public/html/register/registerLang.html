@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col s12 m10 offset-m1">
+    <h3>Languages You Speak</h3>
+    <div layout="column" ng-cloak>
+      <md-content class="md-padding">
+        <form ng-submit="$event.preventDefault()">
+          <p>Create a list of the languages you can speak using this search bar.</p>
+          <md-autocomplete
+            md-no-cache="reg.noCache"
+            md-selected-item="reg.selectedItem"
+            md-search-text="reg.searchText"
+            md-selected-item-change="reg.selectedItemChange(item)"
+            md-items="item in reg.querySearch(reg.searchText)"
+            md-item-text="item.name"
+            md-min-length="0"
+            placeholder="What languages do you speak?">
+            <md-item-template>
+              <span class="left">
+                <span class="englishName" md-highlight-text="reg.searchText" md-highlight-flags="^i">{{item.name}}</span>
+              </span>
+              <span class="right">
+                <span md-highlight-flags="^i">{{item.nativeName}}</span>
+              </span>
+            </md-item-template>
+            <md-not-found>
+              No languages matching "{{reg.searchText}}" were found.
+            </md-not-found>
+          </md-autocomplete>
+          <br/>
+          <div ng-if="!reg.selectedLangs.length"
+          class="helperText"> Select at least one language! </div>
+          <div class="card animate-if" ng-if="reg.selectedLangs.length">
+            <p class="card-title">Selected </p>
+            <div class="card-action">
+              <div class="langBox animate-repeat" ng-repeat="lang in reg.selectedLangs track by $index">
+                <md-list-item class="secondary-button-padding">
+                  <p class="langText">{{lang.name}}</p>
+                  <md-button class="md-secondary"
+                    aria-label="close"
+                    ng-click="reg.removeLang(lang.name)"
+                    aria-hidden="true">
+                    <i class="fa fa-times cancelLang" aria-hidden="true"></i>
+                  </md-button>
+                </md-list-item>
+              </div>
+            </div>
+          </div>
+          <div ng-if="reg.selectedLangs.length" class="boxie">
+            <h3>Verify With
+              <img src="../..//assets/duolingo.png" class="duoLogo">
+            </h3>
+           <md-input-container class="md-block col s6">
+            <label>duolingo Username</label>
+            <input ng-model="reg.duoUser.login">
+          </md-input-container>
+          <md-input-container class="md-block col s6">
+            <label>duolingo Password</label>
+            <input ng-model="reg.duoUser.password" type="password">
+            <a ng-if="reg.waiting" ng-click="reg.verifyDuoUser()" class="right duoButton">Check Duolingo</a>
+            <a ng-if="reg.checking" class="right duoButton">Loading</a>
+            <a ng-if="reg.done" class="right duoButton">Done</a>
+            <span ng-if="reg.duoErr" class="err">{{reg.duoErr}}</span>
+          </input>
+          </md-input-container>
+           <a class="right waves-effect btn regBtn"
+           ng-click="reg.nextClicked()"
+           ui-sref="registerNav.registerInterests">Next</a>
+         </div>
+        </form>
+      </md-content>
+    </div>
+  </div>
+</div>

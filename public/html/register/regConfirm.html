@@ -1,0 +1,61 @@
+<div class="row" ng-controller="registerCtrl as reg">
+  <div class="col s12 m10 offset-m1">
+    <h4>Is this You?</h4>
+    <div class="center">
+      <img ng-if="reg.user.img" ng-src="{{reg.user.img}}" class="circle center">
+      <img ng-if="!reg.user.img" src="../..//assets/default-profile.png" class="circle center">
+      <h1 ng-if="reg.user.name">{{reg.user.name}}</h1>
+      <div ng-if="!reg.user.name">
+        <p>Oh, and you're name?</p>
+        <md-input-container>
+        <label>Name</label>
+        <input ng-model="reg.regName">
+      </md-input-container>
+      </div>
+    </div>
+
+    <div class="col s12 m4">
+      <div class="card">
+        <span class="card-title">
+          Languages
+        </span>
+        <div class="card-action">
+          <div ng-repeat="lang in reg.user.languages">
+            <p>{{lang.name}}
+              <i ng-if="lang.verified" class="fa fa-check" aria-hidden="true"></i>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 m4">
+      <div class="card">
+        <span class="card-title">
+          Interests
+        </span>
+        <div class="card-action">
+          <div ng-repeat="int in reg.user.interests">
+            <p>{{int}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 m4">
+      <div class="card">
+        <span class="card-title">
+          Location
+        </span>
+        <div class="card-action">
+          <div>
+            <p>{{reg.user.location.location}}
+              <i ng-if="reg.user.location.verified" class="fa fa-check" aria-hidden="true"></i>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn right" ng-disabled="!reg.user.name && !reg.regName" ng-click="reg.confirmUser()">Done</button>
+
+  </div>
+</div>

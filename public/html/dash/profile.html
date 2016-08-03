@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <p>Travel Interests</p>
+        <div class="divider"></div>
+        <p ng-repeat="int in user.interests" class="section">
+          {{int}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <p>Languages</p>
+        <div class="divider"></div>
+        <p ng-repeat="lang in user.languages" class="section">
+          {{lang.name}}
+          <span ng-if="lang.level" class="right">
+            Level: {{lang.level}}
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <p>Location</p>
+        <div class="divider"></div>
+        <p class="section">
+          {{user.location.location}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col s12">
+    <div class="card">
+      <div class="card-content">
+        <p>Bio</p>
+        <div class="divider"></div>
+        <p class="section">
+          Yo
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
