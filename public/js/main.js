@@ -335,144 +335,6 @@ function connectCtrl($scope, User, mobile, users) {
 }
 'use strict';
 
-app.controller('BnBController', BnBController);
-
-function BnBController($scope, $mdDialog, AirBnB) {
-  var _this = this;
-
-  $scope.selectedListing = {};
-  this.index = 0;
-
-  AirBnB.getResults().then(function (results) {
-    $scope.results = results;
-  });
-
-  $scope.newSelected = function (index) {
-    $scope.results[_this.index].selected = false;
-    $scope.results[index].selected = true;
-    $scope.selectedListing = $scope.results[index];
-    _this.index = index;
-  };
-
-  $scope.saveDialog = function (listing) {
-    $mdDialog.hide(listing);
-  };
-
-  $scope.closeDialog = function () {
-    $mdDialog.cancel();
-  };
-}
-'use strict';
-
-app.controller('dashCtrl', dashCtrl);
-
-function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDialog, $mdMedia) {
-  console.log(user);
-  if (!user) {
-    $state.go('home');
-  }
-  if (!user.registered) {
-    $state.go('registerNav.registerLang');
-  }
-  if (user.trip[0]) {
-    $scope.expertise = user.trip[0].expertise;
-  } else {
-    $scope.expertise = [];
-  }
-
-  var self = this;
-
-  $scope.user = user;
-  $scope.loading = false;
-  $scope.pending = false;
-  $scope.city = 'Click on the map to add new places';
-  $scope.$watch('selectedTab', function (current, old) {
-    switch (current) {
-      case 0:
-        $location.url("/dash/profile");
-        break;
-      case 1:
-        if (user.type === 'Guide') {
-          $location.url("/dash/guide");
-        } else {
-          $location.url("/dash/guide/intro");
-        }
-        break;
-      case 2:
-        $location.url("/dash/places");
-        break;
-    }
-  });
-
-  $scope.getLocation = function (event) {
-    if (!$scope.pending) {
-      $scope.loading = true;
-      self.location = {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng()
-      };
-      $scope.user.places.push(self.location);
-      Location.getCity(self.location).then(function (res) {
-        $scope.city = res;
-        if (res !== 'Cant find a city there...') {
-          $scope.pending = true;
-          $scope.loading = false;
-          self.location.name = res;
-        } else {
-          $scope.user.places.pop();
-        }
-      });
-    }
-  };
-
-  $scope.savePlace = function () {
-    $scope.city = 'Click on the map to add new places';
-    $scope.pending = false;
-    User.savePlace(self.location);
-  };
-
-  $scope.cancelPlace = function () {
-    $scope.user.places.pop();
-    $scope.pending = false;
-    $scope.city = 'Click on the map to add new places';
-  };
-
-  $scope.newGuide = function () {
-    User.becomeGuide().then(function () {
-      $scope.user.type = "Guide";
-      $location.url("/dash/guide");
-    });
-  };
-
-  $scope.showAdvanced = function (ev) {
-    if (!$scope.user.trip[0]) return $scope.err = 'Enter a location above!';
-    $scope.err = null;
-    var useFullScreen = $mdMedia('sm') || $mdMedia('xs');
-    AirBnB.saveLocation($scope.user.trip[0].location);
-    $mdDialog.show({
-      controller: BnBController,
-      templateUrl: '../html/dash/airbnbResults.html',
-      parent: angular.element(document.body),
-      targetEvent: ev,
-      clickOutsideToClose: true,
-      fullscreen: useFullScreen
-    }).then(function (listing) {
-      $scope.user.trip[0].airBnB = listing;
-    }, function () {
-      console.log('Cancelled');
-    });
-  };
-
-  $scope.saveGuide = function () {
-    $scope.user.trip[0].expertise = $scope.expertise;
-    User.saveGuide($scope.user.trip[0]).then(function (newUser) {
-      console.log(newUser);
-      $scope.user = newUser;
-    });
-  };
-}
-'use strict';
-
 app.directive('loadingImage', function () {
   return function (scope, element, a, con) {
     element.bind('load', function () {
@@ -665,3 +527,141 @@ function registerCtrl($timeout, $q, $log, $scope, $state, $auth, User, DuoLingo,
     User.confirm(self.regName);
   }
 };
+'use strict';
+
+app.controller('BnBController', BnBController);
+
+function BnBController($scope, $mdDialog, AirBnB) {
+  var _this = this;
+
+  $scope.selectedListing = {};
+  this.index = 0;
+
+  AirBnB.getResults().then(function (results) {
+    $scope.results = results;
+  });
+
+  $scope.newSelected = function (index) {
+    $scope.results[_this.index].selected = false;
+    $scope.results[index].selected = true;
+    $scope.selectedListing = $scope.results[index];
+    _this.index = index;
+  };
+
+  $scope.saveDialog = function (listing) {
+    $mdDialog.hide(listing);
+  };
+
+  $scope.closeDialog = function () {
+    $mdDialog.cancel();
+  };
+}
+'use strict';
+
+app.controller('dashCtrl', dashCtrl);
+
+function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDialog, $mdMedia) {
+  console.log(user);
+  if (!user) {
+    $state.go('home');
+  }
+  if (!user.registered) {
+    $state.go('registerNav.registerLang');
+  }
+  if (user.trip[0]) {
+    $scope.expertise = user.trip[0].expertise;
+  } else {
+    $scope.expertise = [];
+  }
+
+  var self = this;
+
+  $scope.user = user;
+  $scope.loading = false;
+  $scope.pending = false;
+  $scope.city = 'Click on the map to add new places';
+  $scope.$watch('selectedTab', function (current, old) {
+    switch (current) {
+      case 0:
+        $location.url("/dash/profile");
+        break;
+      case 1:
+        if (user.type === 'Guide') {
+          $location.url("/dash/guide");
+        } else {
+          $location.url("/dash/guide/intro");
+        }
+        break;
+      case 2:
+        $location.url("/dash/places");
+        break;
+    }
+  });
+
+  $scope.getLocation = function (event) {
+    if (!$scope.pending) {
+      $scope.loading = true;
+      self.location = {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng()
+      };
+      $scope.user.places.push(self.location);
+      Location.getCity(self.location).then(function (res) {
+        $scope.city = res;
+        if (res !== 'Cant find a city there...') {
+          $scope.pending = true;
+          $scope.loading = false;
+          self.location.name = res;
+        } else {
+          $scope.user.places.pop();
+        }
+      });
+    }
+  };
+
+  $scope.savePlace = function () {
+    $scope.city = 'Click on the map to add new places';
+    $scope.pending = false;
+    User.savePlace(self.location);
+  };
+
+  $scope.cancelPlace = function () {
+    $scope.user.places.pop();
+    $scope.pending = false;
+    $scope.city = 'Click on the map to add new places';
+  };
+
+  $scope.newGuide = function () {
+    User.becomeGuide().then(function () {
+      $scope.user.type = "Guide";
+      $location.url("/dash/guide");
+    });
+  };
+
+  $scope.showAdvanced = function (ev) {
+    if (!$scope.user.trip[0]) return $scope.err = 'Enter a location above!';
+    $scope.err = null;
+    var useFullScreen = $mdMedia('sm') || $mdMedia('xs');
+    AirBnB.saveLocation($scope.user.trip[0].location);
+    $mdDialog.show({
+      controller: BnBController,
+      templateUrl: '../html/dash/airbnbResults.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: true,
+      fullscreen: useFullScreen
+    }).then(function (listing) {
+      $scope.user.trip[0].airBnB = listing;
+    }, function () {
+      console.log('Cancelled');
+    });
+  };
+
+  $scope.saveGuide = function () {
+    $scope.user.trip[0].expertise = $scope.expertise;
+    User.saveGuide($scope.user.trip[0]).then(function (newUser) {
+      console.log(newUser);
+      $scope.user = newUser;
+    });
+  };
+}
