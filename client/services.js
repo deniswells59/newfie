@@ -4,6 +4,13 @@ app.service('User', function($http, $state) {
 
   this.currentUser = {};
 
+  this.getAll = (selectObj) => {
+    return $http.put('api/users', selectObj)
+      .then(res => {
+        return res.data;
+      })
+  }
+
   this.storeUser = (user) => {
     this.currentUser = user;
   }
@@ -53,12 +60,14 @@ app.service('User', function($http, $state) {
     }
   }
 
-  this.confirm = () => {
+  this.confirm = (name) => {
     const updateObj = {
       languages: this.currentUser.languages,
       interests: this.currentUser.interests,
       location: this.currentUser.location
     }
+
+    if(name) updateObj.name = name;
 
     $http.put('/api/users/register', updateObj)
       .then(user => {

@@ -54,13 +54,17 @@ userSchema.statics.addTrip = (id, tripObj, cb) => {
         if(err) return cb(err);
         user.trip.push(trip._id);
 
-        user.save(cb);
-      });
+        user.save((err, user) => {
+          if(err) return cb(err);
+          user.trip = trip;
+          cb(null, user);
+        });
+      }).select('-password');
     });
   } else {
-    Trip.findById(tripObj._id, (err, trip) => {
-
-    })
+    Trip.findByIdAndUpdate(tripObj._id, tripObj, () => {
+      User.findById(id, cb).select('-password').populate('trip');
+    });
   }
 }
 
@@ -72,6 +76,8 @@ userSchema.statics.register = (id, updateObj, cb) => {
     user.interests = updateObj.interests;
     user.location = updateObj.location;
     user.registered = true;
+    if(updateObj.name) user.name = updateObj.name;
+    if(!user.img) user.img = '../../assets/default-profile.png';
     user = user.getScore(user);
 
     user.save(cb);
@@ -98,6 +104,25 @@ userSchema.statics.auth = role => {
       }).select('-password').populate('trip companion');
     });
   };
+};
+
+userSchema.statics.check = () => {
+  return (req, res, next) => {
+    if(!req.header('Authorization')) {
+      return next();
+    }
+
+    const token = req.header('Authorization').split(' ')[1];
+    jwt.verify(token, JWT_SECRET, (err, payload) => {
+      if(err) return next();
+      User.findById(payload._id, (err, user) => {
+        if(err) return res.status(401).send(err);
+        req.user = user;
+
+        next();
+      }).select('_id');
+    })
+  }
 };
 
 userSchema.statics.authenticate = (userObj, cb) => {

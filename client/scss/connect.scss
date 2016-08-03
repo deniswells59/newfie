@@ -4,3 +4,49 @@
     border-radius: 25px;
     margin-left: 2em;
 }
+
+ul.card-panel {
+    background-color: #6d819c;
+    color: white;
+}
+
+h6.cardHeader {
+    font-size: 1.4em;
+    text-decoration: none;
+}
+
+.card-image {
+    display: inline-block;
+    height: 100px;
+    width: 100px;
+}
+
+.userInfo {
+    position: absolute;
+    left: 8em;
+    bottom: .2em;
+}
+
+.row .col.s9 {
+    margin-top: 8em;
+}
+
+span.connectTabs{
+    background-color: lightgray;
+    border-radius: 10px;
+    padding: 3px;
+    padding-left: 6px;
+    margin: 2px;
+}
+
+.connectRow {
+    margin-bottom: 1em;
+}
+
+span.connectRight {
+    margin-left: 2em;
+}
+
+.connectName {
+    font-weight: 900;
+}

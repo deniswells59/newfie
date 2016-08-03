@@ -95,7 +95,7 @@ function
       fullscreen: useFullScreen
     })
     .then(listing => {
-      $scope.user.trip[0].airBnB[0] = listing;
+      $scope.user.trip[0].airBnB = listing;
     }, () => {
       console.log('Cancelled');
     });
@@ -105,6 +105,7 @@ function
     $scope.user.trip[0].expertise = $scope.expertise;
     User.saveGuide($scope.user.trip[0])
       .then(newUser => {
+        console.log(newUser);
         $scope.user = newUser;
       });
   }
