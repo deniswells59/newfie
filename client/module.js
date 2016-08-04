@@ -92,6 +92,19 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
         }
       }
     })
+    .state('profileView', {
+      url: '/profile/:id',
+      templateUrl: '/html/profile/profile.html',
+      controller: 'profileCtrl',
+      resolve: {
+        profile: function(User, $stateParams) {
+          return User.getOne($stateParams.id)
+            .then(res => {
+              return res.data;
+            });
+        }
+      }
+    })
 
     $urlRouterProvider.otherwise('/');
 

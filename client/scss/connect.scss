@@ -15,7 +15,8 @@ h6.cardHeader {
     text-decoration: none;
 }
 
-.card-image {
+.card-image.connectImg {
+    padding: 5px;
     display: inline-block;
     height: 100px;
     width: 100px;

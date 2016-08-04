@@ -11,6 +11,10 @@ app.service('User', function($http, $state) {
       })
   }
 
+  this.getOne = (id) => {
+    return $http.get(`api/users/one/${id}`);
+  }
+
   this.storeUser = (user) => {
     this.currentUser = user;
   }
