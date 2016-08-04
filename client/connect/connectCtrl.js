@@ -17,7 +17,7 @@ function connectCtrl($scope, User, mobile, users) {
         counts.user ? counts.user++ : counts.user = 1;
       }
       if(user.trip.length) {
-        user.trip[0].expertise.forEach(topic => {
+        user.interests.forEach(topic => {
           counts.topic[topic] ? counts.topic[topic]++ : counts.topic[topic] = 1;
         })
       }

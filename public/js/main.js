@@ -83,6 +83,17 @@ app.config(function ($stateProvider, $urlRouterProvider, $authProvider) {
         return User.getAll({ query: {}, page: 0 });
       }
     }
+  }).state('profileView', {
+    url: '/profile/:id',
+    templateUrl: '/html/profile/profile.html',
+    controller: 'profileCtrl',
+    resolve: {
+      profile: function profile(User, $stateParams) {
+        return User.getOne($stateParams.id).then(function (res) {
+          return res.data;
+        });
+      }
+    }
   });
 
   $urlRouterProvider.otherwise('/');
@@ -163,6 +174,10 @@ app.service('User', function ($http, $state) {
     return $http.put('api/users', selectObj).then(function (res) {
       return res.data;
     });
+  };
+
+  this.getOne = function (id) {
+    return $http.get('api/users/one/' + id);
   };
 
   this.storeUser = function (user) {
@@ -322,7 +337,7 @@ function connectCtrl($scope, User, mobile, users) {
         counts.user ? counts.user++ : counts.user = 1;
       }
       if (user.trip.length) {
-        user.trip[0].expertise.forEach(function (topic) {
+        user.interests.forEach(function (topic) {
           counts.topic[topic] ? counts.topic[topic]++ : counts.topic[topic] = 1;
         });
       }
@@ -521,6 +536,15 @@ function navState($window, state, element) {
     element[0].style.backgroundColor = '#55967e';
   }
 };
+'use strict';
+
+app.controller('profileCtrl', profileCtrl);
+
+function profileCtrl(profile, $scope) {
+  var self = this;
+
+  $scope.profile = profile;
+}
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };

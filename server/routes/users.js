@@ -23,6 +23,12 @@ router.get('/check', User.auth(), (req, res) => {
   }).populate('trip').select('-password');
 });
 
+router.get('/one/:id', (req, res) => {
+  User.findById(req.params.id, (err, user) => {
+    res.status(err ? 400 : 200).send(err || user);
+  }).populate('trip').select('-password');
+})
+
 router.post('/authenticate', (req, res) => {
   User.authenticate(req.body, (err, token) => {
     if(err) {
