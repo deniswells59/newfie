@@ -154,3 +154,9 @@ app.service('AirBnB', function($http) {
       .catch(err => console.log('err', err));
   }
 });
+
+app.service('Companion', function($http) {
+  this.sendRequest = (profileId) => {
+    return $http.post('/api/users/request', { companionId: profileId });
+  }
+});

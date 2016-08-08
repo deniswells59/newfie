@@ -79,6 +79,12 @@ router.post('/companion', User.auth(), (req, res) => {
   });
 });
 
+router.post('/request', User.auth(), (req, res) => {
+  User.sendRequest(req.user._id, req.body.companionId, (err, user) => {
+    res.status(err ? 400 : 200).send(err || user);
+  });
+});
+
 router.post('/messages', User.auth(), (req, res) => {
   User.newMessage(req.user._id, req.body, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);

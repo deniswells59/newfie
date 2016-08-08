@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema({
   score: Number,
   interests: [{type: String }],
   companions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  requests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   trip: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
   google: String,
   facebook: String
@@ -142,11 +143,18 @@ userSchema.statics.authenticate = (userObj, cb) => {
   });
 };
 
+userSchema.statics.sendRequest = (userId, requestId, cb) => {
+  User.findById(requestId, (err, user) => {
+    if(user.companions.indexOf(userId) !== -1) return cb('Already Friends!');
+
+    user.requests.push(userId);
+    user.save(cb);
+  });
+}
+
 userSchema.statics.addCompanion = (userId, companionId, cb) => {
   User.findById(userId, (err, user) => {
-    if(user.companions.indexOf(companionId)) {
-      return cb('Already Friends!');
-    }
+    if(user.companions.indexOf(companionId) !== -1) return cb('Already Friends!');
 
     user.companions.push(companionId);
     user.save(cb);
