@@ -171,6 +171,14 @@ userSchema.statics.newMessage = (authorId, messageObj, cb) => {
   });
 }
 
+userSchema.statics.read = (messageId) => {
+  Message.findById(messageId, (err, message) => {
+    if(err) return cb(err);
+    message.new = false;
+    message.save(cb);
+  })
+}
+
 userSchema.methods.getScore = (user) => {
   let score = 0;
 

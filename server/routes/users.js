@@ -80,8 +80,14 @@ router.post('/companion', User.auth(), (req, res) => {
 });
 
 router.post('/messages', User.auth(), (req, res) => {
-  User.newMessage(req.user._id, req.body, (res, res) => {
+  User.newMessage(req.user._id, req.body, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
+  });
+});
+
+router.put('/read', User.auth(), (req, res) => {
+  User.readMessage(req.body._id, (err, message) => {
+    res.status(err ? 400 : 200).send(err || message);
   });
 });
 
