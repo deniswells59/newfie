@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import moment from 'moment';
 import jwt from 'jsonwebtoken';
 import Trip from './trip';
+import Message from './message';
 
 if(process.env.TESTING){
   var JWT_SECRET='testing!';
@@ -140,6 +141,35 @@ userSchema.statics.authenticate = (userObj, cb) => {
     });
   });
 };
+
+userSchema.statics.addCompanion = (userId, companionId, cb) => {
+  User.findById(userId, (err, user) => {
+    if(user.companions.indexOf(companionId)) {
+      return cb('Already Friends!');
+    }
+
+    user.companions.push(companionId);
+    user.save(cb);
+  });
+}
+
+userSchema.statics.newMessage = (authorId, messageObj, cb) => {
+  let message = new Message({
+    author: authorId,
+    content: messageObj.content
+  });
+
+  message.save((err, message) => {
+    if(err) return cb(err);
+
+    User.findById(messageObj._id, (err, user) => {
+      if(err) return cb(err);
+
+      user.messages.push(message._id);
+      user.save(cb);
+    });
+  });
+}
 
 userSchema.methods.getScore = (user) => {
   let score = 0;
