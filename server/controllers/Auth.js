@@ -156,7 +156,7 @@ export default class Auth {
       if(existingUser) {
         bcrypt.compare(user.password, existingUser.password, (err, authenticated) => {
           if(!authenticated) return res.status(401).send('Incorrect Password');
-          const token = user.generateToken();
+          const token = existingUser.generateToken();
           res.send({
             token,
             user: existingUser

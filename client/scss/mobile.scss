@@ -1,8 +1,4 @@
 @media only screen and (max-device-width: 480px) {
-    // .bar {
-    //   display: none;
-    // }
-
     img.responsive-img.landingImage {
         margin-top: 0;
         max-width: 350%;
@@ -46,5 +42,8 @@
         margin-bottom: 15px;
     }
 
+    .guideCard {
+        padding-bottom: 70px;
+    }
 
 }

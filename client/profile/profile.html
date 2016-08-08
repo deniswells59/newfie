@@ -6,11 +6,85 @@
           <img ng-src="{{profile.img}}">
         </div>
       </div>
+
+      <a class="btn col s12">
+        <i class="fa fa-comment contactButton" aria-hidden="true"></i>
+        <span ng-if="notMobile">Send Message</span>
+      </a>
+      <a class="btn col s12">
+        <i class="fa fa-paper-plane contactButton" aria-hidden="true"></i>
+        <span ng-if="notMobile">Send Friend Request</span>
+      </a>
     </div>
 
     <div class="col s12 m9">
-      <h4 class="userName">{{profile.name}}</h4>
-      <h5>Score - {{profile.score}}</h5>
+      <h4 class="heading">{{profile.name}}</h4>
+      <h5 class="heading">Score - {{profile.score}}</h5>
+      <div class="card">
+        <div class="card-content">
+          <p class="bold">Languages</p>
+          <div class="divider"></div>
+          <p ng-repeat="lang in profile.languages" class="section">
+            {{lang.name}}
+            <span ng-if="lang.level" class="right">
+              Level: {{lang.level}}
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="card guideCard" ng-if="profile.type === 'Guide'">
+        <div class="card-content">
+          <p class="bold">Trip</p>
+          <div class="divider"></div>
+          <p class="section bold">
+            Where
+          </p>
+          <span>
+            {{trip.location}}
+          </span>
+          <p class="section bold">
+            The Plan
+          </p>
+          <span>
+            {{trip.plan}}
+          </span>
+          <span ng-if="trip.airBnB">
+            <p class="section bold">
+              Suggested AirBnB
+            </p>
+            <span>
+              {{trip.airBnB.name}}
+              <img class="bnbListing responsive-img" ng-src="{{trip.airBnB.pictureUrl}}">
+            </span>
+            <a
+            ng-href="https://www.airbnb.com/rooms/{{trip.airBnB.bnbId}}"
+            class="right checkButton col s12 m3 center">Check it Out</a>
+          </span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-content">
+          <p>Bio</p>
+          <div class="divider"></div>
+          <p class="section">
+            Yo
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12">
+      <h5>Where {{profile.name}} Has Been</h5>
+
+      <ng-map default-style="false" zoom="2"
+        center="49.905249238801304, -127.3370361328125">
+      <marker ng-if="profile.places"
+        ng-repeat="place in profile.places"
+        position="{{place.lat}}, {{place.lng}}"
+        title="Place!"></marker>
+      </ng-map>
     </div>
   </div>
 </div>

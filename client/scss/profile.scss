@@ -1,0 +1,27 @@
+a.btn.col.s12 {
+    margin-top: 1em;
+}
+
+img.bnbListing {
+  border-radius: 12px;
+}
+
+.bold {
+  font-family: 'Merriweather Sans', sans-serif;
+  font-weight: 900;
+}
+
+.heading {
+  font-family: 'Roboto', sans-serif;
+}
+
+a.right.checkButton {
+  border: 1px solid;
+  padding: 1em;
+  border-radius: 15px;
+}
+
+a.right.checkButton:hover, a.right.checkButton:active {
+  background-color: rgba(#72bfe6, 1);
+  color: #FFFFFF;
+}

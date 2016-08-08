@@ -92,6 +92,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $authProvider) {
         return User.getOne($stateParams.id).then(function (res) {
           return res.data;
         });
+      },
+      notMobile: function notMobile() {
+        return _isNotMobile;
       }
     }
   });
@@ -540,10 +543,13 @@ function navState($window, state, element) {
 
 app.controller('profileCtrl', profileCtrl);
 
-function profileCtrl(profile, $scope) {
+function profileCtrl(profile, notMobile, $scope) {
   var self = this;
 
   $scope.profile = profile;
+  $scope.trip = profile.trip[0];
+  $scope.notMobile = notMobile;
+  console.log(profile);
 }
 'use strict';
 
