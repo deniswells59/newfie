@@ -13,7 +13,7 @@ const tripSchema = new mongoose.Schema({
   },
   expertise: [{ type: String }],
   location: { type: String, required: true },
-  plan: { type: String, required: true }
+  plan: { type: String, required: true, max: 450 }
 }, { timestamps: true });
 
 const Trip = mongoose.model('Trip', tripSchema);

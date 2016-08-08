@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import moment from 'moment';
 import jwt from 'jsonwebtoken';
 import Trip from './trip';
+import Message from './message';
 
 if(process.env.TESTING){
   var JWT_SECRET='testing!';
@@ -40,6 +41,7 @@ const userSchema = new mongoose.Schema({
   score: Number,
   interests: [{type: String }],
   companions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  requests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   trip: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
   google: String,
   facebook: String
@@ -140,6 +142,50 @@ userSchema.statics.authenticate = (userObj, cb) => {
     });
   });
 };
+
+userSchema.statics.sendRequest = (userId, requestId, cb) => {
+  User.findById(requestId, (err, user) => {
+    if(user.companions.indexOf(userId) !== -1) return cb('Already Friends!');
+
+    user.requests.push(userId);
+    user.save(cb);
+  });
+}
+
+userSchema.statics.addCompanion = (userId, companionId, cb) => {
+  User.findById(userId, (err, user) => {
+    if(user.companions.indexOf(companionId) !== -1) return cb('Already Friends!');
+
+    user.companions.push(companionId);
+    user.save(cb);
+  });
+}
+
+userSchema.statics.newMessage = (authorId, messageObj, cb) => {
+  let message = new Message({
+    author: authorId,
+    content: messageObj.content
+  });
+
+  message.save((err, message) => {
+    if(err) return cb(err);
+
+    User.findById(messageObj._id, (err, user) => {
+      if(err) return cb(err);
+
+      user.messages.push(message._id);
+      user.save(cb);
+    });
+  });
+}
+
+userSchema.statics.read = (messageId) => {
+  Message.findById(messageId, (err, message) => {
+    if(err) return cb(err);
+    message.new = false;
+    message.save(cb);
+  })
+}
 
 userSchema.methods.getScore = (user) => {
   let score = 0;

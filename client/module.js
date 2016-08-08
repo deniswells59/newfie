@@ -97,11 +97,17 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
       templateUrl: '/html/profile/profile.html',
       controller: 'profileCtrl',
       resolve: {
+        user: function(User) {
+          return User.getUser();
+        },
         profile: function(User, $stateParams) {
           return User.getOne($stateParams.id)
             .then(res => {
               return res.data;
             });
+        },
+        notMobile: function() {
+          return _isNotMobile;
         }
       }
     })
