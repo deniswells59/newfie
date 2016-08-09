@@ -20,6 +20,8 @@ function
   $scope.user = user;
   $scope.loading = false;
   $scope.pending = false;
+  $scope.editting = false;
+  $scope.tmp = angular.copy(user);
   $scope.city = 'Click on the map to add new places';
   $scope.$watch('selectedTab', function(current, old) {
     switch(current) {
@@ -105,9 +107,17 @@ function
     $scope.user.trip[0].expertise = $scope.expertise;
     User.saveGuide($scope.user.trip[0])
       .then(newUser => {
-        console.log(newUser);
         $scope.user = newUser;
       });
+  }
+
+  $scope.editBio = () => {
+    $scope.editting = !$scope.editting;
+  }
+
+  $scope.saveBio = () => {
+    User.editProfile($scope.tmp);
+    $scope.editBio();
   }
 
 }

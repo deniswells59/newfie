@@ -250,6 +250,10 @@ app.service('User', function ($http, $state) {
     });
   };
 
+  this.editProfile = function (newProfile) {
+    return $http.put('/api/users/update', newProfile);
+  };
+
   this.savePlace = function (place) {
     return $http.put('/api/users/place', place).then(function (user) {
       _this.currentUser = user.data;
@@ -462,6 +466,8 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDi
   $scope.user = user;
   $scope.loading = false;
   $scope.pending = false;
+  $scope.editting = false;
+  $scope.tmp = angular.copy(user);
   $scope.city = 'Click on the map to add new places';
   $scope.$watch('selectedTab', function (current, old) {
     switch (current) {
@@ -543,9 +549,17 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDi
   $scope.saveGuide = function () {
     $scope.user.trip[0].expertise = $scope.expertise;
     User.saveGuide($scope.user.trip[0]).then(function (newUser) {
-      console.log(newUser);
       $scope.user = newUser;
     });
+  };
+
+  $scope.editBio = function () {
+    $scope.editting = !$scope.editting;
+  };
+
+  $scope.saveBio = function () {
+    User.editProfile($scope.tmp);
+    $scope.editBio();
   };
 }
 'use strict';
@@ -553,6 +567,7 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDi
 app.controller('profileCtrl', profileCtrl);
 
 function profileCtrl(profile, notMobile, user, $scope, Companion) {
+  console.log(profile);
 
   $scope.currentUser = user;
   $scope.profile = profile;

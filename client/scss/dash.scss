@@ -63,3 +63,14 @@ form p:last-child {
 img.center.bnbLogo {
   height: 8em;
 }
+
+small.section {
+    margin-left: 3em;
+}
+
+.saveButton {
+    padding: .5em;
+    border: 1px solid;
+    border-radius: .5em;
+    cursor: pointer;
+}

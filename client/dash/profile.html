@@ -38,11 +38,19 @@
   <div class="col s12">
     <div class="card">
       <div class="card-content">
+        <a class="right saveButton" ng-click="saveBio()" ng-if="editting">Save</a>
         <p>Bio</p>
         <div class="divider"></div>
-        <p class="section">
-          Yo
+        <p class="section" ng-if="user.bio && !editting">
+          {{user.bio}}
         </p>
+        <small ng-click="editBio()" class="section" ng-if="!user.bio && !editting">
+          Click here to write your bio.
+        </small>
+        <md-input-container class="md-block" ng-if="editting">
+          <label>Biography</label>
+          <textarea ng-model="tmp.bio" md-maxlength="450" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
       </div>
     </div>
   </div>
