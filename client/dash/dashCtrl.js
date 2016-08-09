@@ -116,8 +116,13 @@ function
   }
 
   $scope.saveBio = () => {
-    User.editProfile($scope.tmp);
     $scope.editBio();
+    User.editProfile($scope.tmp)
+      .then(user => {
+        console.log(user);
+        $scope.user = user;
+        $scope.tmp = angular.copy(user);
+      })
   }
 
 }

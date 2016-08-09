@@ -82,7 +82,11 @@ app.service('User', function($http, $state) {
   }
 
   this.editProfile = (newProfile) => {
-    return $http.put('/api/users/update', newProfile);
+    return $http.put('/api/users/update', newProfile)
+      .then(user => {
+        return user.data;
+      })
+      .catch(err => console.log('err', err));
   }
 
   this.savePlace = (place) => {
