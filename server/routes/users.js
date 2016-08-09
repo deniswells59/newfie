@@ -42,7 +42,13 @@ router.post('/authenticate', (req, res) => {
 router.put('/register', User.auth(), (req, res) => {
   User.register(req.user._id, req.body, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
-  })
+  });
+});
+
+router.put('/update', User.auth(), (req, res) => {
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true }, (err, user) => {
+    res.status(err ? 400 : 200).send(err || user);
+  });
 });
 
 router.put('/guide', User.auth(), (req, res) => {

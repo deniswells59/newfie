@@ -250,6 +250,14 @@ app.service('User', function ($http, $state) {
     });
   };
 
+  this.editProfile = function (newProfile) {
+    return $http.put('/api/users/update', newProfile).then(function (user) {
+      return user.data;
+    }).catch(function (err) {
+      return console.log('err', err);
+    });
+  };
+
   this.savePlace = function (place) {
     return $http.put('/api/users/place', place).then(function (user) {
       _this.currentUser = user.data;
@@ -362,56 +370,6 @@ function connectCtrl($scope, User, mobile, users) {
 }
 'use strict';
 
-app.directive('loadingImage', function () {
-  return function (scope, element, a, con) {
-    element.bind('load', function () {
-      scope.imgLoaded = true;
-      scope.$apply();
-    });
-  };
-});
-'use strict';
-
-app.directive('navState', function ($window, $state, $rootScope) {
-  return function (scope, element) {
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      navState($window, toState.name, element);
-    });
-    angular.element($window).bind("scroll", function () {
-      var navSize = element[0].clientHeight;
-      var imageSize = 0;
-
-      if ($('.landingImage').length) {
-        imageSize = $('.landingImage')[0].clientHeight;
-      }
-
-      var scrollLength = imageSize - navSize;
-      if ($window.pageYOffset <= scrollLength) {
-        element[0].style.backgroundColor = 'rgba(85,150,126, 0.05)';
-      } else if ($window.pageYOffset > scrollLength || !$state.current.name) {
-        element[0].style.backgroundColor = '#55967e';
-      }
-    });
-  };
-});
-
-function navState($window, state, element) {
-  var navSize = element[0].clientHeight;
-  var imageSize = 0;
-
-  if ($('.landingImage').length) {
-    imageSize = $('.landingImage')[0].clientHeight;
-  }
-
-  var scrollLength = imageSize - navSize;
-  if (state === '' || state === 'home') {
-    element[0].style.backgroundColor = 'rgba(85,150,126, 0.05)';
-  } else {
-    element[0].style.backgroundColor = '#55967e';
-  }
-};
-'use strict';
-
 app.controller('BnBController', BnBController);
 
 function BnBController($scope, $mdDialog, AirBnB) {
@@ -462,6 +420,8 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDi
   $scope.user = user;
   $scope.loading = false;
   $scope.pending = false;
+  $scope.editting = false;
+  $scope.tmp = angular.copy(user);
   $scope.city = 'Click on the map to add new places';
   $scope.$watch('selectedTab', function (current, old) {
     switch (current) {
@@ -543,16 +503,79 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDi
   $scope.saveGuide = function () {
     $scope.user.trip[0].expertise = $scope.expertise;
     User.saveGuide($scope.user.trip[0]).then(function (newUser) {
-      console.log(newUser);
       $scope.user = newUser;
+    });
+  };
+
+  $scope.editBio = function () {
+    $scope.editting = !$scope.editting;
+  };
+
+  $scope.saveBio = function () {
+    $scope.editBio();
+    User.editProfile($scope.tmp).then(function (user) {
+      console.log(user);
+      $scope.user = user;
+      $scope.tmp = angular.copy(user);
     });
   };
 }
 'use strict';
 
+app.directive('loadingImage', function () {
+  return function (scope, element, a, con) {
+    element.bind('load', function () {
+      scope.imgLoaded = true;
+      scope.$apply();
+    });
+  };
+});
+'use strict';
+
+app.directive('navState', function ($window, $state, $rootScope) {
+  return function (scope, element) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      navState($window, toState.name, element);
+    });
+    angular.element($window).bind("scroll", function () {
+      var navSize = element[0].clientHeight;
+      var imageSize = 0;
+
+      if ($('.landingImage').length) {
+        imageSize = $('.landingImage')[0].clientHeight;
+      }
+
+      var scrollLength = imageSize - navSize;
+      if ($window.pageYOffset <= scrollLength) {
+        element[0].style.backgroundColor = 'rgba(85,150,126, 0.05)';
+      } else if ($window.pageYOffset > scrollLength || !$state.current.name) {
+        element[0].style.backgroundColor = '#55967e';
+      }
+    });
+  };
+});
+
+function navState($window, state, element) {
+  var navSize = element[0].clientHeight;
+  var imageSize = 0;
+
+  if ($('.landingImage').length) {
+    imageSize = $('.landingImage')[0].clientHeight;
+  }
+
+  var scrollLength = imageSize - navSize;
+  if (state === '' || state === 'home') {
+    element[0].style.backgroundColor = 'rgba(85,150,126, 0.05)';
+  } else {
+    element[0].style.backgroundColor = '#55967e';
+  }
+};
+'use strict';
+
 app.controller('profileCtrl', profileCtrl);
 
 function profileCtrl(profile, notMobile, user, $scope, Companion) {
+  console.log(profile);
 
   $scope.currentUser = user;
   $scope.profile = profile;

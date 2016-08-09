@@ -11,7 +11,6 @@ const tripSchema = new mongoose.Schema({
     address: String,
     owner: String
   },
-  expertise: [{ type: String }],
   location: { type: String, required: true },
   plan: { type: String, required: true, max: 450 }
 }, { timestamps: true });

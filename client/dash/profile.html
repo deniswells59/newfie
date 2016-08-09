@@ -2,7 +2,7 @@
   <div class="col s6">
     <div class="card">
       <div class="card-content">
-        <p>Travel Interests</p>
+        <p class="heading">Travel Interests</p>
         <div class="divider"></div>
         <p ng-repeat="int in user.interests" class="section">
           {{int}}
@@ -13,7 +13,7 @@
   <div class="col s6">
     <div class="card">
       <div class="card-content">
-        <p>Languages</p>
+        <p class="heading">Languages</p>
         <div class="divider"></div>
         <p ng-repeat="lang in user.languages" class="section">
           {{lang.name}}
@@ -27,7 +27,7 @@
   <div class="col s6">
     <div class="card">
       <div class="card-content">
-        <p>Location</p>
+        <p class="heading">Location</p>
         <div class="divider"></div>
         <p class="section">
           {{user.location.location}}
@@ -38,11 +38,19 @@
   <div class="col s12">
     <div class="card">
       <div class="card-content">
-        <p>Bio</p>
+        <a class="right saveButton" ng-click="saveBio()" ng-if="editting">Save</a>
+        <small ng-click="editBio()" class="section right" ng-if="!editting">
+          Click here to edit bio.
+        </small>
+        <p class="heading">Bio</p>
         <div class="divider"></div>
-        <p class="section">
-          Yo
+        <p class="section" ng-if="user.bio && !editting">
+          {{user.bio}}
         </p>
+
+        <md-input-container class="md-block" ng-if="editting">
+          <textarea ng-model="tmp.bio" md-maxlength="450" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
       </div>
     </div>
   </div>
