@@ -74,9 +74,9 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
       templateUrl: '/html/dash/guide.html',
       controller: 'dashCtrl'
     })
-    .state('dashboard.places', {
-      url:'/places',
-      templateUrl: '/html/dash/places.html',
+    .state('dashboard.companions', {
+      url:'/companions',
+      templateUrl: '/html/dash/companions.html',
       controller: 'dashCtrl'
     })
     .state('connect', {

@@ -55,3 +55,27 @@
     </div>
   </div>
 </div>
+
+<div class="row">
+  <div class="card">
+    <div class="card-content">
+      <h4>Where You've Been</h4>
+      <p>Increase your score by marking the cities you've visited.</p>
+      <div class="cityPending">
+        <p class="col s12 m5 cityName">{{city}}</p>
+        <div ng-if="pending">
+          <a class="saveButton mapButton" ng-click="savePlace()">Save</a>
+          <a class="cancelButton" ng-click="cancelPlace()">Cancel</a>
+        </div>
+      </div>
+      <ng-map default-style="false" zoom="2" class="map"
+        on-click="getLocation()"
+        center="49.905249238801304, -127.3370361328125">
+        <marker ng-if="user.places"
+        ng-repeat="place in user.places"
+        position="{{place.lat}}, {{place.lng}}"
+        title="Place!"></marker>
+      </ng-map>
+    </div>
+  </div>
+</div>

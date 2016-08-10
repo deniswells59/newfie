@@ -67,9 +67,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $authProvider) {
     url: '/guide',
     templateUrl: '/html/dash/guide.html',
     controller: 'dashCtrl'
-  }).state('dashboard.places', {
-    url: '/places',
-    templateUrl: '/html/dash/places.html',
+  }).state('dashboard.companions', {
+    url: '/companions',
+    templateUrl: '/html/dash/companions.html',
     controller: 'dashCtrl'
   }).state('connect', {
     url: '/connect',
@@ -436,7 +436,7 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDi
         }
         break;
       case 2:
-        $location.url("/dash/places");
+        $location.url("/dash/companions");
         break;
     }
   });

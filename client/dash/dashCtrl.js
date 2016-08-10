@@ -36,7 +36,7 @@ function
         }
         break;
       case 2:
-        $location.url("/dash/places");
+        $location.url("/dash/companions");
         break;
     }
   })
