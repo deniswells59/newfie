@@ -1,7 +1,7 @@
 app.controller('dashCtrl', dashCtrl);
 
 function
-  dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, $mdDialog, $mdMedia) {
+  dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, Messages, $mdDialog, $mdMedia) {
   console.log(user);
   if (!user) {
     $state.go('home');
@@ -137,6 +137,16 @@ function
       .then(user => {
         $scope.user = user;
       })
+  }
+
+  $scope.openMessages = (ev, id) => {
+    Messages.getCompanion(user.companions, id);
+    $mdDialog.show({
+      controller: messagesCtrl,
+      templateUrl: '../html/dash/messages.html',
+      targetEvent: ev,
+      clickOutsideToClose:true
+    })
   }
 
 }

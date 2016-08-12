@@ -184,3 +184,25 @@ app.service('Companion', function($http) {
       .catch(err => console.log('err', err));
   }
 });
+
+app.service('Messages', function($http) {
+
+  this.companion = {};
+
+  this.getCompanion = (arr, id) => {
+    arr.some(companion => {
+      if(companion._id === id) {
+        this.companion = companion;
+        return true;
+      }
+    });
+  }
+
+  this.returnsCompanion = () => {
+    return this.companion;
+  }
+
+  this.sendMessage = (obj) => {
+    return $http.post('api/users/messages', obj);
+  }
+})

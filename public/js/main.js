@@ -352,6 +352,29 @@ app.service('Companion', function ($http) {
     });
   };
 });
+
+app.service('Messages', function ($http) {
+  var _this3 = this;
+
+  this.companion = {};
+
+  this.getCompanion = function (arr, id) {
+    arr.some(function (companion) {
+      if (companion._id === id) {
+        _this3.companion = companion;
+        return true;
+      }
+    });
+  };
+
+  this.returnsCompanion = function () {
+    return _this3.companion;
+  };
+
+  this.sendMessage = function (obj) {
+    return $http.post('api/users/messages', obj);
+  };
+});
 'use strict';
 
 app.controller('connectCtrl', connectCtrl);
@@ -414,7 +437,7 @@ function BnBController($scope, $mdDialog, AirBnB) {
 
 app.controller('dashCtrl', dashCtrl);
 
-function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, $mdDialog, $mdMedia) {
+function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, Messages, $mdDialog, $mdMedia) {
   console.log(user);
   if (!user) {
     $state.go('home');
@@ -543,6 +566,31 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
     Companion.declineRequest(id).then(function (user) {
       $scope.user = user;
     });
+  };
+
+  $scope.openMessages = function (ev, id) {
+    Messages.getCompanion(user.companions, id);
+    $mdDialog.show({
+      controller: messagesCtrl,
+      templateUrl: '../html/dash/messages.html',
+      targetEvent: ev,
+      clickOutsideToClose: true
+    });
+  };
+}
+'use strict';
+
+app.controller('messagesCtrl', messagesCtrl);
+
+function messagesCtrl($scope, Messages) {
+  $scope.companion = Messages.returnsCompanion();
+
+  $scope.message = {
+    _id: $scope.companion._id
+  };
+
+  $scope.sendMessage = function () {
+    Messages.sendMessage($scope.message);
   };
 }
 'use strict';

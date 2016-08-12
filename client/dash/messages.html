@@ -1,0 +1,41 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{companion.name}}</h2>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width:800px;max-height:810px; ">
+      <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="messages">
+          <md-content class="md-padding">
+            <h1 class="md-display-2">Messages</h1>
+            <md-virtual-repeat-container id="vertical-container">
+              <div md-virtual-repeat="item in ctrl.items"
+                  class="repeated-item" flex>
+                {{item}}
+              </div>
+            </md-virtual-repeat-container>
+          </md-content>
+        </md-tab>
+        <md-tab label="send">
+          <md-content class="md-padding">
+            <h4>Send a message to {{companion.name}}</h4>
+            <p>Use the input below to talk to {{companion.name}}. Hit the Send button when you're ready.</p>
+            <md-input-container class="md-block">
+             <label>Your Message</label>
+             <textarea ng-model="message.content" md-maxlength="450" rows="5" md-select-on-focus></textarea>
+            </md-input-container>
+            <a class="right btn" ng-click="sendMessage()">Send</a>
+          </md-content>
+        </md-tab>
+      </md-tabs>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button>
+        Close
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
