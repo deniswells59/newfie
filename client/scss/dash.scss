@@ -73,3 +73,42 @@ small.section {
     padding-left: 2em;
     cursor: pointer;
 }
+
+a.saveButton.mapButton {
+    border: 1px solid;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+a.cancelButton {
+    color: black;
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+p.col.s12.m5.cityName {
+    color: #55967e;
+    font-weight: 900;
+}
+
+.cityPending {
+    height: 52px;
+    padding: 1em;
+}
+
+ng-map.map {
+    margin: 1em 0 2em 0;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
+    cursor: pointer;
+}
+
+span.connectHighlight {
+    cursor: pointer;
+    color: #55967e;
+}
+
+span.connectHighlight:hover, span.connectHighlight:active {
+    color: #6abe9f;
+}

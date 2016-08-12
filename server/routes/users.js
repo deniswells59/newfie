@@ -20,7 +20,7 @@ router.put('/', User.check(), (req, res) => {
 router.get('/check', User.auth(), (req, res) => {
   User.findById(req.user, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
-  }).populate('trip').select('-password');
+  }).populate('trip requests companions').select('-password');
 });
 
 router.get('/one/:id', (req, res) => {
@@ -87,6 +87,12 @@ router.post('/companion', User.auth(), (req, res) => {
 
 router.post('/request', User.auth(), (req, res) => {
   User.sendRequest(req.user._id, req.body.companionId, (err, user) => {
+    res.status(err ? 400 : 200).send(err || user);
+  });
+});
+
+router.post('/decline', User.auth(), (req, res) => {
+  User.declineRequest(req.user._id, req.body.companionId, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
   });
 });

@@ -67,9 +67,9 @@ app.config(function ($stateProvider, $urlRouterProvider, $authProvider) {
     url: '/guide',
     templateUrl: '/html/dash/guide.html',
     controller: 'dashCtrl'
-  }).state('dashboard.places', {
-    url: '/places',
-    templateUrl: '/html/dash/places.html',
+  }).state('dashboard.companions', {
+    url: '/companions',
+    templateUrl: '/html/dash/companions.html',
     controller: 'dashCtrl'
   }).state('connect', {
     url: '/connect',
@@ -332,8 +332,24 @@ app.service('AirBnB', function ($http) {
 });
 
 app.service('Companion', function ($http) {
-  this.sendRequest = function (profileId) {
-    return $http.post('/api/users/request', { companionId: profileId });
+  this.sendRequest = function (companionId) {
+    return $http.post('/api/users/request', { companionId: companionId });
+  };
+
+  this.declineRequest = function (companionId) {
+    return $http.post('api/users/decline', { companionId: companionId }).then(function (res) {
+      return res.data;
+    }).catch(function (err) {
+      return console.log('err', err);
+    });
+  };
+
+  this.acceptCompanion = function (companionId) {
+    return $http.post('api/users/companion', { companionId: companionId }).then(function (res) {
+      return res.data;
+    }).catch(function (err) {
+      return console.log('err', err);
+    });
   };
 });
 'use strict';
@@ -346,7 +362,7 @@ function connectCtrl($scope, User, mobile, users) {
 
   console.log($scope.users);
 
-  function userCounts() {
+  (function userCounts() {
     var counts = {
       topic: {}
     };
@@ -356,17 +372,14 @@ function connectCtrl($scope, User, mobile, users) {
       } else {
         counts.user ? counts.user++ : counts.user = 1;
       }
-      if (user.trip.length) {
-        user.interests.forEach(function (topic) {
-          counts.topic[topic] ? counts.topic[topic]++ : counts.topic[topic] = 1;
-        });
-      }
+
+      user.interests.forEach(function (topic) {
+        counts.topic[topic] ? counts.topic[topic]++ : counts.topic[topic] = 1;
+      });
     });
     $scope.counts = counts;
     $scope.topics = Object.keys(counts.topic);
-  }
-
-  userCounts();
+  })();
 }
 'use strict';
 
@@ -401,7 +414,7 @@ function BnBController($scope, $mdDialog, AirBnB) {
 
 app.controller('dashCtrl', dashCtrl);
 
-function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDialog, $mdMedia) {
+function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, $mdDialog, $mdMedia) {
   console.log(user);
   if (!user) {
     $state.go('home');
@@ -436,7 +449,7 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDi
         }
         break;
       case 2:
-        $location.url("/dash/places");
+        $location.url("/dash/companions");
         break;
     }
   });
@@ -517,6 +530,18 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDi
       console.log(user);
       $scope.user = user;
       $scope.tmp = angular.copy(user);
+    });
+  };
+
+  $scope.acceptCompanion = function (id) {
+    Companion.acceptCompanion(id).then(function (user) {
+      $scope.user = user;
+    });
+  };
+
+  $scope.declineCompanion = function (id) {
+    Companion.declineRequest(id).then(function (user) {
+      $scope.user = user;
     });
   };
 }

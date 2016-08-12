@@ -1,7 +1,7 @@
 app.controller('dashCtrl', dashCtrl);
 
 function
-  dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDialog, $mdMedia) {
+  dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, $mdDialog, $mdMedia) {
   console.log(user);
   if (!user) {
     $state.go('home');
@@ -36,7 +36,7 @@ function
         }
         break;
       case 2:
-        $location.url("/dash/places");
+        $location.url("/dash/companions");
         break;
     }
   })
@@ -122,6 +122,20 @@ function
         console.log(user);
         $scope.user = user;
         $scope.tmp = angular.copy(user);
+      })
+  }
+
+  $scope.acceptCompanion = (id) => {
+    Companion.acceptCompanion(id)
+      .then(user => {
+        $scope.user = user;
+      })
+  }
+
+  $scope.declineCompanion = (id) => {
+    Companion.declineRequest(id)
+      .then(user => {
+        $scope.user = user;
       })
   }
 
