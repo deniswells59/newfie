@@ -346,7 +346,7 @@ function connectCtrl($scope, User, mobile, users) {
 
   console.log($scope.users);
 
-  function userCounts() {
+  (function userCounts() {
     var counts = {
       topic: {}
     };
@@ -356,17 +356,14 @@ function connectCtrl($scope, User, mobile, users) {
       } else {
         counts.user ? counts.user++ : counts.user = 1;
       }
-      if (user.trip.length) {
-        user.interests.forEach(function (topic) {
-          counts.topic[topic] ? counts.topic[topic]++ : counts.topic[topic] = 1;
-        });
-      }
+
+      user.interests.forEach(function (topic) {
+        counts.topic[topic] ? counts.topic[topic]++ : counts.topic[topic] = 1;
+      });
     });
     $scope.counts = counts;
     $scope.topics = Object.keys(counts.topic);
-  }
-
-  userCounts();
+  })();
 }
 'use strict';
 

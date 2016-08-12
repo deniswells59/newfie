@@ -97,5 +97,9 @@ p.col.s12.m5.cityName {
 }
 
 ng-map.map {
-        margin: 1em 0 2em 0;
+    margin: 1em 0 2em 0;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
+    cursor: pointer;
 }

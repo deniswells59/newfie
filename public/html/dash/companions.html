@@ -1,3 +1,22 @@
 <div class="row">
-  <h1>Companions</h1>
+  <div ng-if="user.requests.length">
+    <h4>Requests</h4>
+    <div class="col s12 m4" ng-repeat="req in user.requests">
+      <div class="card horizontal">
+        <div class="card-image connectImg">
+          <img ng-src="{{req.img}}">
+        </div>
+        <div class="userInfo">
+          <a class="right" ui-sref="profileView({id: req._id})">View Profile</a>
+          <div class="connectName">
+            {{req.name}}
+          </div>
+          <div class="card-action">
+            <a>Accept</a>
+            <a>Decline</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
