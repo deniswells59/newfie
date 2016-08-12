@@ -103,3 +103,12 @@ ng-map.map {
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
     cursor: pointer;
 }
+
+span.connectHighlight {
+    cursor: pointer;
+    color: #55967e;
+}
+
+span.connectHighlight:hover, span.connectHighlight:active {
+    color: #6abe9f;
+}

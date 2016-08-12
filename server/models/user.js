@@ -152,12 +152,37 @@ userSchema.statics.sendRequest = (userId, requestId, cb) => {
   });
 }
 
-userSchema.statics.addCompanion = (userId, companionId, cb) => {
+userSchema.statics.declineRequest = (userId, requestId, cb) => {
   User.findById(userId, (err, user) => {
-    if(user.companions.indexOf(companionId) !== -1) return cb('Already Friends!');
+    const idx = user.requests.indexOf(requestId);
+    if(idx === -1) return cb('Something Went Wrong!');
 
-    user.companions.push(companionId);
+    user.requests.splice(idx, 1);
     user.save(cb);
+  });
+}
+
+userSchema.statics.addCompanion = (userId, companionId, cb) => {
+  User.findById(userId, (err1, user1) => {
+    User.findById(companionId, (err2, user2) => {
+
+      if(err1 || err2) return cb(err1 || err2);
+      if(user1.companions.indexOf(user2._id) !== -1) return cb('Already Friends!');
+      if(user2.companions.indexOf(user1._id) !== -1) return cb('Already Friends!');
+
+      user1.companions.push(user2._id);
+      user2.companions.push(user1._id);
+
+      const idx = user1.requests.indexOf(user2._id);
+      user1.requests.splice(idx, 1);
+
+      user1.save((err1, user) => {
+        user2.save(err2 => {
+          if(err1 || err2) return cb(err1 || err2);
+          User.populate(user, { path: 'requests trip companions' }, cb);
+        });
+      });
+    });
   });
 }
 

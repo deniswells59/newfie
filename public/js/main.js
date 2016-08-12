@@ -332,8 +332,24 @@ app.service('AirBnB', function ($http) {
 });
 
 app.service('Companion', function ($http) {
-  this.sendRequest = function (profileId) {
-    return $http.post('/api/users/request', { companionId: profileId });
+  this.sendRequest = function (companionId) {
+    return $http.post('/api/users/request', { companionId: companionId });
+  };
+
+  this.declineRequest = function (companionId) {
+    return $http.post('api/users/decline', { companionId: companionId }).then(function (res) {
+      return res.data;
+    }).catch(function (err) {
+      return console.log('err', err);
+    });
+  };
+
+  this.acceptCompanion = function (companionId) {
+    return $http.post('api/users/companion', { companionId: companionId }).then(function (res) {
+      return res.data;
+    }).catch(function (err) {
+      return console.log('err', err);
+    });
   };
 });
 'use strict';
@@ -398,7 +414,7 @@ function BnBController($scope, $mdDialog, AirBnB) {
 
 app.controller('dashCtrl', dashCtrl);
 
-function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDialog, $mdMedia) {
+function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, $mdDialog, $mdMedia) {
   console.log(user);
   if (!user) {
     $state.go('home');
@@ -514,6 +530,18 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, $mdDi
       console.log(user);
       $scope.user = user;
       $scope.tmp = angular.copy(user);
+    });
+  };
+
+  $scope.acceptCompanion = function (id) {
+    Companion.acceptCompanion(id).then(function (user) {
+      $scope.user = user;
+    });
+  };
+
+  $scope.declineCompanion = function (id) {
+    Companion.declineRequest(id).then(function (user) {
+      $scope.user = user;
     });
   };
 }

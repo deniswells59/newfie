@@ -91,6 +91,12 @@ router.post('/request', User.auth(), (req, res) => {
   });
 });
 
+router.post('/decline', User.auth(), (req, res) => {
+  User.declineRequest(req.user._id, req.body.companionId, (err, user) => {
+    res.status(err ? 400 : 200).send(err || user);
+  });
+});
+
 router.post('/messages', User.auth(), (req, res) => {
   User.newMessage(req.user._id, req.body, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
