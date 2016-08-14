@@ -1,8 +1,8 @@
-<md-dialog aria-label="Mango (Fruit)">
+<md-dialog aria-label="Messages" class="messagesDialog">
   <form>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{companion.name}}</h2>
+        <span flex></span>
       </div>
     </md-toolbar>
     <md-dialog-content style="max-width:800px;max-height:810px; ">
@@ -10,22 +10,25 @@
         <md-tab label="messages">
           <md-content class="md-padding">
             <h1 class="md-display-2">Messages</h1>
-            <md-virtual-repeat-container id="vertical-container">
-              <div md-virtual-repeat="item in ctrl.items"
-                  class="repeated-item" flex>
-                {{item}}
-              </div>
-            </md-virtual-repeat-container>
+            <table ng-table="messages" class="table">
+              <tr ng-repeat="message in $data">
+                  <td title="Sent" sortable="'date'">
+                      {{message.createdAt | date}}</td>
+                  <td title="'Content'">
+                      {{message.content | limitTo: 10}}</td>
+              </tr>
+            </table>
           </md-content>
         </md-tab>
         <md-tab label="send">
           <md-content class="md-padding">
             <h4>Send a message to {{companion.name}}</h4>
-            <p>Use the input below to talk to {{companion.name}}. Hit the Send button when you're ready.</p>
+            <p>Use the input below to talk to {{companion.name}}.</p>
             <md-input-container class="md-block">
              <label>Your Message</label>
-             <textarea ng-model="message.content" md-maxlength="450" rows="5" md-select-on-focus></textarea>
+             <textarea ng-model="newMessage.content" md-maxlength="450" rows="5" md-select-on-focus></textarea>
             </md-input-container>
+            <span class="left" ng-if="sent">Message Sent!</span>
             <a class="right btn" ng-click="sendMessage()">Send</a>
           </md-content>
         </md-tab>
@@ -33,7 +36,7 @@
     </md-dialog-content>
     <md-dialog-actions layout="row">
       <span flex></span>
-      <md-button>
+      <md-button ng-click="closeDialog()">
         Close
       </md-button>
     </md-dialog-actions>

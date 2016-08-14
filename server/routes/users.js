@@ -20,7 +20,7 @@ router.put('/', User.check(), (req, res) => {
 router.get('/check', User.auth(), (req, res) => {
   User.findById(req.user, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
-  }).populate('trip requests companions').select('-password');
+  }).populate('trip requests companions messages').select('-password');
 });
 
 router.get('/one/:id', (req, res) => {

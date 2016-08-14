@@ -203,6 +203,11 @@ app.service('Messages', function($http) {
   }
 
   this.sendMessage = (obj) => {
-    return $http.post('api/users/messages', obj);
+    console.log('obj', obj);
+    return $http.post('api/users/messages', obj)
+      .then(res => {
+        return res.data;
+      })
+      .catch(err => console.log('err', err));
   }
 })

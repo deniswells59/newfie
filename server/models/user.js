@@ -188,7 +188,6 @@ userSchema.statics.addCompanion = (userId, companionId, cb) => {
 }
 
 userSchema.statics.newMessage = (authorId, messageObj, cb) => {
-  console.log(messageObj);
   let message = new Message({
     author: authorId,
     content: messageObj.content

@@ -15,7 +15,7 @@ var _isNotMobile = function () {
   return !check;
 }();
 
-var app = angular.module('myApp', ['ui.router', 'satellizer', 'ngMaterial', 'ngMap']);
+var app = angular.module('myApp', ['ui.router', 'satellizer', 'ngMaterial', 'ngMap', 'ngTable']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $authProvider) {
 
@@ -372,7 +372,12 @@ app.service('Messages', function ($http) {
   };
 
   this.sendMessage = function (obj) {
-    return $http.post('api/users/messages', obj);
+    console.log('obj', obj);
+    return $http.post('api/users/messages', obj).then(function (res) {
+      return res.data;
+    }).catch(function (err) {
+      return console.log('err', err);
+    });
   };
 });
 'use strict';
@@ -582,15 +587,24 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
 
 app.controller('messagesCtrl', messagesCtrl);
 
-function messagesCtrl($scope, Messages) {
+function messagesCtrl($scope, $timeout, Messages, User, NgTableParams) {
+  var messages = User.getUser().messages;
+  $scope.messages = new NgTableParams({}, { dataset: messages });
   $scope.companion = Messages.returnsCompanion();
 
-  $scope.message = {
+  $scope.newMessage = {
     _id: $scope.companion._id
   };
 
   $scope.sendMessage = function () {
-    Messages.sendMessage($scope.message);
+    Messages.sendMessage($scope.newMessage).then(function (res) {
+      $scope.sent = true;
+      $scope.newMessage.content = '';
+
+      $timeout(function () {
+        $scope.sent = false;
+      }, 5000);
+    });
   };
 }
 'use strict';
