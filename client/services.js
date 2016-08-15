@@ -184,3 +184,46 @@ app.service('Companion', function($http) {
       .catch(err => console.log('err', err));
   }
 });
+
+app.service('Messages', function($http, User) {
+
+  this.companion = {};
+
+  this.getCompanion = (arr, id) => {
+    arr.some(companion => {
+      if(companion._id === id) {
+        this.companion = companion;
+        return true;
+      }
+    });
+  }
+
+  this.getCompanionMessages = () => {
+    const user = User.getUser();
+
+    return user.messages.filter(message => {
+      if(message.author === this.companion._id) return message;
+    });
+  }
+
+  this.returnsCompanion = () => {
+    return this.companion;
+  }
+
+  this.sendMessage = (obj) => {
+    return $http.post('api/users/messages', obj)
+      .then(res => {
+        return res.data;
+      })
+      .catch(err => console.log('err', err));
+  }
+
+  this.read = (_id) => {
+    return $http.put('api/users/read', { _id })
+      .then(res => {
+        return res.data;
+      })
+      .catch(err => console.log('err', err));
+  }
+
+});

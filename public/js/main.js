@@ -15,7 +15,7 @@ var _isNotMobile = function () {
   return !check;
 }();
 
-var app = angular.module('myApp', ['ui.router', 'satellizer', 'ngMaterial', 'ngMap']);
+var app = angular.module('myApp', ['ui.router', 'satellizer', 'ngMaterial', 'ngMap', 'ngTable']);
 
 app.config(function ($stateProvider, $urlRouterProvider, $authProvider) {
 
@@ -352,6 +352,49 @@ app.service('Companion', function ($http) {
     });
   };
 });
+
+app.service('Messages', function ($http, User) {
+  var _this3 = this;
+
+  this.companion = {};
+
+  this.getCompanion = function (arr, id) {
+    arr.some(function (companion) {
+      if (companion._id === id) {
+        _this3.companion = companion;
+        return true;
+      }
+    });
+  };
+
+  this.getCompanionMessages = function () {
+    var user = User.getUser();
+
+    return user.messages.filter(function (message) {
+      if (message.author === _this3.companion._id) return message;
+    });
+  };
+
+  this.returnsCompanion = function () {
+    return _this3.companion;
+  };
+
+  this.sendMessage = function (obj) {
+    return $http.post('api/users/messages', obj).then(function (res) {
+      return res.data;
+    }).catch(function (err) {
+      return console.log('err', err);
+    });
+  };
+
+  this.read = function (_id) {
+    return $http.put('api/users/read', { _id: _id }).then(function (res) {
+      return res.data;
+    }).catch(function (err) {
+      return console.log('err', err);
+    });
+  };
+});
 'use strict';
 
 app.controller('connectCtrl', connectCtrl);
@@ -414,7 +457,7 @@ function BnBController($scope, $mdDialog, AirBnB) {
 
 app.controller('dashCtrl', dashCtrl);
 
-function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, $mdDialog, $mdMedia) {
+function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, Messages, $mdDialog, $mdMedia) {
   console.log(user);
   if (!user) {
     $state.go('home');
@@ -543,6 +586,53 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
     Companion.declineRequest(id).then(function (user) {
       $scope.user = user;
     });
+  };
+
+  $scope.openMessages = function (ev, id) {
+    Messages.getCompanion(user.companions, id);
+    $mdDialog.show({
+      controller: messagesCtrl,
+      templateUrl: '../html/dash/messages.html',
+      targetEvent: ev,
+      clickOutsideToClose: true
+    });
+  };
+}
+'use strict';
+
+app.controller('messagesCtrl', messagesCtrl);
+
+function messagesCtrl($scope, $timeout, Messages, NgTableParams) {
+  var messages = Messages.getCompanionMessages();
+  $scope.messages = new NgTableParams({}, { dataset: messages });
+  $scope.companion = Messages.returnsCompanion();
+  $scope.viewing = false;
+
+  $scope.newMessage = {
+    _id: $scope.companion._id
+  };
+
+  $scope.sendMessage = function () {
+    Messages.sendMessage($scope.newMessage).then(function (res) {
+      $scope.sent = true;
+      $scope.newMessage.content = '';
+
+      $timeout(function () {
+        $scope.sent = false;
+      }, 5000);
+    });
+  };
+
+  $scope.viewMessage = function (message) {
+    message.new = false;
+    Messages.read(message._id).then(function (message) {
+      $scope.currentMessage = message;
+      $scope.viewing = true;
+    });
+  };
+
+  $scope.goBack = function () {
+    $scope.viewing = false;
   };
 }
 'use strict';

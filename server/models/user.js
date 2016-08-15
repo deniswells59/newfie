@@ -43,6 +43,7 @@ const userSchema = new mongoose.Schema({
   companions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   requests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   trip: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
+  messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
   google: String,
   facebook: String
 }, { timestamps: true });
@@ -204,12 +205,12 @@ userSchema.statics.newMessage = (authorId, messageObj, cb) => {
   });
 }
 
-userSchema.statics.read = (messageId) => {
+userSchema.statics.readMessage = (messageId, cb) => {
   Message.findById(messageId, (err, message) => {
     if(err) return cb(err);
     message.new = false;
     message.save(cb);
-  })
+  }).populate('author');
 }
 
 userSchema.methods.getScore = (user) => {
