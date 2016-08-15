@@ -118,10 +118,32 @@ a.right.viewProfile {
     margin-right: 15px;
 }
 
-.userInfo.companionCard {
-    width: 65%;
+md-dialog.messagesDialog.md-transition-in {
+    width: 53%;
+    height: 75%;
 }
 
 .ng-table-counts.btn-group.pull-right {
     display: none;
+}
+
+.messageSuccess {
+  color: #55967e;
+}
+
+tr.messageRow.ng-scope:hover {
+  background-color: rgb(190, 191, 191);
+  cursor: pointer;
+}
+
+.messageBack {
+  cursor: pointer;
+}
+
+td {
+  border-radius: 0;
+}
+
+.new {
+  background-color: rgba(145, 224, 254, 0.73);
 }

@@ -205,12 +205,12 @@ userSchema.statics.newMessage = (authorId, messageObj, cb) => {
   });
 }
 
-userSchema.statics.read = (messageId) => {
+userSchema.statics.readMessage = (messageId, cb) => {
   Message.findById(messageId, (err, message) => {
     if(err) return cb(err);
     message.new = false;
     message.save(cb);
-  })
+  }).populate('author');
 }
 
 userSchema.methods.getScore = (user) => {

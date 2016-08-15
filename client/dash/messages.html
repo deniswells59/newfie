@@ -5,21 +5,41 @@
         <span flex></span>
       </div>
     </md-toolbar>
+
     <md-dialog-content style="max-width:800px;max-height:810px; ">
       <md-tabs md-dynamic-height md-border-bottom>
+
+        <!-- MESSAGE LIST -->
         <md-tab label="messages">
           <md-content class="md-padding">
-            <h1 class="md-display-2">Messages</h1>
-            <table ng-table="messages" class="table">
-              <tr ng-repeat="message in $data">
-                  <td title="Sent" sortable="'date'">
-                      {{message.createdAt | date}}</td>
+
+            <span ng-if="!viewing">
+              <h1 class="md-display-2">Messages</h1>
+              <table ng-table="messages" class="table">
+                <tr
+                  ng-repeat="message in $data"
+                  ng-class="{new: message.new}"
+                  class="messageRow"
+                  ng-click="viewMessage(message)">
+                <td title="Sent" sortable="'createdAt'">
+                  {{message.createdAt | date}}</td>
                   <td title="'Content'">
-                      {{message.content | limitTo: 10}}</td>
-              </tr>
-            </table>
+                    {{message.content | limitTo: 10}}
+                    <span ng-if="message.content.length > 10">. . .</span>
+                  </td>
+                </tr>
+              </table>
+            </span>
+
+            <span ng-if="viewing">
+              <a ng-click="goBack()" class="messageBack">Back</a>
+              <h3>{{currentMessage.author.name}} Said</h3>
+              <p>{{currentMessage.content}}</p>
+            </span>
           </md-content>
         </md-tab>
+
+        <!-- SEND MESSAGE -->
         <md-tab label="send">
           <md-content class="md-padding">
             <h4>Send a message to {{companion.name}}</h4>
@@ -28,17 +48,13 @@
              <label>Your Message</label>
              <textarea ng-model="newMessage.content" md-maxlength="450" rows="5" md-select-on-focus></textarea>
             </md-input-container>
-            <span class="left" ng-if="sent">Message Sent!</span>
+            <span class="left messageSuccess" ng-if="sent">Message Sent!</span>
             <a class="right btn" ng-click="sendMessage()">Send</a>
           </md-content>
         </md-tab>
+
       </md-tabs>
     </md-dialog-content>
-    <md-dialog-actions layout="row">
-      <span flex></span>
-      <md-button ng-click="closeDialog()">
-        Close
-      </md-button>
-    </md-dialog-actions>
+
   </form>
 </md-dialog>

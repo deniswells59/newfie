@@ -353,7 +353,7 @@ app.service('Companion', function ($http) {
   };
 });
 
-app.service('Messages', function ($http) {
+app.service('Messages', function ($http, User) {
   var _this3 = this;
 
   this.companion = {};
@@ -367,13 +367,28 @@ app.service('Messages', function ($http) {
     });
   };
 
+  this.getCompanionMessages = function () {
+    var user = User.getUser();
+
+    return user.messages.filter(function (message) {
+      if (message.author === _this3.companion._id) return message;
+    });
+  };
+
   this.returnsCompanion = function () {
     return _this3.companion;
   };
 
   this.sendMessage = function (obj) {
-    console.log('obj', obj);
     return $http.post('api/users/messages', obj).then(function (res) {
+      return res.data;
+    }).catch(function (err) {
+      return console.log('err', err);
+    });
+  };
+
+  this.read = function (_id) {
+    return $http.put('api/users/read', { _id: _id }).then(function (res) {
       return res.data;
     }).catch(function (err) {
       return console.log('err', err);
@@ -587,10 +602,11 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
 
 app.controller('messagesCtrl', messagesCtrl);
 
-function messagesCtrl($scope, $timeout, Messages, User, NgTableParams) {
-  var messages = User.getUser().messages;
+function messagesCtrl($scope, $timeout, Messages, NgTableParams) {
+  var messages = Messages.getCompanionMessages();
   $scope.messages = new NgTableParams({}, { dataset: messages });
   $scope.companion = Messages.returnsCompanion();
+  $scope.viewing = false;
 
   $scope.newMessage = {
     _id: $scope.companion._id
@@ -605,6 +621,18 @@ function messagesCtrl($scope, $timeout, Messages, User, NgTableParams) {
         $scope.sent = false;
       }, 5000);
     });
+  };
+
+  $scope.viewMessage = function (message) {
+    message.new = false;
+    Messages.read(message._id).then(function (message) {
+      $scope.currentMessage = message;
+      $scope.viewing = true;
+    });
+  };
+
+  $scope.goBack = function () {
+    $scope.viewing = false;
   };
 }
 'use strict';
