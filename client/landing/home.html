@@ -67,4 +67,23 @@
       <p>Become a guide and advertise your AirBnB</p>
     </div>
   </div>
+
+
+  <div class="row connect intro center">
+    <h1>Let us know what you think!</h1>
+    <md-input-container class="md-block">
+      <div class="col s12 m6">
+        <label>Name</label>
+        <input md-maxlength="30" name="name" ng-model="email.name">
+      </div>
+      <div class="col s12 m6">
+        <label>Email</label>
+        <input md-maxlength="40" required name="email" ng-model="email.address">
+      </div>
+      <div class="col s12">
+        <label>Message</label>
+        <textarea md-maxlength="450" row="5" required name="message" ng-model="email.message">
+      </div>
+    </md-input-container>
+  </div>
 </span>
