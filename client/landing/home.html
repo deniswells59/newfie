@@ -70,20 +70,40 @@
 
 
   <div class="row connect intro center">
-    <h1>Let us know what you think!</h1>
-    <md-input-container class="md-block">
-      <div class="col s12 m6">
-        <label>Name</label>
-        <input md-maxlength="30" name="name" ng-model="email.name">
+    <span ng-if="!sent">
+      <h1>Let us know what you think!</h1>
+      <p>Leave some feedback and we'll do what we can.</p>
+      <div class="col s12 m4 offset-m2">
+        <md-input-container class="landingContainer md-block">
+            <label class="landingLabel">Name</label>
+            <input class="landingInput" md-maxlength="30" name="name" ng-model="email.name">
+        </md-input-container>
       </div>
-      <div class="col s12 m6">
-        <label>Email</label>
-        <input md-maxlength="40" required name="email" ng-model="email.address">
+      <div class="col s12 m4">
+        <md-input-container class="landingContainer md-block">
+            <label class="landingLabel">Email</label>
+            <input class="landingInput" md-maxlength="40" required name="email" ng-model="email.address">
+        </md-input-container>
       </div>
-      <div class="col s12">
-        <label>Message</label>
-        <textarea md-maxlength="450" row="5" required name="message" ng-model="email.message">
+      <div class="col s12 m8 offset-m2">
+        <md-input-container class="landingContainer md-block">
+            <label class="landingLabel">Message</label>
+            <textarea
+              class="landingInput"
+              md-maxlength="450"
+              row="5"
+              required
+              name="message"
+              ng-model="email.message"></textarea>
+        </md-input-container>
       </div>
-    </md-input-container>
+      <div class="col s12 m4 offset-m7">
+        <button class="btn" ng-click="sendFeedback()">Submit</button>
+      </div>
+    </span>
+    <span ng-if="sent">
+      <h1>Thanks!</h1>
+      <p>Message Sent!</p>
+    </span>
   </div>
 </span>

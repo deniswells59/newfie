@@ -50,11 +50,3 @@ app.controller('mainCtrl', function($scope, $state, $mdDialog, $auth, User) {
     $state.go('home');
   }
 });
-
-app.controller('loginCtrl', function($scope, User, $state) {
-  console.log('yo');
-});
-
-app.controller('homeCtrl', function($scope) {
-  $scope.imgLoaded = false;
-});

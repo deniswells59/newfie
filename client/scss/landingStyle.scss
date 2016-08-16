@@ -123,9 +123,38 @@ a.login {
 }
 
 .space {
-    height: 300px;
+  height: 300px;
 }
 
 .footer {
   color: rgba(#403f3f, 0.55);
+}
+
+md-input-container.landingContainer .md-input {
+  border-color: #FFFFFF;
+}
+
+.landingLabel {
+  color: #FFFFFF;
+}
+
+input.landingInput, textarea.landingInput {
+  color: #FFFFFF;
+}
+
+input.landingInput:not([type]):focus:not([readonly]) {
+  border-bottom: 1px solid #FFFFFF;
+  box-shadow: 0 1px 0 0 #FFFFFF;
+}
+
+md-input-container.landingContainer:not(.md-input-invalid).md-input-focused .md-input {
+  border-color: #FFFFFF;
+}
+
+md-input-container.landingContainer:not(.md-input-invalid).md-input-focused label {
+  color: #FFFFFF;
+}
+
+md-input-container.landingContainer:not(.md-input-invalid).md-input-has-value label {
+  color: #FFFFFF;
 }

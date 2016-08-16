@@ -227,3 +227,12 @@ app.service('Messages', function($http, User) {
   }
 
 });
+
+app.service('Mail', function($http) {
+  
+  this.sendFeedback = (messageObj) => {
+    return $http.post('api/mail/', messageObj)
+      .catch(err => console.log('err', err));
+  }
+
+});

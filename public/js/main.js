@@ -161,14 +161,6 @@ app.controller('mainCtrl', function ($scope, $state, $mdDialog, $auth, User) {
     $state.go('home');
   };
 });
-
-app.controller('loginCtrl', function ($scope, User, $state) {
-  console.log('yo');
-});
-
-app.controller('homeCtrl', function ($scope) {
-  $scope.imgLoaded = false;
-});
 'use strict';
 
 app.service('User', function ($http, $state) {
@@ -391,6 +383,15 @@ app.service('Messages', function ($http, User) {
     return $http.put('api/users/read', { _id: _id }).then(function (res) {
       return res.data;
     }).catch(function (err) {
+      return console.log('err', err);
+    });
+  };
+});
+
+app.service('Mail', function ($http) {
+
+  this.sendFeedback = function (messageObj) {
+    return $http.post('api/mail/', messageObj).catch(function (err) {
       return console.log('err', err);
     });
   };
@@ -633,6 +634,21 @@ function messagesCtrl($scope, $timeout, Messages, NgTableParams) {
 
   $scope.goBack = function () {
     $scope.viewing = false;
+  };
+}
+'use strict';
+
+app.controller('homeCtrl', homeCtrl);
+
+function homeCtrl($scope, Mail) {
+  $scope.imgLoaded = false;
+  $scope.sent = false;
+  $scope.email = {};
+
+  $scope.sendFeedback = function () {
+    Mail.sendFeedback($scope.email).then(function () {
+      $scope.sent = true;
+    });
   };
 }
 'use strict';
