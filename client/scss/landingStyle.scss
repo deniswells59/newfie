@@ -158,3 +158,21 @@ md-input-container.landingContainer:not(.md-input-invalid).md-input-focused labe
 md-input-container.landingContainer:not(.md-input-invalid).md-input-has-value label {
   color: #FFFFFF;
 }
+
+.hidden {
+  visibility: hidden;
+}
+
+.pupPicture {
+  height: 100px;
+  width: 100px;
+  margin-bottom: 1em;
+}
+
+.footerPicture {
+  cursor: pointer;
+}
+
+.row.connect.intro.center.bottom {
+  height: 35em;
+}

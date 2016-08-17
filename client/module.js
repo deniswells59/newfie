@@ -10,7 +10,7 @@ const _isNotMobile = (function() {
     })();
 
 const app = angular.module('myApp',
-  ['ui.router', 'satellizer', 'ngMaterial', 'ngMap', 'ngTable']);
+  ['ui.router', 'satellizer', 'ngMaterial', 'ngMap', 'ngTable', 'angular-scroll-animate']);
 
 app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
 
