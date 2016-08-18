@@ -1,11 +1,15 @@
-<md-dialog>
-  <h4 class="center">Login</h4>
+<md-dialog class="loginDialog">
+  <br>
   <div class="btn-group">
-    <a class="waves-effect waves-light btn col s4"
-      ng-click="authenticate('facebook')">
-      Facebook Login
-    </a>
-    <a class="waves-effect waves-light btn col s4"
+    <div class="col s12">
+      <img src="./assets/facebook_transparent.png" class="buttonLogo left">
+      <a class="waves-effect waves-light btn faceButton"
+        ng-click="authenticate('facebook')">
+        Facebook Login
+      </a>
+    </div>
+    <img src="./assets/google_transparent.png" class="buttonLogo left">
+    <a class="waves-effect waves-light btn googButton"
       ng-click="authenticate('google')">
       Google Login
     </a>
@@ -13,7 +17,7 @@
 
   <hr />
 
-  <h5 class="center">Or Login with Email</h5>
+  <h5 class="center landingTitle">Login with Email</h5>
 
   <form>
     <md-input-container>
@@ -24,7 +28,7 @@
       <label>Password</label>
       <input ng-model="login.password" type="password">
     </md-input-container>
-    <a class="login right"
+    <a class="btn col s12 right"
        ng-click="loginUser()">Enter</a>
   </form>
 

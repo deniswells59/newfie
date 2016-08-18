@@ -104,10 +104,6 @@ md-dialog#dialogContent_2 {
     padding: 20px;
 }
 
-h4.center {
-    margin-bottom: 40px;
-}
-
 hr {
     box-sizing: content-box;
     height: 0;
@@ -170,9 +166,34 @@ md-input-container.landingContainer:not(.md-input-invalid).md-input-has-value la
 }
 
 .footerPicture {
+  margin-top: 2em;
   cursor: pointer;
 }
 
 .row.connect.intro.center.bottom {
   height: 35em;
+}
+
+md-dialog.loginDialog {
+  width: 30%;
+  padding: 1em;
+}
+
+a.waves-effect.waves-light.btn.faceButton {
+  background-color: #4867aa;
+}
+
+a.waves-effect.waves-light.btn.googButton {
+  background-color: #269656;
+}
+
+.buttonLogo {
+  padding-top: 10px;
+  padding-right: 10px;
+  height: 35px;
+  width: auto;
+}
+
+.landingTitle {
+  font-family: 'Montserrat', sans-serif;
 }

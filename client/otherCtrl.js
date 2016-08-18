@@ -8,7 +8,8 @@ app.controller('mainCtrl', function($scope, $state, $mdDialog, $auth, User) {
     $mdDialog.show({
           targetEvent: $event,
           templateUrl: '../html/landing/login.html',
-          controller: 'mainCtrl'
+          controller: 'mainCtrl',
+          clickOutsideToClose: true
         });
   }
 
