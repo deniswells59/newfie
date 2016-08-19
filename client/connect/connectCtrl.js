@@ -1,10 +1,17 @@
 app.controller('connectCtrl', connectCtrl);
 
-function connectCtrl($scope, User, mobile, users) {
-  $scope.mobile = mobile;
+function connectCtrl($scope, User, users) {
   $scope.users = users;
 
   console.log($scope.users);
+
+  $('a.btn-floating').sideNav({
+      menuWidth: 300, // Default is 240
+      edge: 'right', // Choose the horizontal origin
+      closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    }
+  );
+
 
   (function userCounts() {
     let counts = {

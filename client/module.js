@@ -84,9 +84,6 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
       templateUrl: '/html/connect/connect.html',
       controller: 'connectCtrl',
       resolve: {
-        mobile: function() {
-          return _isNotMobile;
-        },
         users: function(User) {
           return User.getAll({query: {}, page: 0});
         }

@@ -28,7 +28,7 @@ h6.cardHeader {
     bottom: .2em;
 }
 
-.row .col.s9 {
+.row .col.userList {
     margin-top: 8em;
 }
 
@@ -58,4 +58,9 @@ li.listedItems {
 
 li.listedItems:hover, li.listedItems:active {
     text-decoration: underline;
+}
+
+.sideSearch {
+  background-color: #6d819c;
+  color: white;
 }
