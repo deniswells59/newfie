@@ -8,13 +8,9 @@ import User from '../models/user';
 router.use('/validate',  require('./validate'));
 
 router.put('/', User.check(), (req, res) => {
-  let userId = req.user ? req.user._id : null;
-  User.find(req.body.query, (err, users) => {
+  User.queryUsers(req.user._id, req.body, (err, users) => {
     res.status(err ? 400 : 200).send(err || users);
-  }).limit(10)
-    .skip(req.body.page * 10)
-    .populate('trip')
-    .ne('_id', userId);
+  });
 });
 
 router.get('/check', User.auth(), (req, res) => {
@@ -73,7 +69,7 @@ router.put('/place', User.auth(), (req, res) => {
   });
 });
 
-router.put('/update', User.auth(), (req, res) => {
+router.put('/trip', User.auth(), (req, res) => {
   User.addTrip(req.user._id, req.body, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
   });

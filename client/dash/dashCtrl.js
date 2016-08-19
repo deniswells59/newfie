@@ -9,11 +9,6 @@ function
   if (!user.registered) {
     $state.go('registerNav.registerLang');
   }
-  if (user.trip[0]) {
-    $scope.expertise = user.trip[0].expertise;
-  } else {
-    $scope.expertise = [];
-  }
 
   let self = this;
 
@@ -104,7 +99,6 @@ function
   }
 
   $scope.saveGuide = () => {
-    $scope.user.trip[0].expertise = $scope.expertise;
     User.saveGuide($scope.user.trip[0])
       .then(newUser => {
         $scope.user = newUser;
@@ -119,7 +113,6 @@ function
     $scope.editBio();
     User.editProfile($scope.tmp)
       .then(user => {
-        console.log(user);
         $scope.user = user;
         $scope.tmp = angular.copy(user);
       })

@@ -76,9 +76,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $authProvider) {
     templateUrl: '/html/connect/connect.html',
     controller: 'connectCtrl',
     resolve: {
-      mobile: function mobile() {
-        return _isNotMobile;
-      },
       users: function users(User) {
         return User.getAll({ query: {}, page: 0 });
       }
@@ -172,6 +169,8 @@ app.service('User', function ($http, $state) {
   this.getAll = function (selectObj) {
     return $http.put('api/users', selectObj).then(function (res) {
       return res.data;
+    }).catch(function (err) {
+      console.log('err', err);
     });
   };
 
@@ -264,7 +263,7 @@ app.service('User', function ($http, $state) {
   };
 
   this.saveGuide = function (trip) {
-    return $http.put('/api/users/update', trip).then(function (res) {
+    return $http.put('/api/users/trip', trip).then(function (res) {
       return res.data;
     }).catch(function (err) {
       console.log('err', err);
@@ -401,14 +400,20 @@ app.service('Mail', function ($http) {
 
 app.controller('connectCtrl', connectCtrl);
 
-function connectCtrl($scope, User, mobile, users) {
-  $scope.mobile = mobile;
+function connectCtrl($scope, User, users) {
   $scope.users = users;
 
   console.log($scope.users);
 
+  $('a.btn-floating').sideNav({
+    menuWidth: 300, // Default is 240
+    edge: 'right', // Choose the horizontal origin
+    closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+  });
+
   (function userCounts() {
     var counts = {
+      total: users.length,
       topic: {}
     };
     $scope.users.forEach(function (user) {
@@ -425,6 +430,24 @@ function connectCtrl($scope, User, mobile, users) {
     $scope.counts = counts;
     $scope.topics = Object.keys(counts.topic);
   })();
+
+  $scope.all = function () {
+    User.getAll({ query: {}, page: 0 }).then(function (user) {
+      $scope.users = users;
+    });
+  };
+
+  $scope.interestSelect = function (topic) {
+    User.getAll({ query: { interests: topic } }).then(function (users) {
+      $scope.users = users;
+    });
+  };
+
+  $scope.typeSelect = function (type) {
+    User.getAll({ query: { type: type } }).then(function (users) {
+      $scope.users = users;
+    });
+  };
 }
 'use strict';
 
@@ -466,11 +489,6 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
   }
   if (!user.registered) {
     $state.go('registerNav.registerLang');
-  }
-  if (user.trip[0]) {
-    $scope.expertise = user.trip[0].expertise;
-  } else {
-    $scope.expertise = [];
   }
 
   var self = this;
@@ -559,7 +577,6 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
   };
 
   $scope.saveGuide = function () {
-    $scope.user.trip[0].expertise = $scope.expertise;
     User.saveGuide($scope.user.trip[0]).then(function (newUser) {
       $scope.user = newUser;
     });
@@ -572,7 +589,6 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
   $scope.saveBio = function () {
     $scope.editBio();
     User.editProfile($scope.tmp).then(function (user) {
-      console.log(user);
       $scope.user = user;
       $scope.tmp = angular.copy(user);
     });

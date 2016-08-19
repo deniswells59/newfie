@@ -28,7 +28,7 @@ h6.cardHeader {
     bottom: .2em;
 }
 
-.row .col.s9 {
+.row .col.userList {
     margin-top: 8em;
 }
 
@@ -50,4 +50,25 @@ span.connectRight {
 
 .connectName {
     font-weight: 900;
+}
+
+li.listedItems {
+    cursor: pointer;
+}
+
+li.listedItems:hover, li.listedItems:active {
+    text-decoration: underline;
+}
+
+.sideSearch {
+  background-color: #6d819c;
+  color: white;
+}
+
+.card.horizontal.profileCard {
+  cursor: pointer;
+}
+
+.card.horizontal.profileCard:hover, .card.horizontal.profileCard:active {
+  background-color: lightblue;
 }
