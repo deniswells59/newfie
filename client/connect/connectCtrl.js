@@ -8,6 +8,7 @@ function connectCtrl($scope, User, mobile, users) {
 
   (function userCounts() {
     let counts = {
+      total: users.length,
       topic: {}
     };
     $scope.users.forEach(user => {
@@ -26,5 +27,24 @@ function connectCtrl($scope, User, mobile, users) {
     $scope.topics = Object.keys(counts.topic);
   })();
 
+  $scope.all = () => {
+    User.getAll({query: {}, page: 0})
+      .then(user => {
+        $scope.users = users;
+      });
+  }
 
+  $scope.interestSelect = (topic) => {
+    User.getAll({ query: { interests: topic }})
+      .then(users => {
+        $scope.users = users;
+      });
+  }
+
+  $scope.typeSelect = (type) => {
+    User.getAll({ query: { type }})
+      .then(users => {
+        $scope.users = users;
+      });
+  }
 }

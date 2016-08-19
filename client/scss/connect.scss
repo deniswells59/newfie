@@ -51,3 +51,11 @@ span.connectRight {
 .connectName {
     font-weight: 900;
 }
+
+li.listedItems {
+    cursor: pointer;
+}
+
+li.listedItems:hover, li.listedItems:active {
+    text-decoration: underline;
+}

@@ -172,6 +172,8 @@ app.service('User', function ($http, $state) {
   this.getAll = function (selectObj) {
     return $http.put('api/users', selectObj).then(function (res) {
       return res.data;
+    }).catch(function (err) {
+      console.log('err', err);
     });
   };
 
@@ -264,7 +266,7 @@ app.service('User', function ($http, $state) {
   };
 
   this.saveGuide = function (trip) {
-    return $http.put('/api/users/update', trip).then(function (res) {
+    return $http.put('/api/users/trip', trip).then(function (res) {
       return res.data;
     }).catch(function (err) {
       console.log('err', err);
@@ -409,6 +411,7 @@ function connectCtrl($scope, User, mobile, users) {
 
   (function userCounts() {
     var counts = {
+      total: users.length,
       topic: {}
     };
     $scope.users.forEach(function (user) {
@@ -425,6 +428,24 @@ function connectCtrl($scope, User, mobile, users) {
     $scope.counts = counts;
     $scope.topics = Object.keys(counts.topic);
   })();
+
+  $scope.all = function () {
+    User.getAll({ query: {}, page: 0 }).then(function (user) {
+      $scope.users = users;
+    });
+  };
+
+  $scope.interestSelect = function (topic) {
+    User.getAll({ query: { interests: topic } }).then(function (users) {
+      $scope.users = users;
+    });
+  };
+
+  $scope.typeSelect = function (type) {
+    User.getAll({ query: { type: type } }).then(function (users) {
+      $scope.users = users;
+    });
+  };
 }
 'use strict';
 
@@ -466,11 +487,6 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
   }
   if (!user.registered) {
     $state.go('registerNav.registerLang');
-  }
-  if (user.trip[0]) {
-    $scope.expertise = user.trip[0].expertise;
-  } else {
-    $scope.expertise = [];
   }
 
   var self = this;
@@ -559,7 +575,6 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
   };
 
   $scope.saveGuide = function () {
-    $scope.user.trip[0].expertise = $scope.expertise;
     User.saveGuide($scope.user.trip[0]).then(function (newUser) {
       $scope.user = newUser;
     });
@@ -572,7 +587,6 @@ function dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Compa
   $scope.saveBio = function () {
     $scope.editBio();
     User.editProfile($scope.tmp).then(function (user) {
-      console.log(user);
       $scope.user = user;
       $scope.tmp = angular.copy(user);
     });

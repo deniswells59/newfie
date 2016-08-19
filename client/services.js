@@ -9,6 +9,9 @@ app.service('User', function($http, $state) {
       .then(res => {
         return res.data;
       })
+      .catch(err => {
+        console.log('err', err);
+      })
   }
 
   this.getOne = (id) => {
@@ -102,7 +105,7 @@ app.service('User', function($http, $state) {
   }
 
   this.saveGuide = (trip) => {
-    return $http.put('/api/users/update', trip)
+    return $http.put('/api/users/trip', trip)
       .then(res => {
         return res.data;
       })
@@ -229,7 +232,7 @@ app.service('Messages', function($http, User) {
 });
 
 app.service('Mail', function($http) {
-  
+
   this.sendFeedback = (messageObj) => {
     return $http.post('api/mail/', messageObj)
       .catch(err => console.log('err', err));

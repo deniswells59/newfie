@@ -48,11 +48,30 @@ const userSchema = new mongoose.Schema({
   facebook: String
 }, { timestamps: true });
 
+userSchema.statics.queryUsers = (id, queryObj, cb) => {
+  let userId = id ? id : null;
+  let topic = Object.keys(queryObj.query)[0];
+
+  if(topic) {
+    User.find({}, cb)
+      .where(topic).in([queryObj.query[topic]])
+      .limit(10)
+      .skip(queryObj.page * 10)
+      .populate('trip')
+      .ne('_id', userId);
+  } else {
+    User.find({}, cb)
+      .limit(10)
+      .skip(queryObj.page * 10)
+      .populate('trip')
+      .ne('_id', userId);
+  }
+}
+
 userSchema.statics.addTrip = (id, tripObj, cb) => {
   if (!tripObj._id) {
     Trip.create(tripObj, (err, trip) => {
       if (err) return cb(err);
-
       User.findById(id, (err, user) => {
         if(err) return cb(err);
         user.trip.push(trip._id);
@@ -65,7 +84,7 @@ userSchema.statics.addTrip = (id, tripObj, cb) => {
       }).select('-password');
     });
   } else {
-    Trip.findByIdAndUpdate(tripObj._id, tripObj, () => {
+    Trip.findByIdAndUpdate(tripObj._id, tripObj, (err, trip) => {
       User.findById(id, cb).select('-password').populate('trip');
     });
   }

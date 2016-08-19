@@ -6,19 +6,19 @@
 
       <ul class="card-panel">
         <h5 class="cardHeader">User Types</h5>
-        <li>All ({{users.length}})</li>
-        <li ng-if="counts.guide">Guides ({{counts.guide}})</li>
-        <li ng-if="counts.user">Users ({{counts.user}})</li>
+        <li class="listedItems" ng-click="all()">All ({{counts.total}})</li>
+        <li class="listedItems" ng-click="typeSelect('Guide')" ng-if="counts.guide">Guides ({{counts.guide}})</li>
+        <li class="listedItems" ng-click="typeSelect('User')" ng-if="counts.user">Users ({{counts.user}})</li>
       </ul>
       <ul class="card-panel">
         <h5 class="cardHeader">Interests</h5>
-        <li ng-repeat="topic in topics">{{topic}} ({{counts.topic[topic]}})</li>
+        <li class="listedItems" ng-repeat="topic in topics" ng-click="interestSelect(topic)">{{topic}} ({{counts.topic[topic]}})</li>
       </ul>
     </div>
 
 
     <div class="col s9">
-      <div ng-repeat="user in users"
+      <div ng-repeat="user in users | orderBy: '-score'"
            class="userPick"
            ui-sref="profileView({id: user._id})">
         <div class="card horizontal">
