@@ -64,3 +64,11 @@ li.listedItems:hover, li.listedItems:active {
   background-color: #6d819c;
   color: white;
 }
+
+.card.horizontal.profileCard {
+  cursor: pointer;
+}
+
+.card.horizontal.profileCard:hover, .card.horizontal.profileCard:active {
+  background-color: lightblue;
+}

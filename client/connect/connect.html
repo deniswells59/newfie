@@ -1,8 +1,10 @@
 <div class="container">
   <div class="row">
-     <a data-activates="slide-out" class="btn-floating btn-large waves-effect waves-light red hide-on-med-and-up">
-       <i class="fa fa-search" aria-hidden="true"></i>
-     </a>
+    <div class="fixed-action-btn">
+      <a data-activates="slide-out" class="btn-floating btn-large waves-effect waves-light hide-on-med-and-up">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </a>
+    </div>
 
     <div class="col m3 hide-on-small-only">
       <h1>Connect</h1>
@@ -24,7 +26,7 @@
       <div ng-repeat="user in users | orderBy: '-score'"
            class="userPick"
            ui-sref="profileView({id: user._id})">
-        <div class="card horizontal">
+        <div class="card horizontal profileCard">
           <div class="card-image connectImg">
             <img ng-src="{{user.img}}">
           </div>
@@ -70,14 +72,16 @@
 
 <div id="slide-out" class="side-nav">
   <div class="col s12 sideSearch">
-    <ul>
+    <ul class="connectList">
       <h5>User Types</h5>
+      <hr class="listedHr hide-on-med-and-up">
       <li class="listedItems" ng-click="all()">All ({{counts.total}})</li>
       <li class="listedItems" ng-click="typeSelect('Guide')" ng-if="counts.guide">Guides ({{counts.guide}})</li>
       <li class="listedItems" ng-click="typeSelect('User')" ng-if="counts.user">Users ({{counts.user}})</li>
     </ul>
-    <ul>
+    <ul class="connectList">
       <h5>Interests</h5>
+      <hr class="listedHr hide-on-med-and-up">
       <li class="listedItems" ng-repeat="topic in topics" ng-click="interestSelect(topic)">{{topic}} ({{counts.topic[topic]}})</li>
     </ul>
   </div>
