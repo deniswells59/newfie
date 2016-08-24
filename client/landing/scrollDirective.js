@@ -1,4 +1,4 @@
-app.directive('navState', function($window, $state, $rootScope) {
+app.directive('navState', function($window, $state, $rootScope, $animate) {
   return function(scope, element) {
     $rootScope.$on('$stateChangeStart',
       function(event, toState, toParams, fromState, fromParams){

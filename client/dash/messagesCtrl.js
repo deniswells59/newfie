@@ -2,9 +2,10 @@ app.controller('messagesCtrl', messagesCtrl);
 
 function messagesCtrl($scope, $timeout, Messages, NgTableParams) {
   const messages = Messages.getCompanionMessages();
-  $scope.messages = new NgTableParams({}, { dataset: messages});
+  $scope.messages = new NgTableParams({}, { dataset: messages });
   $scope.companion = Messages.returnsCompanion();
   $scope.viewing = false;
+  $scope.length = messages.length;
 
   $scope.newMessage = {
     _id: $scope.companion._id

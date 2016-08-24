@@ -47,7 +47,7 @@ export default class Auth {
                   user: user
                  });
               });
-            });
+            }).populate('trip requests companions messages');
           });
         } else {
           // Step 3b. Create a new user account or return an existing one.
@@ -72,7 +72,7 @@ export default class Auth {
                 user
               });
             });
-          });
+          }).populate('trip requests companions messages');
         }
       });
     });
@@ -121,7 +121,7 @@ export default class Auth {
                   user: user
                 });
               });
-            });
+            }).populate('trip requests companions messages');
           });
         } else {
           // Step 3. Create a new user account or return an existing one.
@@ -144,7 +144,7 @@ export default class Auth {
                 user
               });
             });
-          });
+          }).populate('trip requests companions messages');
         }
       });
     });
@@ -177,7 +177,7 @@ export default class Auth {
           })
         });
       }
-    })
+    }).populate('trip requests companions messages');
   }
 
 

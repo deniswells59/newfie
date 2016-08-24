@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row">
+
     <div class="col s6 offset-s3 m3">
       <div class="card">
         <div class="card-image">
@@ -9,7 +10,7 @@
 
       <a class="btn col s12" ng-if="friendRequest" ng-click="sendRequest()">
         <i class="fa fa-paper-plane contactButton" aria-hidden="true"></i>
-        <span ng-if="notMobile">Send Friend Request</span>
+        <span>Send Friend Request</span>
       </a>
     </div>
 
@@ -71,7 +72,7 @@
       </div>
     </div>
 
-    <div class="col s12">
+    <div class="col s12 card mapCard">
       <h5>Where {{profile.name}} Has Been</h5>
 
       <ng-map default-style="false" zoom="2"

@@ -34,7 +34,7 @@ function
         $location.url("/dash/companions");
         break;
     }
-  })
+  });
 
   $scope.getLocation = (event) => {
     if(!$scope.pending) {

@@ -92,9 +92,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $authProvider) {
         return User.getOne($stateParams.id).then(function (res) {
           return res.data;
         });
-      },
-      notMobile: function notMobile() {
-        return _isNotMobile;
       }
     }
   });
@@ -398,59 +395,6 @@ app.service('Mail', function ($http) {
 });
 'use strict';
 
-app.controller('connectCtrl', connectCtrl);
-
-function connectCtrl($scope, User, users) {
-  $scope.users = users;
-
-  console.log($scope.users);
-
-  $('a.btn-floating').sideNav({
-    menuWidth: 300, // Default is 240
-    edge: 'right', // Choose the horizontal origin
-    closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
-  });
-
-  (function userCounts() {
-    var counts = {
-      total: users.length,
-      topic: {}
-    };
-    $scope.users.forEach(function (user) {
-      if (user.type === 'Guide') {
-        counts.guide ? counts.guide++ : counts.guide = 1;
-      } else {
-        counts.user ? counts.user++ : counts.user = 1;
-      }
-
-      user.interests.forEach(function (topic) {
-        counts.topic[topic] ? counts.topic[topic]++ : counts.topic[topic] = 1;
-      });
-    });
-    $scope.counts = counts;
-    $scope.topics = Object.keys(counts.topic);
-  })();
-
-  $scope.all = function () {
-    User.getAll({ query: {}, page: 0 }).then(function (user) {
-      $scope.users = users;
-    });
-  };
-
-  $scope.interestSelect = function (topic) {
-    User.getAll({ query: { interests: topic } }).then(function (users) {
-      $scope.users = users;
-    });
-  };
-
-  $scope.typeSelect = function (type) {
-    User.getAll({ query: { type: type } }).then(function (users) {
-      $scope.users = users;
-    });
-  };
-}
-'use strict';
-
 app.controller('BnBController', BnBController);
 
 function BnBController($scope, $mdDialog, AirBnB) {
@@ -625,6 +569,7 @@ function messagesCtrl($scope, $timeout, Messages, NgTableParams) {
   $scope.messages = new NgTableParams({}, { dataset: messages });
   $scope.companion = Messages.returnsCompanion();
   $scope.viewing = false;
+  $scope.length = messages.length;
 
   $scope.newMessage = {
     _id: $scope.companion._id
@@ -655,111 +600,23 @@ function messagesCtrl($scope, $timeout, Messages, NgTableParams) {
 }
 'use strict';
 
-app.controller('homeCtrl', homeCtrl);
-
-function homeCtrl($scope, $timeout, Mail) {
-  $scope.imgLoaded = false;
-  $scope.sent = false;
-  $scope.sending = false;
-  $scope.email = {};
-
-  $scope.sendFeedback = function () {
-    $('.form').addClass('animated fadeOut');
-    $timeout(function () {
-      $scope.sending = true;
-      Mail.sendFeedback($scope.email).then(function () {
-        $scope.sending = false;
-        $scope.sent = true;
-      });
-    }, 1500);
-  };
-
-  $scope.animateCircleIn = function ($el) {
-    $el.removeClass('hidden');
-    $el.addClass('animated fadeInLeft');
-  };
-
-  $scope.animateConnectIn = function ($el) {
-    $el.removeClass('hidden');
-    $el.addClass('animated fadeInLeft');
-  };
-
-  $scope.animateTitleIn = function ($el) {
-    $el.removeClass('hidden');
-    $el.addClass('animated fadeIn');
-  };
-}
-'use strict';
-
-app.directive('loadingImage', function () {
-  return function (scope, element, a, con) {
-    element.bind('load', function () {
-      scope.imgLoaded = true;
-      scope.$apply();
-    });
-  };
-});
-'use strict';
-
-app.directive('navState', function ($window, $state, $rootScope) {
-  return function (scope, element) {
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      navState($window, toState.name, element);
-    });
-    angular.element($window).bind("scroll", function () {
-      var navSize = element[0].clientHeight;
-      var imageSize = 0;
-
-      if ($('.landingImage').length) {
-        imageSize = $('.landingImage')[0].clientHeight;
-      }
-
-      var scrollLength = imageSize - navSize;
-      if ($window.pageYOffset <= scrollLength) {
-        element[0].style.backgroundColor = 'rgba(85,150,126, 0.05)';
-      } else if ($window.pageYOffset > scrollLength || !$state.current.name) {
-        element[0].style.backgroundColor = '#55967e';
-      }
-    });
-  };
-});
-
-function navState($window, state, element) {
-  var navSize = element[0].clientHeight;
-  var imageSize = 0;
-
-  if ($('.landingImage').length) {
-    imageSize = $('.landingImage')[0].clientHeight;
-  }
-
-  var scrollLength = imageSize - navSize;
-  if (state === '' || state === 'home') {
-    element[0].style.backgroundColor = 'rgba(85,150,126, 0.05)';
-  } else {
-    element[0].style.backgroundColor = '#55967e';
-  }
-};
-'use strict';
-
 app.controller('profileCtrl', profileCtrl);
 
-function profileCtrl(profile, notMobile, user, $scope, Companion) {
-  console.log(profile);
-
+function profileCtrl(profile, user, $scope, Companion) {
   $scope.currentUser = user;
   $scope.profile = profile;
   $scope.trip = profile.trip[0];
-  $scope.notMobile = notMobile;
+  $scope.friendRequest = false;
 
-  if (user && user.companions.indexOf(profile._id) === -1) {
-    $scope.friendRequest = true;
-  } else {
-    $scope.friendRequest = false;
+  if (user) {
+    if (profile.requests.indexOf(user._id) < 0 && user.companions.indexOf(profile._id) < 0) {
+      $scope.friendRequest = true;
+    }
   }
 
   $scope.sendRequest = function () {
     Companion.sendRequest(profile._id).then(function (res) {
-      console.log(res);
+      $scope.friendRequest = false;
     });
   };
 }
@@ -907,3 +764,140 @@ function registerCtrl($timeout, $q, $log, $scope, $state, $auth, User, DuoLingo,
     User.confirm(self.regName);
   }
 };
+'use strict';
+
+app.controller('homeCtrl', homeCtrl);
+
+function homeCtrl($scope, $timeout, Mail) {
+  $scope.imgLoaded = false;
+  $scope.sent = false;
+  $scope.sending = false;
+  $scope.email = {};
+
+  $scope.sendFeedback = function () {
+    $('.form').addClass('animated fadeOut');
+    $timeout(function () {
+      $scope.sending = true;
+      Mail.sendFeedback($scope.email).then(function () {
+        $scope.sending = false;
+        $scope.sent = true;
+      });
+    }, 1500);
+  };
+
+  $scope.animateCircleIn = function ($el) {
+    $el.removeClass('hidden');
+    $el.addClass('animated fadeInLeft');
+  };
+
+  $scope.animateConnectIn = function ($el) {
+    $el.removeClass('hidden');
+    $el.addClass('animated fadeInLeft');
+  };
+
+  $scope.animateTitleIn = function ($el) {
+    $el.removeClass('hidden');
+    $el.addClass('animated fadeIn');
+  };
+}
+'use strict';
+
+app.directive('loadingImage', function () {
+  return function (scope, element, a, con) {
+    element.bind('load', function () {
+      scope.imgLoaded = true;
+      scope.$apply();
+    });
+  };
+});
+'use strict';
+
+app.directive('navState', function ($window, $state, $rootScope, $animate) {
+  return function (scope, element) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      navState($window, toState.name, element);
+    });
+    angular.element($window).bind("scroll", function () {
+      var navSize = element[0].clientHeight;
+      var imageSize = 0;
+
+      if ($('.landingImage').length) {
+        imageSize = $('.landingImage')[0].clientHeight;
+      }
+
+      var scrollLength = imageSize - navSize;
+      if ($window.pageYOffset <= scrollLength) {
+        element[0].style.backgroundColor = 'rgba(85,150,126, 0.05)';
+      } else if ($window.pageYOffset > scrollLength || !$state.current.name) {
+        element[0].style.backgroundColor = '#55967e';
+      }
+    });
+  };
+});
+
+function navState($window, state, element) {
+  var navSize = element[0].clientHeight;
+  var imageSize = 0;
+
+  if ($('.landingImage').length) {
+    imageSize = $('.landingImage')[0].clientHeight;
+  }
+
+  var scrollLength = imageSize - navSize;
+  if (state === '' || state === 'home') {
+    element[0].style.backgroundColor = 'rgba(85,150,126, 0.05)';
+  } else {
+    element[0].style.backgroundColor = '#55967e';
+  }
+};
+'use strict';
+
+app.controller('connectCtrl', connectCtrl);
+
+function connectCtrl($scope, User, users) {
+  $scope.users = users;
+
+  $('a.btn-floating').sideNav({
+    menuWidth: 300, // Default is 240
+    edge: 'right', // Choose the horizontal origin
+    closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+  });
+
+  (function userCounts() {
+    var counts = {
+      total: users.length,
+      topic: {}
+    };
+    $scope.users.forEach(function (user) {
+      if (user.type === 'Guide') {
+        counts.guide ? counts.guide++ : counts.guide = 1;
+      } else {
+        counts.user ? counts.user++ : counts.user = 1;
+      }
+
+      user.interests.forEach(function (topic) {
+        counts.topic[topic] ? counts.topic[topic]++ : counts.topic[topic] = 1;
+      });
+    });
+    $scope.counts = counts;
+    $scope.topics = Object.keys(counts.topic);
+  })();
+
+  $scope.all = function () {
+    User.getAll({ query: {}, page: 0 }).then(function (user) {
+      $scope.users = users;
+    });
+  };
+
+  $scope.interestSelect = function (topic) {
+    User.getAll({ query: { interests: topic } }).then(function (users) {
+      $scope.users = users;
+    });
+  };
+
+  $scope.typeSelect = function (type) {
+    User.getAll({ query: { type: type } }).then(function (users) {
+      $scope.users = users;
+    });
+  };
+}

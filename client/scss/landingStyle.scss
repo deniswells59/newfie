@@ -1,5 +1,10 @@
 body {
   font-family: 'Muli', sans-serif;
+  background-color: #f4f4f4;
+}
+
+html {
+  background-color: #f4f4f4;
 }
 
 .landing-nav {
@@ -196,4 +201,12 @@ a.waves-effect.waves-light.btn.googButton {
 
 .landingTitle {
   font-family: 'Montserrat', sans-serif;
+}
+
+.transparentNav {
+  background-color: rgba(85,150,126, 0.05);
+}
+
+.greenNav {
+  background-color: #55967e;
 }

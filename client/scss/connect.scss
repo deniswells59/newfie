@@ -24,12 +24,8 @@ h6.cardHeader {
 
 .userInfo {
     position: absolute;
-    left: 8em;
+    margin-left: 8em;
     bottom: .2em;
-}
-
-.row .col.userList {
-    margin-top: 8em;
 }
 
 span.connectTabs{
@@ -71,4 +67,26 @@ li.listedItems:hover, li.listedItems:active {
 
 .card.horizontal.profileCard:hover, .card.horizontal.profileCard:active {
   background-color: lightblue;
+}
+
+.card.horizontal.profileCard {
+  margin: 0;
+  box-shadow: 0 0 0 0 #FFFFFF;
+  border-bottom: 1px solid #e4e7ec;
+}
+
+.card {
+  transition: none;
+  border-radius: 0px;
+}
+
+.headingCard {
+  margin: 0;
+  padding: .5em;
+  padding-bottom: 1em;
+  box-shadow: 0 0 0 0 #FFFFFF;
+}
+
+.connectTitle {
+  margin: 0;
 }

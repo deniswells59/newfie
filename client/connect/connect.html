@@ -7,8 +7,6 @@
     </div>
 
     <div class="col m3 hide-on-small-only">
-      <h1>Connect</h1>
-
       <ul class="card-panel">
         <h5 class="cardHeader">User Types</h5>
         <li class="listedItems" ng-click="all()">All ({{counts.total}})</li>
@@ -23,8 +21,12 @@
 
 
     <div class="col s12 m9 userList">
+      <div class="card horizontal heading headingCard">
+        <h1 class="connectTitle">Connect</h1>
+        <p>Connect with people. Make new companions. Start your next vacation.</p>
+      </div>
       <div ng-repeat="user in users | orderBy: '-score'"
-           class="userPick"
+           class="userPick animate-repeat"
            ui-sref="profileView({id: user._id})">
         <div class="card horizontal profileCard">
           <div class="card-image connectImg">

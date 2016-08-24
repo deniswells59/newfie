@@ -102,9 +102,6 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
             .then(res => {
               return res.data;
             });
-        },
-        notMobile: function() {
-          return _isNotMobile;
         }
       }
     })

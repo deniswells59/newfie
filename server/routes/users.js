@@ -8,7 +8,8 @@ import User from '../models/user';
 router.use('/validate',  require('./validate'));
 
 router.put('/', User.check(), (req, res) => {
-  User.queryUsers(req.user._id, req.body, (err, users) => {
+  let userId = req.user ? req.user._id : null;
+  User.queryUsers(userId, req.body, (err, users) => {
     res.status(err ? 400 : 200).send(err || users);
   });
 });
@@ -23,7 +24,7 @@ router.get('/one/:id', (req, res) => {
   User.findById(req.params.id, (err, user) => {
     res.status(err ? 400 : 200).send(err || user);
   }).populate('trip').select('-password');
-})
+});
 
 router.post('/authenticate', (req, res) => {
   User.authenticate(req.body, (err, token) => {

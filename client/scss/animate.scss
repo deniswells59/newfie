@@ -13,10 +13,15 @@
   opacity:1;
 }
 
+.animate-repeat {
+  list-style:none;
+  box-sizing:border-box;
+}
+
 .animate-repeat.ng-move,
 .animate-repeat.ng-enter,
 .animate-repeat.ng-leave {
-  transition:all linear 0.5s;
+  transition:all linear 1s;
 }
 
 .animate-repeat.ng-leave.ng-leave-active,
