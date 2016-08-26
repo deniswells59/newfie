@@ -19,6 +19,7 @@ function
   self.querySearch   = querySearch;
   self.selectedItemChange = selectedItemChange;
   self.removeLang = removeLang;
+  self.removeInt = removeInt;
   self.nextClicked = nextClicked;
   self.addCustom = addCustom;
   self.mapCallback = mapCallback;
@@ -38,8 +39,6 @@ function
   self.lat = 0;
   self.searchTerm;
   self.customInterest = '';
-
-  console.log(self.user);
 
   function nextClicked(bool) {
     if (self.selectedLangs.length) {
@@ -88,6 +87,17 @@ function
       }
     });
     self.selectedLangs.splice(index, 1);
+  }
+
+  function removeInt(interest) {
+    let index;
+    self.selectedInterests.some((int, idx) => {
+      if (int.name === interest) {
+        index = idx;
+        return true;
+      }
+    });
+    self.selectedInterests.splice(index, 1);
   }
 
   function verifyDuoUser() {

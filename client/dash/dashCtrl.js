@@ -2,7 +2,6 @@ app.controller('dashCtrl', dashCtrl);
 
 function
   dashCtrl($state, $scope, user, $location, User, Location, AirBnB, Companion, Messages, $mdDialog, $mdMedia) {
-  console.log(user);
   if (!user) {
     $state.go('home');
   }

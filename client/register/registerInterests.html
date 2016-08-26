@@ -30,8 +30,13 @@
            <div ng-repeat="interest in reg.selectedInterests track by $index" class="langBox animate-repeat">
              <md-list-item class="secondary-button-padding">
                <p class="langText">{{interest}}</p>
-               <md-button class="md-secondary" aria-label="close">
-                 <i class="fa fa-times cancelLang" aria-hidden="true"></i>
+               <md-button
+                 ng-click="reg.removeInt(interest)" 
+                 class="md-secondary"
+                 aria-label="close">
+                 <i
+                 class="fa fa-times cancelLang"
+                 aria-hidden="true"></i>
                </md-button>
              </md-list-item>
            </div>

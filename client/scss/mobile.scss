@@ -1,4 +1,8 @@
 @media only screen and (max-device-width: 480px) {
+
+    .chip.col.s3.progress.center.langTab {
+        padding-left: 6px;
+    }
     img.responsive-img.landingImage {
         margin-top: 0;
         max-width: 350%;
@@ -6,23 +10,23 @@
     }
 
     h1.landingTitle {
-      font-size: 3em;
+        font-size: 3em;
     }
 
     span.landingText {
-      position: absolute;
-      z-index: 2;
-      font-weight: 100;
-      top: 8%;
-      left: 12%;
+        position: absolute;
+        z-index: 2;
+        font-weight: 100;
+        top: 8%;
+        left: 12%;
     }
 
     ul.right {
-      margin-top: 0em;
+        margin-top: 0em;
     }
 
     h3 {
-      font-size: 2em;
+        font-size: 2em;
     }
 
     h5.userName {
@@ -47,7 +51,7 @@
     }
 
     .row.connect.intro.center.bottom {
-      height: 55em;
+        height: 60em;
     }
 
     .row .col.userList {
@@ -60,11 +64,11 @@
     }
 
     hr.listedHr {
-      margin-left: 0;
+        margin-left: 0;
     }
 
     .btn-floating {
-      background-color: #55967e;
+        background-color: #55967e;
     }
 
 }

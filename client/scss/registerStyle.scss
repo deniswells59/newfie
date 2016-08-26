@@ -31,15 +31,14 @@ a.right.waves-effect.btn.regBtn {
 }
 
 a.right.duoButton {
-    border: 1px solid;
-    padding: .5em;
-    border-radius: .5em;
+  border: 1px solid;
+  padding: .5em;
+  border-radius: .5em;
 }
 
 span.err {
-    color: red;
+  color: red;
 }
-
 
 .modal {
   width: 40%;
@@ -101,4 +100,12 @@ i.fa.fa-check {
 .boxie {
   position: relative;
   margin-top: 5em;
+}
+
+md-content.md-padding.langSelect {
+  background-color: #f4f4f4;
+}
+
+.chip.col.s3.progress.center {
+  margin-right: 0;
 }

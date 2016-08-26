@@ -14,7 +14,6 @@ if(process.env.TESTING){
   // If Testing, have clear console
   const MONGOURL = 'mongodb://localhost/test';
   mongoose.connect(MONGOURL);
-
 } else {
   // If not testing, show it all in console
   app.use(morgan('dev'));
@@ -36,6 +35,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //my basic routes
+app.use('/privacy', (req, res) => res.render('privacypolicy'));
 app.use('/auth', require('./server/routes/auth'));
 app.use('/api', require('./server/routes/api'));
 app.use('/', require('./server/routes/index'));
