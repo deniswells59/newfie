@@ -20,6 +20,11 @@ app.controller('mainCtrl', function($scope, $state, $mdDialog, $auth, User) {
   $scope.authenticate = (provider) => {
     $auth.authenticate(provider)
       .then(res => {
+
+        if(provider === 'facebook') {
+          let token = $auth.getToken();
+        }
+
         User.storeUser(res.data.user);
         $mdDialog.hide();
         if(!res.data.user.registered) {

@@ -91,13 +91,13 @@ export default class Auth {
 
     // Step 1. Exchange authorization code for access token.
     request.get({ url: accessTokenUrl, qs: params, json: true }, function(err, response, accessToken) {
-      if (response.statusCode !== 200) {
+      if (err) {
         return res.status(500).send({ message: accessToken.error.message });
       }
 
       // Step 2. Retrieve profile information about the current user.
       request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
-        if (response.statusCode !== 200) {
+        if (err) {
           return res.status(500).send({ message: profile.error.message });
         }
         if (req.header('Authorization')) {
@@ -117,8 +117,8 @@ export default class Auth {
               user.save(function() {
                 var token = user.generateToken();
                 res.send({
-                  token: token,
-                  user: user
+                  token,
+                  user
                 });
               });
             }).populate('trip requests companions messages');
@@ -129,7 +129,7 @@ export default class Auth {
             if (existingUser) {
               var token = existingUser.generateToken();
               return res.send({
-                token: token,
+                token,
                 user: existingUser
               });
             }

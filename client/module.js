@@ -111,9 +111,19 @@ app.config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $authProvider.google({
       clientId: '50096600078-riejkgcrs9iqkhbdmbfg07neh3ksodvg.apps.googleusercontent.com'
     });
-    $authProvider.facebook({
-      clientId: '1255637804476855',
-      responseType: 'token'
-    });
 
+    $authProvider.facebook({
+      name: 'facebook',
+      clientId: '1255637804476855',
+      url: '/auth/facebook',
+      responseType: 'token',
+      authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
+      redirectUri: window.location.origin + '/',
+      requiredUrlParams: ['display', 'scope'],
+      scope: ['email'],
+      scopeDelimiter: ',',
+      display: 'popup',
+      oauthType: '2.0',
+      popupOptions: { width: 580, height: 400 }
+    });
 });
