@@ -26,7 +26,7 @@
         <p>Connect with people. Make new companions. Start your next vacation.</p>
       </div>
       <div ng-repeat="user in users | orderBy: '-score'"
-           class="userPick animate-repeat"
+           class="userPick"
            ui-sref="profileView({id: user._id})">
         <div class="card horizontal profileCard">
           <div class="card-image connectImg">
@@ -37,7 +37,7 @@
               {{user.name}}
             </div>
             <div class="connectRow">
-              <span>
+              <span class="hide-on-small-only">
                 <i class="fa fa-trophy" aria-hidden="true"></i>
                 <span>
                   {{user.score}}
@@ -51,7 +51,7 @@
               </span>
             </div>
             <div class="connectRow">
-              <span>
+              <span class="hide-on-small-only">
                 <i class="fa fa-map-o" aria-hidden="true"></i>
                 <span>
                   {{user.location.location}}
