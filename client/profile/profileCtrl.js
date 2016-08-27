@@ -7,7 +7,7 @@ function profileCtrl(profile, user, $scope, Companion) {
   $scope.friendRequest = false;
 
   if (user) {
-    if(profile.requests.indexOf(user._id) < 0 && user.companions.indexOf(profile._id) < 0) {
+    if(profile.requests.indexOf(user._id) === -1 && user.companions.indexOf(profile._id) === -1) {
       $scope.friendRequest = true;
     }
   }
